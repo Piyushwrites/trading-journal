@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>TradeOS — Trading Journal</title>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -10,16 +11,17 @@
 <style>
 
 /* =========================================================
-   THEME VARIABLES
+   ROOT / THEME
 ========================================================= */
 
 :root {
+
     --bg: #f4f5f7;
     --surface: #ffffff;
     --surface-2: #f8f9fb;
-    --surface-3: #f1f3f5;
+    --surface-3: #eef1f4;
 
-    --border: #e5e7eb;
+    --border: #e3e6ea;
 
     --text: #111827;
     --text-secondary: #4b5563;
@@ -33,10 +35,10 @@
     --primary: #111827;
     --primary-text: #ffffff;
 
-    --green: #16803c;
+    --green: #15803d;
     --green-bg: #eaf7ef;
 
-    --red: #c62828;
+    --red: #dc2626;
     --red-bg: #fdecec;
 
     --blue: #2563eb;
@@ -47,20 +49,16 @@
 
     --input-bg: #ffffff;
 
-    --shadow: 0 2px 10px rgba(0,0,0,.04);
+    --shadow:
+        0 2px 12px rgba(0,0,0,.045);
 
     --radius: 12px;
 }
 
 
-/* =========================================================
-   DARK MODE
-========================================================= */
-
 [data-theme="dark"] {
 
     --bg: #0b0f14;
-
     --surface: #11161d;
     --surface-2: #171d25;
     --surface-3: #1d242d;
@@ -80,20 +78,21 @@
     --primary-text: #111827;
 
     --green: #35b86b;
-    --green-bg: rgba(53,184,107,.12);
+    --green-bg: rgba(53,184,107,.13);
 
     --red: #f06464;
-    --red-bg: rgba(240,100,100,.12);
+    --red-bg: rgba(240,100,100,.13);
 
     --blue: #5b8def;
-    --blue-bg: rgba(91,141,239,.12);
+    --blue-bg: rgba(91,141,239,.13);
 
     --yellow: #e0ad45;
-    --yellow-bg: rgba(224,173,69,.12);
+    --yellow-bg: rgba(224,173,69,.13);
 
     --input-bg: #151b22;
 
-    --shadow: 0 2px 15px rgba(0,0,0,.25);
+    --shadow:
+        0 3px 18px rgba(0,0,0,.25);
 }
 
 
@@ -107,9 +106,11 @@
     padding: 0;
 }
 
+
 html {
     scroll-behavior: smooth;
 }
+
 
 body {
 
@@ -121,7 +122,6 @@ body {
         sans-serif;
 
     background: var(--bg);
-
     color: var(--text);
 
     min-height: 100vh;
@@ -131,6 +131,7 @@ body {
         color .25s ease;
 }
 
+
 button,
 input,
 select,
@@ -138,9 +139,11 @@ textarea {
     font: inherit;
 }
 
+
 button {
     cursor: pointer;
 }
+
 
 .hidden {
     display: none !important;
@@ -166,7 +169,6 @@ button {
     width: 245px;
 
     background: var(--sidebar);
-
     color: white;
 
     position: fixed;
@@ -178,27 +180,28 @@ button {
     padding: 24px 14px;
 
     z-index: 100;
-
-    transition: background .25s ease;
 }
+
 
 .logo {
 
     font-size: 20px;
-
     font-weight: 800;
 
     padding:
         0 12px 30px;
 }
 
+
 .logo span {
     color: #9ca3af;
 }
 
+
 .nav-section {
     margin-bottom: 25px;
 }
+
 
 .nav-label {
 
@@ -214,6 +217,7 @@ button {
 
     margin-bottom: 7px;
 }
+
 
 .nav-btn {
 
@@ -237,6 +241,7 @@ button {
         background .2s,
         color .2s;
 }
+
 
 .nav-btn:hover,
 .nav-btn.active {
@@ -293,18 +298,15 @@ button {
     top: 0;
 
     z-index: 50;
-
-    transition:
-        background .25s ease,
-        border-color .25s ease;
 }
+
 
 .page-title {
 
     font-size: 21px;
-
     font-weight: 700;
 }
+
 
 .top-actions {
 
@@ -323,14 +325,16 @@ button {
 .theme-toggle {
 
     width: 42px;
-
     height: 42px;
 
-    border: 1px solid var(--border);
+    border:
+        1px solid var(--border);
 
-    background: var(--surface);
+    background:
+        var(--surface);
 
-    color: var(--text);
+    color:
+        var(--text);
 
     border-radius: 9px;
 
@@ -344,15 +348,17 @@ button {
 
     transition:
         background .2s,
-        border .2s,
         transform .2s;
 }
 
+
 .theme-toggle:hover {
 
-    background: var(--surface-2);
+    background:
+        var(--surface-2);
 
-    transform: translateY(-1px);
+    transform:
+        translateY(-1px);
 }
 
 
@@ -381,9 +387,11 @@ button {
     border:
         1px solid var(--border);
 
-    background: var(--surface);
+    background:
+        var(--surface);
 
-    color: var(--text);
+    color:
+        var(--text);
 
     border-radius: 8px;
 
@@ -393,54 +401,61 @@ button {
     font-size: 13px;
 
     font-weight: 600;
-
-    transition:
-        background .2s,
-        border .2s,
-        opacity .2s;
 }
+
 
 .btn:hover {
 
-    border-color:
-        var(--muted);
-
     background:
         var(--surface-2);
+
+    border-color:
+        var(--muted);
 }
+
 
 .btn-primary {
 
-    background: var(--primary);
+    background:
+        var(--primary);
 
-    color: var(--primary-text);
+    color:
+        var(--primary-text);
 
     border-color:
         var(--primary);
 }
 
+
 .btn-primary:hover {
 
     opacity: .9;
 
-    background: var(--primary);
+    background:
+        var(--primary);
 }
+
 
 .btn-danger {
 
-    color: var(--red);
+    color:
+        var(--red);
 
-    background: var(--red-bg);
+    background:
+        var(--red-bg);
 
     border-color:
         transparent;
 }
 
+
 .btn-success {
 
-    color: var(--green);
+    color:
+        var(--green);
 
-    background: var(--green-bg);
+    background:
+        var(--green-bg);
 
     border-color:
         transparent;
@@ -453,7 +468,8 @@ button {
 
 .card {
 
-    background: var(--surface);
+    background:
+        var(--surface);
 
     border:
         1px solid var(--border);
@@ -467,11 +483,8 @@ button {
         var(--shadow);
 
     margin-bottom: 20px;
-
-    transition:
-        background .25s ease,
-        border-color .25s ease;
 }
+
 
 .card-header {
 
@@ -484,16 +497,18 @@ button {
     margin-bottom: 20px;
 }
 
+
 .card-title {
 
     font-size: 16px;
-
     font-weight: 700;
 }
 
+
 .card-subtitle {
 
-    color: var(--muted);
+    color:
+        var(--muted);
 
     font-size: 12px;
 
@@ -517,9 +532,11 @@ button {
     margin-bottom: 20px;
 }
 
+
 .stat {
 
-    background: var(--surface);
+    background:
+        var(--surface);
 
     border:
         1px solid var(--border);
@@ -533,27 +550,23 @@ button {
         var(--shadow);
 }
 
+
 .stat-label {
 
-    color: var(--muted);
+    color:
+        var(--muted);
 
     font-size: 11px;
 
     margin-bottom: 8px;
 }
 
+
 .stat-value {
 
     font-size: 22px;
 
     font-weight: 750;
-}
-
-.stat-change {
-
-    font-size: 11px;
-
-    margin-top: 5px;
 }
 
 
@@ -571,6 +584,7 @@ button {
     gap: 20px;
 }
 
+
 .grid-3 {
 
     display: grid;
@@ -579,18 +593,6 @@ button {
         repeat(3, 1fr);
 
     gap: 15px;
-}
-
-
-/* =========================================================
-   CHART
-========================================================= */
-
-.chart-container {
-
-    height: 300px;
-
-    position: relative;
 }
 
 
@@ -608,6 +610,7 @@ button {
     gap: 16px;
 }
 
+
 .form-group {
 
     display: flex;
@@ -615,10 +618,11 @@ button {
     flex-direction: column;
 }
 
-.form-group.full {
 
+.form-group.full {
     grid-column: 1 / -1;
 }
+
 
 label {
 
@@ -628,6 +632,7 @@ label {
 
     margin-bottom: 6px;
 }
+
 
 input,
 select,
@@ -650,18 +655,8 @@ textarea {
         10px 11px;
 
     outline: none;
-
-    transition:
-        border .2s,
-        background .25s,
-        color .25s;
 }
 
-input::placeholder,
-textarea::placeholder {
-
-    color: var(--muted);
-}
 
 input:focus,
 select:focus,
@@ -671,12 +666,14 @@ textarea:focus {
         var(--muted);
 }
 
+
 textarea {
 
     resize: vertical;
 
     min-height: 90px;
 }
+
 
 .form-section {
 
@@ -687,6 +684,7 @@ textarea {
 
     margin-top: 22px;
 }
+
 
 .form-section-title {
 
@@ -703,9 +701,9 @@ textarea {
 ========================================================= */
 
 .table-wrapper {
-
     overflow-x: auto;
 }
+
 
 table {
 
@@ -717,11 +715,13 @@ table {
     min-width: 1050px;
 }
 
+
 th {
 
     text-align: left;
 
-    color: var(--muted);
+    color:
+        var(--muted);
 
     font-size: 11px;
 
@@ -733,6 +733,7 @@ th {
         1px solid var(--border);
 }
 
+
 td {
 
     padding:
@@ -743,6 +744,7 @@ td {
     border-bottom:
         1px solid var(--border);
 }
+
 
 tr:hover td {
 
@@ -769,6 +771,7 @@ tr:hover td {
     font-weight: 700;
 }
 
+
 .badge-buy {
 
     background:
@@ -777,6 +780,7 @@ tr:hover td {
     color:
         var(--green);
 }
+
 
 .badge-sell {
 
@@ -787,48 +791,18 @@ tr:hover td {
         var(--red);
 }
 
-.badge-win {
-
-    background:
-        var(--green-bg);
-
-    color:
-        var(--green);
-}
-
-.badge-loss {
-
-    background:
-        var(--red-bg);
-
-    color:
-        var(--red);
-}
-
-.badge-neutral {
-
-    background:
-        var(--surface-3);
-
-    color:
-        var(--muted);
-}
-
 
 /* =========================================================
-   PROFIT / LOSS
+   P&L
 ========================================================= */
 
 .profit {
-
-    color:
-        var(--green) !important;
+    color: var(--green) !important;
 }
 
-.loss {
 
-    color:
-        var(--red) !important;
+.loss {
+    color: var(--red) !important;
 }
 
 
@@ -854,10 +828,11 @@ tr:hover td {
     margin-bottom: 10px;
 }
 
-.psych-score strong {
 
+.psych-score strong {
     font-size: 20px;
 }
+
 
 .progress {
 
@@ -872,6 +847,7 @@ tr:hover td {
 
     margin-top: 8px;
 }
+
 
 .progress-bar {
 
@@ -893,10 +869,12 @@ tr:hover td {
     justify-content:
         space-between;
 
-    align-items: center;
+    align-items:
+        center;
 
     margin-bottom: 15px;
 }
+
 
 .calendar-grid {
 
@@ -912,10 +890,11 @@ tr:hover td {
         1px solid var(--border);
 }
 
+
 .calendar-day-name,
 .calendar-day {
 
-    min-height: 95px;
+    min-height: 110px;
 
     border-right:
         1px solid var(--border);
@@ -923,32 +902,66 @@ tr:hover td {
     border-bottom:
         1px solid var(--border);
 
-    padding: 8px;
+    padding: 9px;
 }
+
 
 .calendar-day-name {
 
     min-height: auto;
 
-    color: var(--muted);
+    color:
+        var(--muted);
 
     font-size: 11px;
 
     font-weight: 600;
 }
 
+
+.calendar-day {
+
+    transition:
+        background .2s,
+        border .2s;
+}
+
+
+.calendar-day.profitable {
+
+    background:
+        var(--green-bg);
+
+    border-color:
+        rgba(21,128,61,.22);
+}
+
+
+.calendar-day.loss-day {
+
+    background:
+        var(--red-bg);
+
+    border-color:
+        rgba(220,38,38,.22);
+}
+
+
 .calendar-number {
 
-    font-size: 11px;
+    font-size: 12px;
 
     font-weight: 700;
 }
 
+
 .calendar-pnl {
 
-    font-size: 11px;
+    font-size: 16px;
 
-    margin-top: 20px;
+    font-weight: 700;
+
+    margin-top: 24px;
 }
 
 
@@ -968,6 +981,7 @@ tr:hover td {
     margin-bottom: 10px;
 }
 
+
 .goal-header {
 
     display: flex;
@@ -978,6 +992,7 @@ tr:hover td {
     gap: 15px;
 }
 
+
 .goal-name {
 
     font-weight: 700;
@@ -985,27 +1000,15 @@ tr:hover td {
     font-size: 13px;
 }
 
+
 .goal-meta {
 
-    color: var(--muted);
+    color:
+        var(--muted);
 
     font-size: 11px;
 
     margin-top: 4px;
-}
-
-
-/* =========================================================
-   EMPTY
-========================================================= */
-
-.empty {
-
-    text-align: center;
-
-    padding: 50px;
-
-    color: var(--muted);
 }
 
 
@@ -1035,6 +1038,7 @@ tr:hover td {
     z-index: 500;
 }
 
+
 .modal-content {
 
     width: 100%;
@@ -1059,6 +1063,7 @@ tr:hover td {
         1px solid var(--border);
 }
 
+
 .modal-header {
 
     display: flex;
@@ -1067,6 +1072,147 @@ tr:hover td {
         space-between;
 
     margin-bottom: 20px;
+}
+
+
+/* =========================================================
+   TRADE DETAIL
+========================================================= */
+
+.trade-detail-grid {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, 1fr);
+
+    gap: 12px;
+
+    margin-bottom: 20px;
+}
+
+
+.trade-detail-item {
+
+    background:
+        var(--surface-2);
+
+    border:
+        1px solid var(--border);
+
+    border-radius: 9px;
+
+    padding: 13px;
+}
+
+
+.trade-detail-label {
+
+    font-size: 10px;
+
+    color:
+        var(--muted);
+
+    text-transform:
+        uppercase;
+
+    letter-spacing:
+        .4px;
+
+    margin-bottom: 5px;
+}
+
+
+.trade-detail-value {
+
+    font-size: 14px;
+
+    font-weight: 700;
+
+    word-break:
+        break-word;
+}
+
+
+.trade-detail-section {
+
+    margin-top: 20px;
+
+    padding-top: 20px;
+
+    border-top:
+        1px solid var(--border);
+}
+
+
+.trade-detail-section-title {
+
+    font-size: 14px;
+
+    font-weight: 700;
+
+    margin-bottom: 12px;
+}
+
+
+.trade-text-box {
+
+    background:
+        var(--surface-2);
+
+    border:
+        1px solid var(--border);
+
+    border-radius: 9px;
+
+    padding: 14px;
+
+    font-size: 13px;
+
+    line-height: 1.6;
+
+    white-space: pre-wrap;
+}
+
+
+/* =========================================================
+   REPORT VALUES
+========================================================= */
+
+.report-row {
+
+    display: flex;
+
+    align-items:
+        baseline;
+
+    justify-content:
+        space-between;
+
+    gap: 20px;
+
+    padding:
+        13px 0;
+
+    border-bottom:
+        1px solid var(--border);
+}
+
+
+.report-label {
+
+    font-size: 13px;
+
+    color:
+        var(--text-secondary);
+}
+
+
+.report-number {
+
+    font-size: 20px;
+
+    font-weight: 750;
 }
 
 
@@ -1085,24 +1231,22 @@ tr:hover td {
     color:
         var(--muted);
 
-    text-align: center;
+    text-align:
+        center;
 
     padding:
         22px 20px;
 
     font-size: 12px;
-
-    transition:
-        background .25s ease,
-        border-color .25s ease;
 }
 
-.footer strong {
 
+.footer strong {
     color:
         var(--text);
 
-    font-weight: 600;
+    font-weight:
+        600;
 }
 
 
@@ -1123,6 +1267,12 @@ tr:hover td {
         grid-template-columns:
             repeat(2, 1fr);
     }
+
+    .trade-detail-grid {
+
+        grid-template-columns:
+            repeat(2, 1fr);
+    }
 }
 
 
@@ -1137,16 +1287,11 @@ tr:hover td {
 
         font-size: 0;
 
-        text-align: center;
-    }
-
-    .logo:first-letter {
-
-        font-size: 20px;
+        text-align:
+            center;
     }
 
     .nav-label {
-
         display: none;
     }
 
@@ -1154,12 +1299,8 @@ tr:hover td {
 
         font-size: 0;
 
-        text-align: center;
-    }
-
-    .nav-btn::first-letter {
-
-        font-size: 18px;
+        text-align:
+            center;
     }
 
     .main {
@@ -1171,18 +1312,15 @@ tr:hover td {
     }
 
     .content {
-
         padding: 18px;
     }
 
     .grid-2,
     .grid-3 {
-
         grid-template-columns: 1fr;
     }
 
     .stats {
-
         grid-template-columns:
             repeat(2, 1fr);
     }
@@ -1191,51 +1329,45 @@ tr:hover td {
 
 @media(max-width:550px) {
 
-    .form-grid {
-
+    .form-grid,
+    .trade-detail-grid {
         grid-template-columns: 1fr;
     }
 
-    .stats {
-
-        grid-template-columns:
-            1fr 1fr;
-    }
-
     .topbar {
-
-        padding:
-            0 15px;
+        padding: 0 15px;
     }
 
     .content {
-
         padding: 12px;
     }
 
     .page-title {
-
         font-size: 17px;
     }
 
     .top-actions {
-
         gap: 6px;
     }
 
     .theme-toggle {
-
         width: 38px;
-
         height: 38px;
     }
 
     .top-actions .btn-primary {
-
         padding:
             8px 10px;
 
         font-size: 12px;
+    }
+
+    .calendar-day {
+        min-height: 85px;
+    }
+
+    .calendar-pnl {
+        font-size: 13px;
     }
 }
 
@@ -1373,19 +1505,14 @@ tr:hover td {
     <div class="top-actions">
 
 
-        <!-- DARK / LIGHT MODE -->
-
         <button
             id="themeToggle"
             class="theme-toggle"
             title="Toggle dark/light mode"
-            aria-label="Toggle dark/light mode"
         >
             🌙
         </button>
 
-
-        <!-- NEW TRADE -->
 
         <button
             class="btn btn-primary"
@@ -1535,7 +1662,12 @@ tr:hover td {
             </div>
 
 
-            <div class="chart-container">
+            <div
+                style="
+                    height:300px;
+                    position:relative
+                "
+            >
 
                 <canvas
                     id="equityChart"
@@ -1566,7 +1698,12 @@ tr:hover td {
             </div>
 
 
-            <div class="chart-container">
+            <div
+                style="
+                    height:300px;
+                    position:relative
+                "
+            >
 
                 <canvas
                     id="performanceChart"
@@ -1587,12 +1724,8 @@ tr:hover td {
 
             <div class="card-header">
 
-                <div>
-
-                    <div class="card-title">
-                        Recent Trades
-                    </div>
-
+                <div class="card-title">
+                    Recent Trades
                 </div>
 
 
@@ -1776,7 +1909,6 @@ tr:hover td {
                         <th>Target</th>
                         <th>R:R</th>
                         <th>P&L</th>
-                        <th>R</th>
                         <th>Setup</th>
                         <th></th>
 
@@ -1810,7 +1942,6 @@ tr:hover td {
 
     <div class="stats">
 
-
         <div class="stat">
 
             <div class="stat-label">
@@ -1843,17 +1974,19 @@ tr:hover td {
         </div>
 
 
+        <!-- CHANGED FROM AVG R TO NET CHARGES -->
+
         <div class="stat">
 
             <div class="stat-label">
-                AVG R
+                NET CHARGES
             </div>
 
             <div
                 class="stat-value"
-                id="avgR"
+                id="analyticsCharges"
             >
-                0R
+                ₹0
             </div>
 
         </div>
@@ -1924,7 +2057,12 @@ tr:hover td {
             </div>
 
 
-            <div class="chart-container">
+            <div
+                style="
+                    height:300px;
+                    position:relative
+                "
+            >
 
                 <canvas
                     id="strategyChart"
@@ -1947,7 +2085,12 @@ tr:hover td {
             </div>
 
 
-            <div class="chart-container">
+            <div
+                style="
+                    height:300px;
+                    position:relative
+                "
+            >
 
                 <canvas
                     id="timeChart"
@@ -1985,7 +2128,10 @@ tr:hover td {
                         <th>Wins</th>
                         <th>Win Rate</th>
                         <th>P&L</th>
-                        <th>Avg R</th>
+
+                        <!-- CHANGED -->
+
+                        <th>Net Charges</th>
 
                     </tr>
 
@@ -2016,7 +2162,6 @@ tr:hover td {
 >
 
     <div class="stats">
-
 
         <div class="stat">
 
@@ -2107,7 +2252,12 @@ tr:hover td {
             </div>
 
 
-            <div class="chart-container">
+            <div
+                style="
+                    height:300px;
+                    position:relative
+                "
+            >
 
                 <canvas
                     id="emotionChart"
@@ -2320,7 +2470,7 @@ tr:hover td {
                 </div>
 
                 <div class="card-subtitle">
-                    Manage your journal
+                    Manage your journal profile
                 </div>
 
             </div>
@@ -2393,11 +2543,20 @@ tr:hover td {
         </div>
 
 
-        <div style="margin-top:20px">
+        <div
+            style="
+                margin-top:20px;
+                display:flex;
+                gap:10px
+            "
+        >
+
+            <!-- DYNAMIC SAVE / EDIT BUTTON -->
 
             <button
+                id="settingsAction"
                 class="btn btn-primary"
-                onclick="saveSettings()"
+                onclick="handleSettingsAction()"
             >
                 Save Settings
             </button>
@@ -2474,6 +2633,7 @@ tr:hover td {
 </div>
 
 
+
 <!-- =====================================================
      FOOTER
 ===================================================== -->
@@ -2494,7 +2654,7 @@ tr:hover td {
 
 
 <!-- =====================================================
-     TRADE MODAL
+     NEW TRADE MODAL
 ===================================================== -->
 
 <div
@@ -2534,7 +2694,9 @@ tr:hover td {
 <form id="tradeForm">
 
 
-<!-- BASIC -->
+<!-- =====================================================
+     TRADE INFORMATION
+===================================================== -->
 
 <div
     class="form-section"
@@ -2713,7 +2875,7 @@ tr:hover td {
         <div class="form-group">
 
             <label>
-                Fees
+                Fees / Charges
             </label>
 
             <input
@@ -2731,7 +2893,9 @@ tr:hover td {
 
 
 
-<!-- SETUP -->
+<!-- =====================================================
+     SETUP
+===================================================== -->
 
 <div class="form-section">
 
@@ -2749,7 +2913,10 @@ tr:hover td {
                 Strategy
             </label>
 
-            <select id="strategy">
+            <select
+                id="strategy"
+                onchange="handleStrategyChange()"
+            >
 
                 <option>
                     Breakout
@@ -2787,7 +2954,30 @@ tr:hover td {
                     Other
                 </option>
 
+                <option value="__custom__">
+                    + Add My Own Strategy
+                </option>
+
             </select>
+
+        </div>
+
+
+        <!-- CUSTOM STRATEGY -->
+
+        <div
+            class="form-group hidden"
+            id="customStrategyGroup"
+        >
+
+            <label>
+                Your Strategy Name
+            </label>
+
+            <input
+                id="customStrategy"
+                placeholder="e.g. Opening Range Breakout"
+            >
 
         </div>
 
@@ -2891,7 +3081,9 @@ tr:hover td {
 
 
 
-<!-- PSYCHOLOGY -->
+<!-- =====================================================
+     PSYCHOLOGY
+===================================================== -->
 
 <div class="form-section">
 
@@ -2909,9 +3101,7 @@ tr:hover td {
                 Emotion Before
             </label>
 
-            <select
-                id="emotionBefore"
-            >
+            <select id="emotionBefore">
 
                 <option>
                     Calm
@@ -2956,9 +3146,7 @@ tr:hover td {
                 Emotion During
             </label>
 
-            <select
-                id="emotionDuring"
-            >
+            <select id="emotionDuring">
 
                 <option>
                     Calm
@@ -2999,9 +3187,7 @@ tr:hover td {
                 Emotion After
             </label>
 
-            <select
-                id="emotionAfter"
-            >
+            <select id="emotionAfter">
 
                 <option>
                     Satisfied
@@ -3088,9 +3274,7 @@ tr:hover td {
                 Followed Trading Plan?
             </label>
 
-            <select
-                id="followedPlan"
-            >
+            <select id="followedPlan">
 
                 <option value="Yes">
                     Yes
@@ -3111,9 +3295,7 @@ tr:hover td {
                 Psychology Mistake
             </label>
 
-            <select
-                id="mistake"
-            >
+            <select id="mistake">
 
                 <option value="None">
                     None
@@ -3165,7 +3347,9 @@ tr:hover td {
 
 
 
-<!-- REVIEW -->
+<!-- =====================================================
+     REVIEW
+===================================================== -->
 
 <div class="form-section">
 
@@ -3183,9 +3367,7 @@ tr:hover td {
                 What went well?
             </label>
 
-            <textarea
-                id="wentWell"
-            ></textarea>
+            <textarea id="wentWell"></textarea>
 
         </div>
 
@@ -3196,9 +3378,7 @@ tr:hover td {
                 What went wrong?
             </label>
 
-            <textarea
-                id="wentWrong"
-            ></textarea>
+            <textarea id="wentWrong"></textarea>
 
         </div>
 
@@ -3209,9 +3389,7 @@ tr:hover td {
                 Lesson Learned
             </label>
 
-            <textarea
-                id="lesson"
-            ></textarea>
+            <textarea id="lesson"></textarea>
 
         </div>
 
@@ -3257,14 +3435,85 @@ tr:hover td {
 
 
 
+<!-- =====================================================
+     TRADE DETAILS MODAL
+===================================================== -->
+
+<div
+    id="tradeDetailsModal"
+    class="modal hidden"
+>
+
+<div class="modal-content">
+
+
+    <div class="modal-header">
+
+        <div>
+
+            <div
+                class="card-title"
+                id="detailTitle"
+            >
+                Trade Details
+            </div>
+
+            <div
+                class="card-subtitle"
+                id="detailDate"
+            ></div>
+
+        </div>
+
+
+        <button
+            class="btn"
+            onclick="closeTradeDetails()"
+        >
+            ✕
+        </button>
+
+    </div>
+
+
+    <div
+        id="tradeDetailsContent"
+    ></div>
+
+
+    <div
+        style="
+            display:flex;
+            justify-content:flex-end;
+            margin-top:20px
+        "
+    >
+
+        <button
+            class="btn"
+            onclick="closeTradeDetails()"
+        >
+            Close
+        </button>
+
+    </div>
+
+</div>
+
+</div>
+
+
+
 <script>
 
 /* =========================================================
-   THEME SYSTEM
+   THEME
 ========================================================= */
 
 const savedTheme =
-    localStorage.getItem("tradeOS-theme");
+    localStorage.getItem(
+        "tradeOS-theme"
+    );
 
 
 if (savedTheme === "dark") {
@@ -3277,10 +3526,6 @@ if (savedTheme === "dark") {
 
 }
 
-
-/* =========================================================
-   THEME TOGGLE
-========================================================= */
 
 const themeToggle =
     document.getElementById(
@@ -3301,12 +3546,6 @@ function updateThemeIcon() {
         dark
             ? "☀️"
             : "🌙";
-
-
-    themeToggle.title =
-        dark
-            ? "Switch to light mode"
-            : "Switch to dark mode";
 
 }
 
@@ -3382,7 +3621,9 @@ let database =
 
             currency: "₹",
 
-            capital: 100000
+            capital: 100000,
+
+            configured: false
 
         }
 
@@ -3390,17 +3631,49 @@ let database =
 
 
 /* =========================================================
+   BACKWARD COMPATIBILITY
+========================================================= */
+
+if (!database.settings) {
+
+    database.settings = {
+
+        name: "",
+
+        currency: "₹",
+
+        capital: 100000,
+
+        configured: false
+
+    };
+
+}
+
+
+if (
+    database.settings.configured
+    === undefined
+) {
+
+    database.settings.configured =
+        Boolean(
+            database.settings.name
+            ||
+            database.settings.capital
+        );
+
+}
+
+
+/* =========================================================
    GLOBALS
 ========================================================= */
 
 let equityChart;
-
 let performanceChart;
-
 let strategyChart;
-
 let timeChart;
-
 let emotionChart;
 
 let calendarDate =
@@ -3455,6 +3728,68 @@ function pnlClass(value) {
 
 }
 
+
+function escapeHTML(value) {
+
+    return String(
+        value ?? ""
+    )
+
+    .replaceAll(
+        "&",
+        "&amp;"
+    )
+
+    .replaceAll(
+        "<",
+        "&lt;"
+    )
+
+    .replaceAll(
+        ">",
+        "&gt;"
+    )
+
+    .replaceAll(
+        '"',
+        "&quot;"
+    )
+
+    .replaceAll(
+        "'",
+        "&#039;"
+    );
+
+}
+
+
+function formatDate(date) {
+
+    return new Date(
+        date
+    )
+    .toLocaleDateString(
+        "en-IN",
+        {
+
+            day:
+                "2-digit",
+
+            month:
+                "short",
+
+            year:
+                "numeric"
+
+        }
+    );
+
+}
+
+
+/* =========================================================
+   TRADE CALCULATION
+========================================================= */
 
 function calculateTrade(data) {
 
@@ -3528,11 +3863,14 @@ function calculateTrade(data) {
             : 0;
 
 
-    const netPnl =
-        pnl -
+    const fees =
         Number(
             data.fees || 0
         );
+
+
+    const netPnl =
+        pnl - fees;
 
 
     const rMultiple =
@@ -3606,14 +3944,11 @@ function navigate(page) {
         );
 
 
-    const selected =
-        document.getElementById(
+    document
+        .getElementById(
             page
-        );
-
-
-    if (selected)
-        selected.classList.remove(
+        )
+        .classList.remove(
             "hidden"
         );
 
@@ -3695,6 +4030,62 @@ function navigate(page) {
 
 
 /* =========================================================
+   CUSTOM STRATEGY
+========================================================= */
+
+function handleStrategyChange() {
+
+    const strategy =
+        document.getElementById(
+            "strategy"
+        ).value;
+
+
+    const group =
+        document.getElementById(
+            "customStrategyGroup"
+        );
+
+
+    const input =
+        document.getElementById(
+            "customStrategy"
+        );
+
+
+    if (
+        strategy ===
+        "__custom__"
+    ) {
+
+        group.classList.remove(
+            "hidden"
+        );
+
+        input.required = true;
+
+        setTimeout(
+            () =>
+                input.focus(),
+            50
+        );
+
+    } else {
+
+        group.classList.add(
+            "hidden"
+        );
+
+        input.required = false;
+
+        input.value = "";
+
+    }
+
+}
+
+
+/* =========================================================
    MODAL
 ========================================================= */
 
@@ -3729,6 +4120,22 @@ function closeTradeModal() {
         .reset();
 
 
+    document
+        .getElementById(
+            "customStrategyGroup"
+        )
+        .classList.add(
+            "hidden"
+        );
+
+
+    document
+        .getElementById(
+            "customStrategy"
+        )
+        .required = false;
+
+
     document.getElementById(
         "confidenceValue"
     ).textContent = "5";
@@ -3742,7 +4149,7 @@ function closeTradeModal() {
 
 
 /* =========================================================
-   ADD TRADE
+   SAVE TRADE
 ========================================================= */
 
 document
@@ -3754,6 +4161,45 @@ document
         function(event) {
 
             event.preventDefault();
+
+
+            const selectedStrategy =
+                document
+                .getElementById(
+                    "strategy"
+                )
+                .value;
+
+
+            let finalStrategy =
+                selectedStrategy;
+
+
+            if (
+                selectedStrategy ===
+                "__custom__"
+            ) {
+
+                finalStrategy =
+                    document
+                    .getElementById(
+                        "customStrategy"
+                    )
+                    .value
+                    .trim();
+
+
+                if (!finalStrategy) {
+
+                    alert(
+                        "Please enter your strategy name."
+                    );
+
+                    return;
+
+                }
+
+            }
 
 
             const raw = {
@@ -3842,13 +4288,8 @@ document
                         .value
                     ) || 0,
 
-
                 strategy:
-                    document
-                    .getElementById(
-                        "strategy"
-                    )
-                    .value,
+                    finalStrategy,
 
                 timeframe:
                     document
@@ -3870,7 +4311,6 @@ document
                         "tradeThesis"
                     )
                     .value,
-
 
                 psychology: {
 
@@ -4004,19 +4444,17 @@ function getStats() {
         database.trades;
 
 
-    const total =
-        trades.length;
-
-
     const wins =
         trades.filter(
-            t => t.netPnl > 0
+            t =>
+                t.netPnl > 0
         );
 
 
     const losses =
         trades.filter(
-            t => t.netPnl < 0
+            t =>
+                t.netPnl < 0
         );
 
 
@@ -4046,26 +4484,43 @@ function getStats() {
         );
 
 
+    const totalCharges =
+        trades.reduce(
+            (sum,t) =>
+                sum +
+                Number(
+                    t.fees || 0
+                ),
+            0
+        );
+
+
     const winRate =
-        total
-            ? wins.length /
-              total *
-              100
-            : 0;
+        trades.length
+            ?
+            wins.length /
+            trades.length *
+            100
+            :
+            0;
 
 
     const profitFactor =
         grossLoss
-            ? grossProfit /
-              grossLoss
-            : 0;
+            ?
+            grossProfit /
+            grossLoss
+            :
+            0;
 
 
     const expectancy =
-        total
-            ? net /
-              total
-            : 0;
+        trades.length
+            ?
+            net /
+            trades.length
+            :
+            0;
 
 
     let equity = 0;
@@ -4092,15 +4547,10 @@ function getStats() {
                     );
 
 
-                const dd =
-                    peak -
-                    equity;
-
-
                 maxDD =
                     Math.max(
                         maxDD,
-                        dd
+                        peak - equity
                     );
 
             }
@@ -4109,7 +4559,8 @@ function getStats() {
 
     return {
 
-        total,
+        total:
+            trades.length,
 
         wins:
             wins.length,
@@ -4122,6 +4573,8 @@ function getStats() {
         grossLoss,
 
         net,
+
+        totalCharges,
 
         winRate,
 
@@ -4151,21 +4604,25 @@ function renderDashboard() {
     document.getElementById(
         "statPnl"
     ).textContent =
-        currency(s.net);
+        currency(
+            s.net
+        );
 
 
     document.getElementById(
         "statPnl"
     ).className =
         "stat-value " +
-        pnlClass(s.net);
+        pnlClass(
+            s.net
+        );
 
 
     document.getElementById(
         "statWinRate"
     ).textContent =
-        s.winRate.toFixed(1) +
-        "%";
+        s.winRate.toFixed(1)
+        + "%";
 
 
     document.getElementById(
@@ -4202,7 +4659,7 @@ function renderDashboard() {
 
 
 /* =========================================================
-   CHART THEME
+   CHART COLORS
 ========================================================= */
 
 function chartTextColor() {
@@ -4321,10 +4778,8 @@ function renderEquityChart() {
                     plugins: {
 
                         legend: {
-
                             display:
                                 false
-
                         }
 
                     },
@@ -4334,17 +4789,13 @@ function renderEquityChart() {
                         x: {
 
                             ticks: {
-
                                 color:
                                     chartTextColor()
-
                             },
 
                             grid: {
-
                                 color:
                                     chartGridColor()
-
                             }
 
                         },
@@ -4352,17 +4803,13 @@ function renderEquityChart() {
                         y: {
 
                             ticks: {
-
                                 color:
                                     chartTextColor()
-
                             },
 
                             grid: {
-
                                 color:
                                     chartGridColor()
-
                             }
 
                         }
@@ -4398,6 +4845,15 @@ function renderPerformanceChart() {
         getStats();
 
 
+    const breakeven =
+        database.trades
+        .filter(
+            t =>
+                t.netPnl === 0
+        )
+        .length;
+
+
     performanceChart =
         new Chart(
             ctx,
@@ -4409,13 +4865,9 @@ function renderPerformanceChart() {
                 data: {
 
                     labels: [
-
                         "Wins",
-
                         "Losses",
-
                         "Breakeven"
-
                     ],
 
                     datasets: [{
@@ -4426,12 +4878,7 @@ function renderPerformanceChart() {
 
                             s.losses,
 
-                            database.trades
-                            .filter(
-                                t =>
-                                    t.netPnl === 0
-                            )
-                            .length
+                            breakeven
 
                         ]
 
@@ -4509,12 +4956,14 @@ function renderRecentTrades() {
         trades
         .map(
             t =>
+
             `
 
             <div
                 style="
                     display:flex;
                     justify-content:space-between;
+                    align-items:center;
                     padding:12px 0;
                     border-bottom:1px solid var(--border)
                 "
@@ -4534,7 +4983,9 @@ function renderRecentTrades() {
                             color:var(--muted)
                         "
                     >
-                        ${t.strategy}
+                        ${escapeHTML(
+                            t.strategy
+                        )}
                     </div>
 
                 </div>
@@ -4602,6 +5053,8 @@ function renderDiscipline() {
         trades.filter(
             t =>
                 t.psychology
+                &&
+                t.psychology
                 .followedPlan
                 === "Yes"
         ).length;
@@ -4614,6 +5067,7 @@ function renderDiscipline() {
 
 
     container.innerHTML =
+
         `
 
         <div class="psych-score">
@@ -4682,7 +5136,8 @@ function renderJournal() {
                 "journalSearch"
             )
             ?.value
-            || ""
+            ||
+            ""
         )
         .toLowerCase();
 
@@ -4707,7 +5162,7 @@ function renderJournal() {
         "all";
 
 
-    let trades =
+    const trades =
         database.trades
         .filter(
             t => {
@@ -4731,8 +5186,7 @@ function renderJournal() {
 
                 const matchesResult =
 
-                    result ===
-                    "all"
+                    result === "all"
 
                     ||
 
@@ -4753,8 +5207,7 @@ function renderJournal() {
 
                 const matchesDirection =
 
-                    direction ===
-                    "all"
+                    direction === "all"
 
                     ||
 
@@ -4779,12 +5232,13 @@ function renderJournal() {
     if (!trades.length) {
 
         tbody.innerHTML =
+
             `
 
             <tr>
 
                 <td
-                    colspan="12"
+                    colspan="11"
                     class="empty"
                 >
                     No matching trades.
@@ -4803,6 +5257,7 @@ function renderJournal() {
         trades
         .map(
             t =>
+
             `
 
             <tr>
@@ -4864,7 +5319,9 @@ function renderJournal() {
 
 
                 <td>
-                    1:${t.rrr.toFixed(2)}
+                    1:${Number(
+                        t.rrr || 0
+                    ).toFixed(2)}
                 </td>
 
 
@@ -4876,11 +5333,6 @@ function renderJournal() {
                     ${currency(
                         t.netPnl
                     )}
-                </td>
-
-
-                <td>
-                    ${t.rMultiple.toFixed(2)}R
                 </td>
 
 
@@ -4914,7 +5366,7 @@ function renderJournal() {
 
 
 /* =========================================================
-   TRADE VIEW
+   FULL TRADE DETAIL CARD
 ========================================================= */
 
 function viewTrade(id) {
@@ -4931,53 +5383,461 @@ function viewTrade(id) {
         return;
 
 
-    alert(
+    document.getElementById(
+        "detailTitle"
+    ).textContent =
 
-`TRADE REVIEW
+        `${trade.symbol}
+        — ${trade.side}`;
 
-Symbol: ${trade.symbol}
 
-Side: ${trade.side}
+    document.getElementById(
+        "detailDate"
+    ).textContent =
+        formatDate(
+            trade.date
+        );
 
-Entry: ${trade.entry}
 
-Exit: ${trade.exit}
+    const psychology =
+        trade.psychology || {};
 
-SL: ${trade.sl}
 
-Target: ${trade.target}
+    const review =
+        trade.review || {};
 
-R:R: 1:${trade.rrr.toFixed(2)}
 
-P&L: ${currency(
-    trade.netPnl
-)}
+    const html =
 
-R Multiple:
-${trade.rMultiple.toFixed(2)}R
+        `
 
-Strategy:
-${trade.strategy}
+        <!-- RESULT -->
 
-Emotion Before:
-${trade.psychology.emotionBefore}
+        <div
+            class="card"
+            style="
+                margin-bottom:18px;
+                background:var(--surface-2)
+            "
+        >
 
-Emotion During:
-${trade.psychology.emotionDuring}
+            <div
+                style="
+                    display:flex;
+                    justify-content:space-between;
+                    align-items:center;
+                    gap:15px
+                "
+            >
 
-Emotion After:
-${trade.psychology.emotionAfter}
+                <div>
 
-Followed Plan:
-${trade.psychology.followedPlan}
+                    <div
+                        style="
+                            font-size:11px;
+                            color:var(--muted);
+                            margin-bottom:5px
+                        "
+                    >
+                        TRADE RESULT
+                    </div>
 
-Mistake:
-${trade.psychology.mistake}
+                    <div
+                        style="
+                            font-size:24px;
+                            font-weight:800
+                        "
+                        class="${pnlClass(
+                            trade.netPnl
+                        )}"
+                    >
+                        ${
+                            trade.netPnl >= 0
+                                ? "+"
+                                : ""
+                        }
 
-Lesson:
-${trade.review.lesson || "None"}
-`
-    );
+                        ${currency(
+                            trade.netPnl
+                        )}
+                    </div>
+
+                </div>
+
+
+                <span
+                    class="
+                        badge
+                        ${
+                            trade.netPnl >= 0
+                                ? "badge-buy"
+                                : "badge-sell"
+                        }
+                    "
+                    style="
+                        font-size:12px;
+                        padding:7px 11px
+                    "
+                >
+                    ${trade.result}
+                </span>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- TRADE INFORMATION -->
+
+        <div
+            class="trade-detail-section"
+            style="
+                border-top:0;
+                padding-top:0;
+                margin-top:0
+            "
+        >
+
+            <div class="trade-detail-section-title">
+                Trade Information
+            </div>
+
+
+            <div class="trade-detail-grid">
+
+                ${detailItem(
+                    "Symbol",
+                    trade.symbol
+                )}
+
+                ${detailItem(
+                    "Direction",
+                    trade.side
+                )}
+
+                ${detailItem(
+                    "Instrument",
+                    trade.instrument
+                )}
+
+                ${detailItem(
+                    "Entry Price",
+                    trade.entry
+                )}
+
+                ${detailItem(
+                    "Exit Price",
+                    trade.exit
+                )}
+
+                ${detailItem(
+                    "Quantity",
+                    trade.quantity
+                )}
+
+                ${detailItem(
+                    "Stop Loss",
+                    trade.sl
+                )}
+
+                ${detailItem(
+                    "Target",
+                    trade.target
+                )}
+
+                ${detailItem(
+                    "R:R",
+                    "1:" +
+                    Number(
+                        trade.rrr || 0
+                    ).toFixed(2)
+                )}
+
+                ${detailItem(
+                    "Gross P&L",
+                    currency(
+                        trade.pnl
+                    ),
+                    pnlClass(
+                        trade.pnl
+                    )
+                )}
+
+                ${detailItem(
+                    "Charges",
+                    currency(
+                        trade.fees
+                    )
+                )}
+
+                ${detailItem(
+                    "Net P&L",
+                    currency(
+                        trade.netPnl
+                    ),
+                    pnlClass(
+                        trade.netPnl
+                    )
+                )}
+
+            </div>
+
+        </div>
+
+
+
+        <!-- SETUP -->
+
+        <div class="trade-detail-section">
+
+            <div class="trade-detail-section-title">
+                Setup & Execution
+            </div>
+
+
+            <div class="trade-detail-grid">
+
+                ${detailItem(
+                    "Strategy",
+                    trade.strategy
+                )}
+
+                ${detailItem(
+                    "Timeframe",
+                    trade.timeframe
+                )}
+
+                ${detailItem(
+                    "Market Condition",
+                    trade.marketCondition
+                )}
+
+            </div>
+
+
+            <div
+                class="trade-text-box"
+            >
+                ${escapeHTML(
+                    trade.thesis
+                    ||
+                    "No trade thesis recorded."
+                )}
+            </div>
+
+        </div>
+
+
+
+        <!-- PSYCHOLOGY -->
+
+        <div class="trade-detail-section">
+
+            <div class="trade-detail-section-title">
+                Psychology
+            </div>
+
+
+            <div class="trade-detail-grid">
+
+                ${detailItem(
+                    "Emotion Before",
+                    psychology.emotionBefore
+                )}
+
+                ${detailItem(
+                    "Emotion During",
+                    psychology.emotionDuring
+                )}
+
+                ${detailItem(
+                    "Emotion After",
+                    psychology.emotionAfter
+                )}
+
+                ${detailItem(
+                    "Confidence",
+                    (
+                        psychology.confidence
+                        || 0
+                    ) +
+                    "/10"
+                )}
+
+                ${detailItem(
+                    "Discipline",
+                    (
+                        psychology.discipline
+                        || 0
+                    ) +
+                    "/10"
+                )}
+
+                ${detailItem(
+                    "Followed Plan",
+                    psychology.followedPlan
+                )}
+
+                ${detailItem(
+                    "Psychology Mistake",
+                    psychology.mistake
+                )}
+
+            </div>
+
+        </div>
+
+
+
+        <!-- REVIEW -->
+
+        <div class="trade-detail-section">
+
+            <div class="trade-detail-section-title">
+                Post-Trade Review
+            </div>
+
+
+            <div
+                style="
+                    display:grid;
+                    gap:12px
+                "
+            >
+
+                <div>
+
+                    <div
+                        class="trade-detail-label"
+                        style="
+                            margin-bottom:6px
+                        "
+                    >
+                        What went well?
+                    </div>
+
+                    <div class="trade-text-box">
+                        ${escapeHTML(
+                            review.wentWell
+                            ||
+                            "Not recorded."
+                        )}
+                    </div>
+
+                </div>
+
+
+                <div>
+
+                    <div
+                        class="trade-detail-label"
+                        style="
+                            margin-bottom:6px
+                        "
+                    >
+                        What went wrong?
+                    </div>
+
+                    <div class="trade-text-box">
+                        ${escapeHTML(
+                            review.wentWrong
+                            ||
+                            "Not recorded."
+                        )}
+                    </div>
+
+                </div>
+
+
+                <div>
+
+                    <div
+                        class="trade-detail-label"
+                        style="
+                            margin-bottom:6px
+                        "
+                    >
+                        Lesson Learned
+                    </div>
+
+                    <div class="trade-text-box">
+                        ${escapeHTML(
+                            review.lesson
+                            ||
+                            "Not recorded."
+                        )}
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        `;
+
+
+    document.getElementById(
+        "tradeDetailsContent"
+    ).innerHTML =
+        html;
+
+
+    document
+        .getElementById(
+            "tradeDetailsModal"
+        )
+        .classList.remove(
+            "hidden"
+        );
+
+}
+
+
+function detailItem(
+    label,
+    value,
+    className = ""
+) {
+
+    return `
+
+        <div class="trade-detail-item">
+
+            <div class="trade-detail-label">
+                ${escapeHTML(
+                    label
+                )}
+            </div>
+
+            <div
+                class="
+                    trade-detail-value
+                    ${className}
+                "
+            >
+                ${escapeHTML(
+                    value
+                )}
+            </div>
+
+        </div>
+
+    `;
+
+}
+
+
+function closeTradeDetails() {
+
+    document
+        .getElementById(
+            "tradeDetailsModal"
+        )
+        .classList.add(
+            "hidden"
+        );
 
 }
 
@@ -5008,6 +5868,7 @@ function renderAnalytics() {
 
     const avgWin =
         wins.length
+
             ?
 
             wins.reduce(
@@ -5025,6 +5886,7 @@ function renderAnalytics() {
 
     const avgLoss =
         losses.length
+
             ?
 
             losses.reduce(
@@ -5040,52 +5902,40 @@ function renderAnalytics() {
             0;
 
 
-    const avgR =
-        trades.length
-            ?
-
-            trades.reduce(
-                (s,t) =>
-                    s + t.rMultiple,
-                0
-            )
-            /
-            trades.length
-
-            :
-
-            0;
+    const totalCharges =
+        trades.reduce(
+            (s,t) =>
+                s +
+                Number(
+                    t.fees || 0
+                ),
+            0
+        );
 
 
     const best =
         trades.length
             ?
-
             Math.max(
                 ...trades.map(
                     t =>
                         t.netPnl
                 )
             )
-
             :
-
             0;
 
 
     const worst =
         trades.length
             ?
-
             Math.min(
                 ...trades.map(
                     t =>
                         t.netPnl
                 )
             )
-
             :
-
             0;
 
 
@@ -5106,10 +5956,11 @@ function renderAnalytics() {
 
 
     document.getElementById(
-        "avgR"
+        "analyticsCharges"
     ).textContent =
-        avgR.toFixed(2)
-        + "R";
+        currency(
+            totalCharges
+        );
 
 
     document.getElementById(
@@ -5193,7 +6044,7 @@ function renderStrategyAnalytics() {
                         pnl:
                             0,
 
-                        r:
+                        charges:
                             0
 
                     };
@@ -5214,8 +6065,10 @@ function renderStrategyAnalytics() {
                     t.netPnl;
 
 
-                grouped[key].r +=
-                    t.rMultiple;
+                grouped[key].charges +=
+                    Number(
+                        t.fees || 0
+                    );
 
             }
         );
@@ -5234,18 +6087,17 @@ function renderStrategyAnalytics() {
         )
         .map(
             ([name,d]) =>
+
             `
 
             <tr>
 
                 <td>
-
                     <strong>
                         ${escapeHTML(
                             name
                         )}
                     </strong>
-
                 </td>
 
                 <td>
@@ -5278,13 +6130,9 @@ function renderStrategyAnalytics() {
                 </td>
 
                 <td>
-                    ${
-                        (
-                            d.r /
-                            d.trades
-                        )
-                        .toFixed(2)
-                    }R
+                    ${currency(
+                        d.charges
+                    )}
                 </td>
 
             </tr>
@@ -5370,17 +6218,13 @@ function renderStrategyAnalytics() {
                         x: {
 
                             ticks: {
-
                                 color:
                                     chartTextColor()
-
                             },
 
                             grid: {
-
                                 color:
                                     chartGridColor()
-
                             }
 
                         },
@@ -5388,17 +6232,13 @@ function renderStrategyAnalytics() {
                         y: {
 
                             ticks: {
-
                                 color:
                                     chartTextColor()
-
                             },
 
                             grid: {
-
                                 color:
                                     chartGridColor()
-
                             }
 
                         }
@@ -5530,17 +6370,13 @@ function renderTimeAnalytics() {
                         x: {
 
                             ticks: {
-
                                 color:
                                     chartTextColor()
-
                             },
 
                             grid: {
-
                                 color:
                                     chartGridColor()
-
                             }
 
                         },
@@ -5548,17 +6384,13 @@ function renderTimeAnalytics() {
                         y: {
 
                             ticks: {
-
                                 color:
                                     chartTextColor()
-
                             },
 
                             grid: {
-
                                 color:
                                     chartGridColor()
-
                             }
 
                         }
@@ -5588,6 +6420,7 @@ function renderPsychology() {
         document.getElementById(
             "psychologyInsights"
         ).innerHTML =
+
             `
             <div class="empty">
                 No psychology data yet.
@@ -5603,7 +6436,7 @@ function renderPsychology() {
         trades.filter(
             t =>
                 t.psychology
-                .followedPlan
+                ?.followedPlan
                 === "Yes"
         ).length;
 
@@ -5612,13 +6445,13 @@ function renderPsychology() {
         trades.filter(
             t =>
                 t.psychology
-                .emotionBefore
+                ?.emotionBefore
                 === "FOMO"
 
                 ||
 
                 t.psychology
-                .mistake
+                ?.mistake
                 === "FOMO"
         ).length;
 
@@ -5627,14 +6460,15 @@ function renderPsychology() {
         trades.filter(
             t =>
                 t.psychology
-                .emotionBefore
+                ?.emotionBefore
                 === "Revenge"
 
                 ||
 
                 t.psychology
-                .mistake
-                === "Revenge Trading"
+                ?.mistake
+                ===
+                "Revenge Trading"
         ).length;
 
 
@@ -5642,7 +6476,7 @@ function renderPsychology() {
         trades.filter(
             t =>
                 t.psychology
-                .followedPlan
+                ?.followedPlan
                 === "No"
         ).length;
 
@@ -5701,7 +6535,11 @@ function renderEmotionChart() {
 
                 const emotion =
                     t.psychology
-                    .emotionBefore;
+                    ?.emotionBefore;
+
+
+                if (!emotion)
+                    return;
 
 
                 emotions[emotion] =
@@ -5803,7 +6641,7 @@ function renderPsychologyInsights() {
         trades.filter(
             t =>
                 t.psychology
-                .followedPlan
+                ?.followedPlan
                 === "Yes"
         );
 
@@ -5812,16 +6650,14 @@ function renderPsychologyInsights() {
         trades.filter(
             t =>
                 t.psychology
-                .followedPlan
+                ?.followedPlan
                 === "No"
         );
 
 
     const normalPnl =
         normal.length
-
             ?
-
             normal.reduce(
                 (s,t) =>
                     s + t.netPnl,
@@ -5829,17 +6665,13 @@ function renderPsychologyInsights() {
             )
             /
             normal.length
-
             :
-
             0;
 
 
     const violationPnl =
         violations.length
-
             ?
-
             violations.reduce(
                 (s,t) =>
                     s + t.netPnl,
@@ -5847,13 +6679,12 @@ function renderPsychologyInsights() {
             )
             /
             violations.length
-
             :
-
             0;
 
 
     container.innerHTML =
+
         `
 
         <div class="psych-score">
@@ -5948,14 +6779,13 @@ function renderMistakes() {
 
                 const mistake =
                     t.psychology
-                    .mistake;
+                    ?.mistake;
 
 
                 if (
                     mistake
                     &&
-                    mistake !==
-                        "None"
+                    mistake !== "None"
                 ) {
 
                     mistakes[mistake] =
@@ -5977,6 +6807,7 @@ function renderMistakes() {
     ) {
 
         container.innerHTML =
+
             `
             <div class="empty">
                 No recorded mistakes.
@@ -5994,6 +6825,7 @@ function renderMistakes() {
         )
         .map(
             ([name,count]) =>
+
             `
 
             <div class="psych-score">
@@ -6060,11 +6892,13 @@ function renderCalendar() {
         .toLocaleDateString(
             "en-IN",
             {
+
                 month:
                     "long",
 
                 year:
                     "numeric"
+
             }
         );
 
@@ -6108,9 +6942,9 @@ function renderCalendar() {
 
     let html =
 
-
         names.map(
             name =>
+
                 `
                 <div class="calendar-day-name">
                     ${name}
@@ -6159,7 +6993,8 @@ function renderCalendar() {
             database.trades
             .filter(
                 t =>
-                    t.date.startsWith(
+                    t.date
+                    .startsWith(
                         dateString
                     )
             );
@@ -6173,41 +7008,82 @@ function renderCalendar() {
             );
 
 
+        let stateClass = "";
+
+
+        if (pnl > 0)
+            stateClass =
+                "profitable";
+
+
+        if (pnl < 0)
+            stateClass =
+                "loss-day";
+
+
+        let pnlHTML = "";
+
+
+        if (pnl > 0) {
+
+            pnlHTML =
+
+                `
+
+                <div
+                    class="
+                        calendar-pnl
+                        profit
+                    "
+                >
+                    +${currency(
+                        pnl
+                    )}
+                </div>
+
+                `;
+
+        }
+
+        else if (pnl < 0) {
+
+            pnlHTML =
+
+                `
+
+                <div
+                    class="
+                        calendar-pnl
+                        loss
+                    "
+                >
+                    ${currency(
+                        pnl
+                    )}
+                </div>
+
+                `;
+
+        }
+
+
         html +=
 
             `
 
-            <div class="calendar-day">
+            <div
+                class="
+                    calendar-day
+                    ${stateClass}
+                "
+            >
 
                 <div class="calendar-number">
                     ${day}
                 </div>
 
 
-                ${
-                    dayTrades.length
-
-                    ?
-
-                    `
-                    <div
-                        class="
-                            calendar-pnl
-                            ${pnlClass(
-                                pnl
-                            )}
-                        "
-                    >
-                        ${currency(
-                            pnl
-                        )}
-                    </div>
-                    `
-
-                    :
-
-                    ""
-                }
+                ${pnlHTML}
 
             </div>
 
@@ -6282,6 +7158,7 @@ function renderGoals() {
     ) {
 
         container.innerHTML =
+
             `
             <div class="empty">
                 No goals yet.
@@ -6297,6 +7174,7 @@ function renderGoals() {
         database.goals
         .map(
             goal =>
+
             `
 
             <div class="goal">
@@ -6314,9 +7192,7 @@ function renderGoals() {
                         <div class="goal-meta">
 
                             ${goal.progress}
-
                             /
-
                             ${goal.target}
 
                         </div>
@@ -6407,7 +7283,7 @@ function updateGoal(id) {
 
 
 /* =========================================================
-   REPORT
+   REPORTS
 ========================================================= */
 
 function renderReport() {
@@ -6416,155 +7292,173 @@ function renderReport() {
         getStats();
 
 
-    const trades =
-        database.trades;
-
-
-    const avgR =
-        trades.length
-
-            ?
-
-            trades.reduce(
-                (sum,t) =>
-                    sum + t.rMultiple,
-                0
-            )
-            /
-            trades.length
-
-            :
-
-            0;
-
-
     document.getElementById(
         "reportContent"
     ).innerHTML =
 
         `
 
-        <div class="grid-3">
+        <div
+            class="report-row"
+        >
 
+            <span class="report-label">
+                Total Trades
+            </span>
 
-            <div class="stat">
-
-                <div class="stat-label">
-                    TOTAL TRADES
-                </div>
-
-                <div class="stat-value">
-                    ${s.total}
-                </div>
-
-            </div>
-
-
-            <div class="stat">
-
-                <div class="stat-label">
-                    NET P&L
-                </div>
-
-                <div
-                    class="
-                        stat-value
-                        ${pnlClass(
-                            s.net
-                        )}
-                    "
-                >
-                    ${currency(
-                        s.net
-                    )}
-                </div>
-
-            </div>
-
-
-            <div class="stat">
-
-                <div class="stat-label">
-                    AVG R
-                </div>
-
-                <div class="stat-value">
-                    ${avgR.toFixed(2)}R
-                </div>
-
-            </div>
+            <span class="report-number">
+                ${s.total}
+            </span>
 
         </div>
 
 
         <div
-            style="
-                margin-top:25px;
-                line-height:2;
-                font-size:13px
-            "
+            class="report-row"
         >
 
-            <p>
-                <strong>
-                    Win Rate:
-                </strong>
+            <span class="report-label">
+                Win Rate
+            </span>
 
+            <span
+                class="
+                    report-number
+                    ${
+                        s.winRate >= 50
+                            ? "profit"
+                            : "loss"
+                    }
+                "
+            >
                 ${s.winRate.toFixed(1)}%
-            </p>
+            </span>
+
+        </div>
 
 
-            <p>
-                <strong>
-                    Profit Factor:
-                </strong>
+        <div
+            class="report-row"
+        >
 
+            <span class="report-label">
+                Net P&L
+            </span>
+
+            <span
+                class="
+                    report-number
+                    ${pnlClass(
+                        s.net
+                    )}
+                "
+            >
+                ${currency(
+                    s.net
+                )}
+            </span>
+
+        </div>
+
+
+        <div
+            class="report-row"
+        >
+
+            <span class="report-label">
+                Profit Factor
+            </span>
+
+            <span class="report-number">
                 ${s.profitFactor.toFixed(2)}
-            </p>
+            </span>
+
+        </div>
 
 
-            <p>
-                <strong>
-                    Expectancy:
-                </strong>
+        <div
+            class="report-row"
+        >
 
+            <span class="report-label">
+                Expectancy
+            </span>
+
+            <span class="report-number">
                 ${currency(
                     s.expectancy
                 )}
-            </p>
+            </span>
+
+        </div>
 
 
-            <p>
-                <strong>
-                    Gross Profit:
-                </strong>
+        <!-- CHANGED FROM AVERAGE R -->
 
+        <div
+            class="report-row"
+        >
+
+            <span class="report-label">
+                Net Charges
+            </span>
+
+            <span class="report-number">
+                ${currency(
+                    s.totalCharges
+                )}
+            </span>
+
+        </div>
+
+
+        <div
+            class="report-row"
+        >
+
+            <span class="report-label">
+                Gross Profit
+            </span>
+
+            <span class="report-number profit">
                 ${currency(
                     s.grossProfit
                 )}
-            </p>
+            </span>
+
+        </div>
 
 
-            <p>
-                <strong>
-                    Gross Loss:
-                </strong>
+        <div
+            class="report-row"
+        >
 
+            <span class="report-label">
+                Gross Loss
+            </span>
+
+            <span class="report-number loss">
                 ${currency(
                     -s.grossLoss
                 )}
-            </p>
+            </span>
+
+        </div>
 
 
-            <p>
-                <strong>
-                    Maximum Drawdown:
-                </strong>
+        <div
+            class="report-row"
+        >
 
+            <span class="report-label">
+                Maximum Drawdown
+            </span>
+
+            <span class="report-number loss">
                 ${currency(
                     -s.maxDD
                 )}
-            </p>
+            </span>
 
         </div>
 
@@ -6607,6 +7501,11 @@ ${currency(
     s.expectancy
 )}
 
+Net Charges:
+${currency(
+    s.totalCharges
+)}
+
 Maximum Drawdown:
 ${currency(
     -s.maxDD
@@ -6624,45 +7523,175 @@ ${currency(
 
 
 /* =========================================================
-   SETTINGS
+   SETTINGS — LOCK / EDIT SYSTEM
 ========================================================= */
+
+let settingsEditing =
+    false;
+
 
 function loadSettings() {
 
-    document.getElementById(
-        "settingsName"
-    ).value =
+    const name =
+        document.getElementById(
+            "settingsName"
+        );
+
+
+    const currencyInput =
+        document.getElementById(
+            "settingsCurrency"
+        );
+
+
+    const capital =
+        document.getElementById(
+            "startingCapital"
+        );
+
+
+    name.value =
         database.settings.name
         || "";
 
 
-    document.getElementById(
-        "settingsCurrency"
-    ).value =
-        database.settings.currency;
+    currencyInput.value =
+        database.settings.currency
+        || "₹";
 
 
-    document.getElementById(
-        "startingCapital"
-    ).value =
-        database.settings.capital;
+    capital.value =
+        database.settings.capital
+        || "";
+
+
+    settingsEditing = false;
+
+
+    applySettingsLock();
 
 }
 
 
-function saveSettings() {
+function applySettingsLock() {
 
-    database.settings.name =
+    const inputs = [
 
+        document.getElementById(
+            "settingsName"
+        ),
+
+        document.getElementById(
+            "settingsCurrency"
+        ),
+
+        document.getElementById(
+            "startingCapital"
+        )
+
+    ];
+
+
+    const button =
+        document.getElementById(
+            "settingsAction"
+        );
+
+
+    const configured =
+        Boolean(
+            database.settings.configured
+        );
+
+
+    if (
+        configured
+        &&
+        !settingsEditing
+    ) {
+
+        inputs.forEach(
+            input => {
+
+                input.disabled =
+                    true;
+
+            }
+        );
+
+
+        button.textContent =
+            "Edit";
+
+
+        button.classList.remove(
+            "btn-primary"
+        );
+
+    } else {
+
+        inputs.forEach(
+            input => {
+
+                input.disabled =
+                    false;
+
+            }
+        );
+
+
+        button.textContent =
+            "Save Settings";
+
+
+        button.classList.add(
+            "btn-primary"
+        );
+
+    }
+
+}
+
+
+function handleSettingsAction() {
+
+    const configured =
+        Boolean(
+            database.settings.configured
+        );
+
+
+    if (
+        configured
+        &&
+        !settingsEditing
+    ) {
+
+        settingsEditing = true;
+
+        applySettingsLock();
+
+        document
+            .getElementById(
+                "settingsName"
+            )
+            .focus();
+
+        return;
+
+    }
+
+
+    const name =
         document
         .getElementById(
             "settingsName"
         )
-        .value;
+        .value
+        .trim();
 
 
-    database.settings.currency =
-
+    const currencyValue =
         document
         .getElementById(
             "settingsCurrency"
@@ -6670,8 +7699,7 @@ function saveSettings() {
         .value;
 
 
-    database.settings.capital =
-
+    const capital =
         Number(
             document
             .getElementById(
@@ -6681,30 +7709,76 @@ function saveSettings() {
         );
 
 
+    if (!name) {
+
+        alert(
+            "Please enter your name."
+        );
+
+        return;
+
+    }
+
+
+    if (
+        !capital
+        ||
+        capital < 0
+    ) {
+
+        alert(
+            "Please enter a valid starting capital."
+        );
+
+        return;
+
+    }
+
+
+    database.settings.name =
+        name;
+
+
+    database.settings.currency =
+        currencyValue;
+
+
+    database.settings.capital =
+        capital;
+
+
+    database.settings.configured =
+        true;
+
+
+    settingsEditing = false;
+
+
     saveDatabase();
 
-    refresh();
+    applySettingsLock();
 
-    alert(
-        "Settings saved."
-    );
+    refresh();
 
 }
 
 
 /* =========================================================
-   DATA EXPORT
+   DATA MANAGEMENT
 ========================================================= */
 
 function exportData() {
 
     downloadFile(
+
         "tradeos-backup.json",
+
         JSON.stringify(
             database,
             null,
             2
         )
+
     );
 
 }
@@ -6751,6 +7825,19 @@ function importData(event) {
 
                 database =
                     imported;
+
+
+                if (
+                    database.settings
+                    .configured
+                    === undefined
+                ) {
+
+                    database.settings
+                        .configured =
+                        true;
+
+                }
 
 
                 saveDatabase();
@@ -6805,70 +7892,8 @@ function deleteAllData() {
 
 
 /* =========================================================
-   UTILITIES
+   DOWNLOAD
 ========================================================= */
-
-function formatDate(
-    date
-) {
-
-    return new Date(
-        date
-    )
-    .toLocaleDateString(
-        "en-IN",
-        {
-
-            day:
-                "2-digit",
-
-            month:
-                "short",
-
-            year:
-                "numeric"
-
-        }
-    );
-
-}
-
-
-function escapeHTML(
-    value
-) {
-
-    return String(
-        value
-    )
-
-    .replaceAll(
-        "&",
-        "&amp;"
-    )
-
-    .replaceAll(
-        "<",
-        "&lt;"
-    )
-
-    .replaceAll(
-        ">",
-        "&gt;"
-    )
-
-    .replaceAll(
-        '"',
-        "&quot;"
-    )
-
-    .replaceAll(
-        "'",
-        "&#039;"
-    );
-
-}
-
 
 function downloadFile(
     filename,
@@ -6921,55 +7946,17 @@ function downloadFile(
 
 function refreshCharts() {
 
-    if (
-        !document
-        .getElementById(
-            "dashboard"
-        )
-        .classList.contains(
-            "hidden"
-        )
-    ) {
+    renderDashboard();
 
-        renderDashboard();
+    renderAnalytics();
 
-    }
-
-
-    if (
-        !document
-        .getElementById(
-            "analytics"
-        )
-        .classList.contains(
-            "hidden"
-        )
-    ) {
-
-        renderAnalytics();
-
-    }
-
-
-    if (
-        !document
-        .getElementById(
-            "psychology"
-        )
-        .classList.contains(
-            "hidden"
-        )
-    ) {
-
-        renderPsychology();
-
-    }
+    renderPsychology();
 
 }
 
 
 /* =========================================================
-   REFRESH EVERYTHING
+   REFRESH
 ========================================================= */
 
 function refresh() {
@@ -6988,11 +7975,13 @@ function refresh() {
 
     renderReport();
 
+    loadSettings();
+
 }
 
 
 /* =========================================================
-   START APPLICATION
+   START
 ========================================================= */
 
 refresh();
