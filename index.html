@@ -8,24 +8,30 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <style>
-/* =========================================================
-   RESET / VARIABLES
-========================================================= */
 
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-}
+/* =========================================================
+   THEME VARIABLES
+========================================================= */
 
 :root {
     --bg: #f4f5f7;
     --surface: #ffffff;
     --surface-2: #f8f9fb;
+    --surface-3: #f1f3f5;
+
     --border: #e5e7eb;
 
     --text: #111827;
+    --text-secondary: #4b5563;
     --muted: #6b7280;
+
+    --sidebar: #111827;
+    --sidebar-hover: #1f2937;
+    --sidebar-text: #9ca3af;
+    --sidebar-active: #ffffff;
+
+    --primary: #111827;
+    --primary-text: #ffffff;
 
     --green: #16803c;
     --green-bg: #eaf7ef;
@@ -39,13 +45,74 @@
     --yellow: #b7791f;
     --yellow-bg: #fff8e6;
 
-    --sidebar: #111827;
+    --input-bg: #ffffff;
+
+    --shadow: 0 2px 10px rgba(0,0,0,.04);
 
     --radius: 12px;
-    --shadow: 0 2px 10px rgba(0,0,0,.04);
+}
+
+
+/* =========================================================
+   DARK MODE
+========================================================= */
+
+[data-theme="dark"] {
+
+    --bg: #0b0f14;
+
+    --surface: #11161d;
+    --surface-2: #171d25;
+    --surface-3: #1d242d;
+
+    --border: #29313c;
+
+    --text: #f3f4f6;
+    --text-secondary: #c5cad1;
+    --muted: #8b95a3;
+
+    --sidebar: #080b0f;
+    --sidebar-hover: #171d25;
+    --sidebar-text: #8993a1;
+    --sidebar-active: #ffffff;
+
+    --primary: #f3f4f6;
+    --primary-text: #111827;
+
+    --green: #35b86b;
+    --green-bg: rgba(53,184,107,.12);
+
+    --red: #f06464;
+    --red-bg: rgba(240,100,100,.12);
+
+    --blue: #5b8def;
+    --blue-bg: rgba(91,141,239,.12);
+
+    --yellow: #e0ad45;
+    --yellow-bg: rgba(224,173,69,.12);
+
+    --input-bg: #151b22;
+
+    --shadow: 0 2px 15px rgba(0,0,0,.25);
+}
+
+
+/* =========================================================
+   RESET
+========================================================= */
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    scroll-behavior: smooth;
 }
 
 body {
+
     font-family:
         Inter,
         -apple-system,
@@ -54,9 +121,14 @@ body {
         sans-serif;
 
     background: var(--bg);
+
     color: var(--text);
 
     min-height: 100vh;
+
+    transition:
+        background .25s ease,
+        color .25s ease;
 }
 
 button,
@@ -76,7 +148,7 @@ button {
 
 
 /* =========================================================
-   LAYOUT
+   APP
 ========================================================= */
 
 .app {
@@ -84,12 +156,21 @@ button {
     min-height: 100vh;
 }
 
+
+/* =========================================================
+   SIDEBAR
+========================================================= */
+
 .sidebar {
+
     width: 245px;
+
     background: var(--sidebar);
+
     color: white;
 
     position: fixed;
+
     left: 0;
     top: 0;
     bottom: 0;
@@ -97,12 +178,18 @@ button {
     padding: 24px 14px;
 
     z-index: 100;
+
+    transition: background .25s ease;
 }
 
 .logo {
+
     font-size: 20px;
+
     font-weight: 800;
-    padding: 0 12px 30px;
+
+    padding:
+        0 12px 30px;
 }
 
 .logo span {
@@ -114,72 +201,174 @@ button {
 }
 
 .nav-label {
+
     font-size: 10px;
+
     text-transform: uppercase;
+
     letter-spacing: 1px;
+
     color: #6b7280;
+
     padding: 0 12px;
+
     margin-bottom: 7px;
 }
 
 .nav-btn {
+
     width: 100%;
+
     border: 0;
+
     background: transparent;
-    color: #9ca3af;
+
+    color: var(--sidebar-text);
 
     text-align: left;
 
     padding: 11px 12px;
+
     border-radius: 8px;
 
     margin-bottom: 3px;
 
-    transition: .2s;
+    transition:
+        background .2s,
+        color .2s;
 }
 
 .nav-btn:hover,
 .nav-btn.active {
-    background: #1f2937;
-    color: white;
+
+    background: var(--sidebar-hover);
+
+    color: var(--sidebar-active);
 }
+
+
+/* =========================================================
+   MAIN
+========================================================= */
 
 .main {
+
     margin-left: 245px;
-    width: calc(100% - 245px);
+
+    width:
+        calc(100% - 245px);
+
     min-height: 100vh;
-}
-
-.topbar {
-    height: 70px;
-    background: var(--surface);
-
-    border-bottom: 1px solid var(--border);
 
     display: flex;
+
+    flex-direction: column;
+}
+
+
+/* =========================================================
+   TOPBAR
+========================================================= */
+
+.topbar {
+
+    height: 70px;
+
+    background: var(--surface);
+
+    border-bottom:
+        1px solid var(--border);
+
+    display: flex;
+
     align-items: center;
+
     justify-content: space-between;
 
-    padding: 0 30px;
+    padding:
+        0 30px;
 
     position: sticky;
+
     top: 0;
+
     z-index: 50;
+
+    transition:
+        background .25s ease,
+        border-color .25s ease;
 }
 
 .page-title {
+
     font-size: 21px;
+
     font-weight: 700;
 }
 
 .top-actions {
+
     display: flex;
+
+    align-items: center;
+
     gap: 10px;
 }
 
+
+/* =========================================================
+   THEME TOGGLE
+========================================================= */
+
+.theme-toggle {
+
+    width: 42px;
+
+    height: 42px;
+
+    border: 1px solid var(--border);
+
+    background: var(--surface);
+
+    color: var(--text);
+
+    border-radius: 9px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    font-size: 18px;
+
+    transition:
+        background .2s,
+        border .2s,
+        transform .2s;
+}
+
+.theme-toggle:hover {
+
+    background: var(--surface-2);
+
+    transform: translateY(-1px);
+}
+
+
+/* =========================================================
+   CONTENT
+========================================================= */
+
 .content {
+
     padding: 30px;
+
     max-width: 1500px;
+
+    width: 100%;
+
+    flex: 1;
 }
 
 
@@ -188,40 +377,73 @@ button {
 ========================================================= */
 
 .btn {
-    border: 1px solid var(--border);
-    background: white;
+
+    border:
+        1px solid var(--border);
+
+    background: var(--surface);
+
     color: var(--text);
 
     border-radius: 8px;
 
-    padding: 9px 14px;
+    padding:
+        9px 14px;
 
     font-size: 13px;
+
     font-weight: 600;
 
-    transition: .2s;
+    transition:
+        background .2s,
+        border .2s,
+        opacity .2s;
 }
 
 .btn:hover {
-    border-color: #c5c9d0;
+
+    border-color:
+        var(--muted);
+
+    background:
+        var(--surface-2);
 }
 
 .btn-primary {
-    background: var(--text);
-    color: white;
-    border-color: var(--text);
+
+    background: var(--primary);
+
+    color: var(--primary-text);
+
+    border-color:
+        var(--primary);
+}
+
+.btn-primary:hover {
+
+    opacity: .9;
+
+    background: var(--primary);
 }
 
 .btn-danger {
+
     color: var(--red);
+
     background: var(--red-bg);
-    border-color: transparent;
+
+    border-color:
+        transparent;
 }
 
 .btn-success {
+
     color: var(--green);
+
     background: var(--green-bg);
-    border-color: transparent;
+
+    border-color:
+        transparent;
 }
 
 
@@ -230,72 +452,107 @@ button {
 ========================================================= */
 
 .card {
-    background: var(--surface);
-    border: 1px solid var(--border);
 
-    border-radius: var(--radius);
+    background: var(--surface);
+
+    border:
+        1px solid var(--border);
+
+    border-radius:
+        var(--radius);
 
     padding: 22px;
 
-    box-shadow: var(--shadow);
+    box-shadow:
+        var(--shadow);
 
     margin-bottom: 20px;
+
+    transition:
+        background .25s ease,
+        border-color .25s ease;
 }
 
 .card-header {
+
     display: flex;
+
     align-items: center;
+
     justify-content: space-between;
 
     margin-bottom: 20px;
 }
 
 .card-title {
+
     font-size: 16px;
+
     font-weight: 700;
 }
 
 .card-subtitle {
+
     color: var(--muted);
+
     font-size: 12px;
+
     margin-top: 3px;
 }
 
 
 /* =========================================================
-   STAT CARDS
+   STATS
 ========================================================= */
 
 .stats {
+
     display: grid;
-    grid-template-columns: repeat(6, 1fr);
+
+    grid-template-columns:
+        repeat(6, 1fr);
+
     gap: 14px;
 
     margin-bottom: 20px;
 }
 
 .stat {
-    background: white;
-    border: 1px solid var(--border);
 
-    border-radius: var(--radius);
+    background: var(--surface);
+
+    border:
+        1px solid var(--border);
+
+    border-radius:
+        var(--radius);
 
     padding: 18px;
+
+    box-shadow:
+        var(--shadow);
 }
 
 .stat-label {
+
     color: var(--muted);
+
     font-size: 11px;
+
     margin-bottom: 8px;
 }
 
 .stat-value {
+
     font-size: 22px;
+
     font-weight: 750;
 }
 
 .stat-change {
+
     font-size: 11px;
+
     margin-top: 5px;
 }
 
@@ -305,14 +562,22 @@ button {
 ========================================================= */
 
 .grid-2 {
+
     display: grid;
-    grid-template-columns: 1fr 1fr;
+
+    grid-template-columns:
+        1fr 1fr;
+
     gap: 20px;
 }
 
 .grid-3 {
+
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+
+    grid-template-columns:
+        repeat(3, 1fr);
+
     gap: 15px;
 }
 
@@ -322,7 +587,9 @@ button {
 ========================================================= */
 
 .chart-container {
+
     height: 300px;
+
     position: relative;
 }
 
@@ -332,140 +599,236 @@ button {
 ========================================================= */
 
 .form-grid {
+
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+
+    grid-template-columns:
+        repeat(3, 1fr);
+
     gap: 16px;
 }
 
 .form-group {
+
     display: flex;
+
     flex-direction: column;
 }
 
 .form-group.full {
+
     grid-column: 1 / -1;
 }
 
 label {
+
     font-size: 12px;
+
     font-weight: 600;
+
     margin-bottom: 6px;
 }
 
 input,
 select,
 textarea {
+
     width: 100%;
 
-    border: 1px solid var(--border);
-    background: white;
+    border:
+        1px solid var(--border);
+
+    background:
+        var(--input-bg);
+
+    color:
+        var(--text);
 
     border-radius: 8px;
 
-    padding: 10px 11px;
-
-    color: var(--text);
+    padding:
+        10px 11px;
 
     outline: none;
+
+    transition:
+        border .2s,
+        background .25s,
+        color .25s;
+}
+
+input::placeholder,
+textarea::placeholder {
+
+    color: var(--muted);
 }
 
 input:focus,
 select:focus,
 textarea:focus {
-    border-color: #9ca3af;
+
+    border-color:
+        var(--muted);
 }
 
 textarea {
+
     resize: vertical;
+
     min-height: 90px;
 }
 
 .form-section {
-    border-top: 1px solid var(--border);
+
+    border-top:
+        1px solid var(--border);
+
     padding-top: 20px;
+
     margin-top: 22px;
 }
 
 .form-section-title {
+
     font-size: 14px;
+
     font-weight: 700;
+
     margin-bottom: 15px;
 }
 
 
 /* =========================================================
-   TRADE TABLE
+   TABLE
 ========================================================= */
 
 .table-wrapper {
+
     overflow-x: auto;
 }
 
 table {
+
     width: 100%;
-    border-collapse: collapse;
+
+    border-collapse:
+        collapse;
+
     min-width: 1050px;
 }
 
 th {
+
     text-align: left;
 
     color: var(--muted);
 
     font-size: 11px;
+
     font-weight: 600;
 
     padding: 11px;
 
-    border-bottom: 1px solid var(--border);
+    border-bottom:
+        1px solid var(--border);
 }
 
 td {
-    padding: 13px 11px;
+
+    padding:
+        13px 11px;
 
     font-size: 12px;
 
-    border-bottom: 1px solid var(--border);
+    border-bottom:
+        1px solid var(--border);
 }
 
 tr:hover td {
-    background: #fafafa;
+
+    background:
+        var(--surface-2);
 }
 
+
+/* =========================================================
+   BADGES
+========================================================= */
+
 .badge {
+
     display: inline-flex;
 
-    padding: 4px 7px;
+    padding:
+        4px 7px;
 
     border-radius: 5px;
 
     font-size: 10px;
+
     font-weight: 700;
 }
 
 .badge-buy {
-    background: var(--green-bg);
-    color: var(--green);
+
+    background:
+        var(--green-bg);
+
+    color:
+        var(--green);
 }
 
 .badge-sell {
-    background: var(--red-bg);
-    color: var(--red);
+
+    background:
+        var(--red-bg);
+
+    color:
+        var(--red);
 }
 
 .badge-win {
-    background: var(--green-bg);
-    color: var(--green);
+
+    background:
+        var(--green-bg);
+
+    color:
+        var(--green);
 }
 
 .badge-loss {
-    background: var(--red-bg);
-    color: var(--red);
+
+    background:
+        var(--red-bg);
+
+    color:
+        var(--red);
 }
 
 .badge-neutral {
-    background: #f1f2f4;
-    color: #666;
+
+    background:
+        var(--surface-3);
+
+    color:
+        var(--muted);
+}
+
+
+/* =========================================================
+   PROFIT / LOSS
+========================================================= */
+
+.profit {
+
+    color:
+        var(--green) !important;
+}
+
+.loss {
+
+    color:
+        var(--red) !important;
 }
 
 
@@ -474,26 +837,34 @@ tr:hover td {
 ========================================================= */
 
 .psych-score {
+
     display: flex;
+
     align-items: center;
+
     justify-content: space-between;
 
     padding: 15px;
 
-    border: 1px solid var(--border);
+    border:
+        1px solid var(--border);
+
     border-radius: 10px;
 
     margin-bottom: 10px;
 }
 
 .psych-score strong {
+
     font-size: 20px;
 }
 
 .progress {
+
     height: 7px;
 
-    background: #edf0f3;
+    background:
+        var(--surface-3);
 
     border-radius: 20px;
 
@@ -503,8 +874,11 @@ tr:hover td {
 }
 
 .progress-bar {
+
     height: 100%;
-    background: var(--text);
+
+    background:
+        var(--primary);
 }
 
 
@@ -513,47 +887,67 @@ tr:hover td {
 ========================================================= */
 
 .calendar-header {
+
     display: flex;
-    justify-content: space-between;
+
+    justify-content:
+        space-between;
+
     align-items: center;
 
     margin-bottom: 15px;
 }
 
 .calendar-grid {
-    display: grid;
-    grid-template-columns: repeat(7, 1fr);
 
-    border-top: 1px solid var(--border);
-    border-left: 1px solid var(--border);
+    display: grid;
+
+    grid-template-columns:
+        repeat(7, 1fr);
+
+    border-top:
+        1px solid var(--border);
+
+    border-left:
+        1px solid var(--border);
 }
 
 .calendar-day-name,
 .calendar-day {
+
     min-height: 95px;
 
-    border-right: 1px solid var(--border);
-    border-bottom: 1px solid var(--border);
+    border-right:
+        1px solid var(--border);
+
+    border-bottom:
+        1px solid var(--border);
 
     padding: 8px;
 }
 
 .calendar-day-name {
+
     min-height: auto;
 
     color: var(--muted);
 
     font-size: 11px;
+
     font-weight: 600;
 }
 
 .calendar-number {
+
     font-size: 11px;
+
     font-weight: 700;
 }
 
 .calendar-pnl {
+
     font-size: 11px;
+
     margin-top: 20px;
 }
 
@@ -563,7 +957,10 @@ tr:hover td {
 ========================================================= */
 
 .goal {
-    border: 1px solid var(--border);
+
+    border:
+        1px solid var(--border);
+
     border-radius: 10px;
 
     padding: 16px;
@@ -572,19 +969,28 @@ tr:hover td {
 }
 
 .goal-header {
+
     display: flex;
-    justify-content: space-between;
+
+    justify-content:
+        space-between;
+
     gap: 15px;
 }
 
 .goal-name {
+
     font-weight: 700;
+
     font-size: 13px;
 }
 
 .goal-meta {
+
     color: var(--muted);
+
     font-size: 11px;
+
     margin-top: 4px;
 }
 
@@ -594,6 +1000,7 @@ tr:hover td {
 ========================================================= */
 
 .empty {
+
     text-align: center;
 
     padding: 50px;
@@ -607,15 +1014,21 @@ tr:hover td {
 ========================================================= */
 
 .modal {
+
     position: fixed;
 
     inset: 0;
 
-    background: rgba(0,0,0,.45);
+    background:
+        rgba(0,0,0,.55);
 
     display: flex;
-    align-items: center;
-    justify-content: center;
+
+    align-items:
+        center;
+
+    justify-content:
+        center;
 
     padding: 20px;
 
@@ -623,25 +1036,73 @@ tr:hover td {
 }
 
 .modal-content {
+
     width: 100%;
+
     max-width: 900px;
 
     max-height: 90vh;
 
     overflow-y: auto;
 
-    background: white;
+    background:
+        var(--surface);
+
+    color:
+        var(--text);
 
     border-radius: 14px;
 
     padding: 25px;
+
+    border:
+        1px solid var(--border);
 }
 
 .modal-header {
+
     display: flex;
-    justify-content: space-between;
+
+    justify-content:
+        space-between;
 
     margin-bottom: 20px;
+}
+
+
+/* =========================================================
+   FOOTER
+========================================================= */
+
+.footer {
+
+    border-top:
+        1px solid var(--border);
+
+    background:
+        var(--surface);
+
+    color:
+        var(--muted);
+
+    text-align: center;
+
+    padding:
+        22px 20px;
+
+    font-size: 12px;
+
+    transition:
+        background .25s ease,
+        border-color .25s ease;
+}
+
+.footer strong {
+
+    color:
+        var(--text);
+
+    font-weight: 600;
 }
 
 
@@ -652,85 +1113,140 @@ tr:hover td {
 @media(max-width:1200px) {
 
     .stats {
-        grid-template-columns: repeat(3, 1fr);
+
+        grid-template-columns:
+            repeat(3, 1fr);
     }
 
     .form-grid {
-        grid-template-columns: repeat(2, 1fr);
+
+        grid-template-columns:
+            repeat(2, 1fr);
     }
 }
+
 
 @media(max-width:800px) {
 
     .sidebar {
+
         width: 70px;
     }
 
     .logo {
+
         font-size: 0;
+
         text-align: center;
     }
 
     .logo:first-letter {
+
         font-size: 20px;
     }
 
     .nav-label {
+
         display: none;
     }
 
     .nav-btn {
+
         font-size: 0;
+
         text-align: center;
     }
 
     .nav-btn::first-letter {
+
         font-size: 18px;
     }
 
     .main {
+
         margin-left: 70px;
-        width: calc(100% - 70px);
+
+        width:
+            calc(100% - 70px);
     }
 
     .content {
+
         padding: 18px;
     }
 
     .grid-2,
     .grid-3 {
+
         grid-template-columns: 1fr;
     }
 
     .stats {
-        grid-template-columns: repeat(2, 1fr);
+
+        grid-template-columns:
+            repeat(2, 1fr);
     }
 }
+
 
 @media(max-width:550px) {
 
     .form-grid {
+
         grid-template-columns: 1fr;
     }
 
     .stats {
-        grid-template-columns: 1fr 1fr;
+
+        grid-template-columns:
+            1fr 1fr;
     }
 
     .topbar {
-        padding: 0 15px;
+
+        padding:
+            0 15px;
     }
 
     .content {
+
         padding: 12px;
     }
+
+    .page-title {
+
+        font-size: 17px;
+    }
+
+    .top-actions {
+
+        gap: 6px;
+    }
+
+    .theme-toggle {
+
+        width: 38px;
+
+        height: 38px;
+    }
+
+    .top-actions .btn-primary {
+
+        padding:
+            8px 10px;
+
+        font-size: 12px;
+    }
 }
+
 </style>
 </head>
+
 
 <body>
 
 <div class="app">
+
 
 <!-- =====================================================
      SIDEBAR
@@ -742,51 +1258,92 @@ tr:hover td {
         Trade<span>OS</span>
     </div>
 
+
     <div class="nav-section">
 
-        <div class="nav-label">Workspace</div>
+        <div class="nav-label">
+            Workspace
+        </div>
 
-        <button class="nav-btn active" data-page="dashboard">
+
+        <button
+            class="nav-btn active"
+            data-page="dashboard"
+        >
             Dashboard
         </button>
 
-        <button class="nav-btn" data-page="journal">
+
+        <button
+            class="nav-btn"
+            data-page="journal"
+        >
             Journal
         </button>
 
-        <button class="nav-btn" data-page="analytics">
+
+        <button
+            class="nav-btn"
+            data-page="analytics"
+        >
             Analytics
         </button>
 
-        <button class="nav-btn" data-page="psychology">
+
+        <button
+            class="nav-btn"
+            data-page="psychology"
+        >
             Psychology
         </button>
 
-        <button class="nav-btn" data-page="calendar">
+
+        <button
+            class="nav-btn"
+            data-page="calendar"
+        >
             Calendar
         </button>
 
     </div>
 
+
     <div class="nav-section">
 
-        <div class="nav-label">Planning</div>
+        <div class="nav-label">
+            Planning
+        </div>
 
-        <button class="nav-btn" data-page="goals">
+
+        <button
+            class="nav-btn"
+            data-page="goals"
+        >
             Goals
         </button>
 
-        <button class="nav-btn" data-page="reports">
+
+        <button
+            class="nav-btn"
+            data-page="reports"
+        >
             Reports
         </button>
 
     </div>
 
+
     <div class="nav-section">
 
-        <div class="nav-label">System</div>
+        <div class="nav-label">
+            System
+        </div>
 
-        <button class="nav-btn" data-page="settings">
+
+        <button
+            class="nav-btn"
+            data-page="settings"
+        >
             Settings
         </button>
 
@@ -795,19 +1352,40 @@ tr:hover td {
 </aside>
 
 
+
 <!-- =====================================================
      MAIN
 ===================================================== -->
 
 <main class="main">
 
+
 <header class="topbar">
 
-    <div class="page-title" id="pageTitle">
+    <div
+        class="page-title"
+        id="pageTitle"
+    >
         Dashboard
     </div>
 
+
     <div class="top-actions">
+
+
+        <!-- DARK / LIGHT MODE -->
+
+        <button
+            id="themeToggle"
+            class="theme-toggle"
+            title="Toggle dark/light mode"
+            aria-label="Toggle dark/light mode"
+        >
+            🌙
+        </button>
+
+
+        <!-- NEW TRADE -->
 
         <button
             class="btn btn-primary"
@@ -821,69 +1399,152 @@ tr:hover td {
 </header>
 
 
+
 <div class="content">
+
 
 <!-- =====================================================
      DASHBOARD
 ===================================================== -->
 
-<section id="dashboard" class="page">
+<section
+    id="dashboard"
+    class="page"
+>
 
     <div class="stats">
 
         <div class="stat">
-            <div class="stat-label">TOTAL TRADES</div>
-            <div class="stat-value" id="statTrades">0</div>
+
+            <div class="stat-label">
+                TOTAL TRADES
+            </div>
+
+            <div
+                class="stat-value"
+                id="statTrades"
+            >
+                0
+            </div>
+
         </div>
 
-        <div class="stat">
-            <div class="stat-label">NET P&L</div>
-            <div class="stat-value" id="statPnl">₹0</div>
-        </div>
 
         <div class="stat">
-            <div class="stat-label">WIN RATE</div>
-            <div class="stat-value" id="statWinRate">0%</div>
+
+            <div class="stat-label">
+                NET P&L
+            </div>
+
+            <div
+                class="stat-value"
+                id="statPnl"
+            >
+                ₹0
+            </div>
+
         </div>
 
-        <div class="stat">
-            <div class="stat-label">PROFIT FACTOR</div>
-            <div class="stat-value" id="statPF">0</div>
-        </div>
 
         <div class="stat">
-            <div class="stat-label">EXPECTANCY</div>
-            <div class="stat-value" id="statExpectancy">₹0</div>
+
+            <div class="stat-label">
+                WIN RATE
+            </div>
+
+            <div
+                class="stat-value"
+                id="statWinRate"
+            >
+                0%
+            </div>
+
         </div>
 
+
         <div class="stat">
-            <div class="stat-label">MAX DRAWDOWN</div>
-            <div class="stat-value" id="statDD">₹0</div>
+
+            <div class="stat-label">
+                PROFIT FACTOR
+            </div>
+
+            <div
+                class="stat-value"
+                id="statPF"
+            >
+                0
+            </div>
+
+        </div>
+
+
+        <div class="stat">
+
+            <div class="stat-label">
+                EXPECTANCY
+            </div>
+
+            <div
+                class="stat-value"
+                id="statExpectancy"
+            >
+                ₹0
+            </div>
+
+        </div>
+
+
+        <div class="stat">
+
+            <div class="stat-label">
+                MAX DRAWDOWN
+            </div>
+
+            <div
+                class="stat-value"
+                id="statDD"
+            >
+                ₹0
+            </div>
+
         </div>
 
     </div>
 
 
+
     <div class="grid-2">
+
 
         <div class="card">
 
             <div class="card-header">
 
                 <div>
-                    <div class="card-title">Equity Curve</div>
+
+                    <div class="card-title">
+                        Equity Curve
+                    </div>
+
                     <div class="card-subtitle">
                         Cumulative trading performance
                     </div>
+
                 </div>
 
             </div>
 
+
             <div class="chart-container">
-                <canvas id="equityChart"></canvas>
+
+                <canvas
+                    id="equityChart"
+                ></canvas>
+
             </div>
 
         </div>
+
 
 
         <div class="card">
@@ -891,16 +1552,26 @@ tr:hover td {
             <div class="card-header">
 
                 <div>
-                    <div class="card-title">Performance</div>
+
+                    <div class="card-title">
+                        Performance
+                    </div>
+
                     <div class="card-subtitle">
                         Wins and losses
                     </div>
+
                 </div>
 
             </div>
 
+
             <div class="chart-container">
-                <canvas id="performanceChart"></canvas>
+
+                <canvas
+                    id="performanceChart"
+                ></canvas>
+
             </div>
 
         </div>
@@ -908,15 +1579,22 @@ tr:hover td {
     </div>
 
 
+
     <div class="grid-2">
+
 
         <div class="card">
 
             <div class="card-header">
 
                 <div>
-                    <div class="card-title">Recent Trades</div>
+
+                    <div class="card-title">
+                        Recent Trades
+                    </div>
+
                 </div>
+
 
                 <button
                     class="btn"
@@ -927,9 +1605,13 @@ tr:hover td {
 
             </div>
 
-            <div id="recentTrades"></div>
+
+            <div
+                id="recentTrades"
+            ></div>
 
         </div>
+
 
 
         <div class="card">
@@ -937,15 +1619,23 @@ tr:hover td {
             <div class="card-header">
 
                 <div>
-                    <div class="card-title">Trading Discipline</div>
+
+                    <div class="card-title">
+                        Trading Discipline
+                    </div>
+
                     <div class="card-subtitle">
                         Process over outcome
                     </div>
+
                 </div>
 
             </div>
 
-            <div id="disciplineDashboard"></div>
+
+            <div
+                id="disciplineDashboard"
+            ></div>
 
         </div>
 
@@ -954,22 +1644,32 @@ tr:hover td {
 </section>
 
 
+
 <!-- =====================================================
      JOURNAL
 ===================================================== -->
 
-<section id="journal" class="page hidden">
+<section
+    id="journal"
+    class="page hidden"
+>
 
     <div class="card">
 
         <div class="card-header">
 
             <div>
-                <div class="card-title">Trade Journal</div>
+
+                <div class="card-title">
+                    Trade Journal
+                </div>
+
                 <div class="card-subtitle">
                     Complete trading history
                 </div>
+
             </div>
+
 
             <button
                 class="btn btn-primary"
@@ -981,11 +1681,16 @@ tr:hover td {
         </div>
 
 
-        <div class="form-grid" style="margin-bottom:20px">
+        <div
+            class="form-grid"
+            style="margin-bottom:20px"
+        >
 
             <div class="form-group">
 
-                <label>Search</label>
+                <label>
+                    Search
+                </label>
 
                 <input
                     id="journalSearch"
@@ -995,35 +1700,57 @@ tr:hover td {
 
             </div>
 
+
             <div class="form-group">
 
-                <label>Result</label>
+                <label>
+                    Result
+                </label>
 
                 <select
                     id="journalResult"
                     onchange="renderJournal()"
                 >
 
-                    <option value="all">All</option>
-                    <option value="win">Wins</option>
-                    <option value="loss">Losses</option>
+                    <option value="all">
+                        All
+                    </option>
+
+                    <option value="win">
+                        Wins
+                    </option>
+
+                    <option value="loss">
+                        Losses
+                    </option>
 
                 </select>
 
             </div>
 
+
             <div class="form-group">
 
-                <label>Direction</label>
+                <label>
+                    Direction
+                </label>
 
                 <select
                     id="journalDirection"
                     onchange="renderJournal()"
                 >
 
-                    <option value="all">All</option>
-                    <option value="BUY">Buy</option>
-                    <option value="SELL">Sell</option>
+                    <option value="all">
+                        All
+                    </option>
+
+                    <option value="BUY">
+                        Buy
+                    </option>
+
+                    <option value="SELL">
+                        Sell
+                    </option>
 
                 </select>
 
@@ -1039,6 +1766,7 @@ tr:hover td {
                 <thead>
 
                     <tr>
+
                         <th>Date</th>
                         <th>Symbol</th>
                         <th>Side</th>
@@ -1051,11 +1779,15 @@ tr:hover td {
                         <th>R</th>
                         <th>Setup</th>
                         <th></th>
+
                     </tr>
 
                 </thead>
 
-                <tbody id="journalTable"></tbody>
+
+                <tbody
+                    id="journalTable"
+                ></tbody>
 
             </table>
 
@@ -1066,48 +1798,120 @@ tr:hover td {
 </section>
 
 
+
 <!-- =====================================================
      ANALYTICS
 ===================================================== -->
 
-<section id="analytics" class="page hidden">
+<section
+    id="analytics"
+    class="page hidden"
+>
 
     <div class="stats">
 
-        <div class="stat">
-            <div class="stat-label">AVG WIN</div>
-            <div class="stat-value" id="avgWin">₹0</div>
-        </div>
 
         <div class="stat">
-            <div class="stat-label">AVG LOSS</div>
-            <div class="stat-value" id="avgLoss">₹0</div>
+
+            <div class="stat-label">
+                AVG WIN
+            </div>
+
+            <div
+                class="stat-value"
+                id="avgWin"
+            >
+                ₹0
+            </div>
+
         </div>
 
-        <div class="stat">
-            <div class="stat-label">AVG R</div>
-            <div class="stat-value" id="avgR">0R</div>
-        </div>
 
         <div class="stat">
-            <div class="stat-label">BEST TRADE</div>
-            <div class="stat-value" id="bestTrade">₹0</div>
+
+            <div class="stat-label">
+                AVG LOSS
+            </div>
+
+            <div
+                class="stat-value"
+                id="avgLoss"
+            >
+                ₹0
+            </div>
+
         </div>
 
-        <div class="stat">
-            <div class="stat-label">WORST TRADE</div>
-            <div class="stat-value" id="worstTrade">₹0</div>
-        </div>
 
         <div class="stat">
-            <div class="stat-label">CURRENT STREAK</div>
-            <div class="stat-value" id="currentStreak">0</div>
+
+            <div class="stat-label">
+                AVG R
+            </div>
+
+            <div
+                class="stat-value"
+                id="avgR"
+            >
+                0R
+            </div>
+
+        </div>
+
+
+        <div class="stat">
+
+            <div class="stat-label">
+                BEST TRADE
+            </div>
+
+            <div
+                class="stat-value"
+                id="bestTrade"
+            >
+                ₹0
+            </div>
+
+        </div>
+
+
+        <div class="stat">
+
+            <div class="stat-label">
+                WORST TRADE
+            </div>
+
+            <div
+                class="stat-value"
+                id="worstTrade"
+            >
+                ₹0
+            </div>
+
+        </div>
+
+
+        <div class="stat">
+
+            <div class="stat-label">
+                CURRENT STREAK
+            </div>
+
+            <div
+                class="stat-value"
+                id="currentStreak"
+            >
+                0
+            </div>
+
         </div>
 
     </div>
 
 
+
     <div class="grid-2">
+
 
         <div class="card">
 
@@ -1119,11 +1923,17 @@ tr:hover td {
 
             </div>
 
+
             <div class="chart-container">
-                <canvas id="strategyChart"></canvas>
+
+                <canvas
+                    id="strategyChart"
+                ></canvas>
+
             </div>
 
         </div>
+
 
 
         <div class="card">
@@ -1136,13 +1946,19 @@ tr:hover td {
 
             </div>
 
+
             <div class="chart-container">
-                <canvas id="timeChart"></canvas>
+
+                <canvas
+                    id="timeChart"
+                ></canvas>
+
             </div>
 
         </div>
 
     </div>
+
 
 
     <div class="card">
@@ -1155,6 +1971,7 @@ tr:hover td {
 
         </div>
 
+
         <div class="table-wrapper">
 
             <table>
@@ -1162,17 +1979,22 @@ tr:hover td {
                 <thead>
 
                     <tr>
+
                         <th>Strategy</th>
                         <th>Trades</th>
                         <th>Wins</th>
                         <th>Win Rate</th>
                         <th>P&L</th>
                         <th>Avg R</th>
+
                     </tr>
 
                 </thead>
 
-                <tbody id="strategyTable"></tbody>
+
+                <tbody
+                    id="strategyTable"
+                ></tbody>
 
             </table>
 
@@ -1183,44 +2005,95 @@ tr:hover td {
 </section>
 
 
+
 <!-- =====================================================
      PSYCHOLOGY
 ===================================================== -->
 
-<section id="psychology" class="page hidden">
+<section
+    id="psychology"
+    class="page hidden"
+>
 
     <div class="stats">
 
-        <div class="stat">
-            <div class="stat-label">DISCIPLINE SCORE</div>
-            <div class="stat-value" id="disciplineScore">0%</div>
-        </div>
 
         <div class="stat">
-            <div class="stat-label">FOMO</div>
-            <div class="stat-value" id="fomoCount">0</div>
+
+            <div class="stat-label">
+                DISCIPLINE SCORE
+            </div>
+
+            <div
+                class="stat-value"
+                id="disciplineScore"
+            >
+                0%
+            </div>
+
         </div>
 
-        <div class="stat">
-            <div class="stat-label">REVENGE</div>
-            <div class="stat-value" id="revengeCount">0</div>
-        </div>
 
         <div class="stat">
-            <div class="stat-label">RULE BREAKS</div>
-            <div class="stat-value" id="ruleBreakCount">0</div>
+
+            <div class="stat-label">
+                FOMO
+            </div>
+
+            <div
+                class="stat-value"
+                id="fomoCount"
+            >
+                0
+            </div>
+
+        </div>
+
+
+        <div class="stat">
+
+            <div class="stat-label">
+                REVENGE
+            </div>
+
+            <div
+                class="stat-value"
+                id="revengeCount"
+            >
+                0
+            </div>
+
+        </div>
+
+
+        <div class="stat">
+
+            <div class="stat-label">
+                RULE BREAKS
+            </div>
+
+            <div
+                class="stat-value"
+                id="ruleBreakCount"
+            >
+                0
+            </div>
+
         </div>
 
     </div>
 
 
+
     <div class="grid-2">
+
 
         <div class="card">
 
             <div class="card-header">
 
                 <div>
+
                     <div class="card-title">
                         Emotional State
                     </div>
@@ -1228,60 +2101,74 @@ tr:hover td {
                     <div class="card-subtitle">
                         What emotions appear most frequently?
                     </div>
+
                 </div>
 
             </div>
 
+
             <div class="chart-container">
-                <canvas id="emotionChart"></canvas>
+
+                <canvas
+                    id="emotionChart"
+                ></canvas>
+
             </div>
 
         </div>
+
 
 
         <div class="card">
 
             <div class="card-header">
 
-                <div>
-                    <div class="card-title">
-                        Psychology vs Performance
-                    </div>
+                <div class="card-title">
+                    Psychology vs Performance
                 </div>
 
             </div>
 
-            <div id="psychologyInsights"></div>
+
+            <div
+                id="psychologyInsights"
+            ></div>
 
         </div>
 
     </div>
+
 
 
     <div class="card">
 
         <div class="card-header">
 
-            <div>
-                <div class="card-title">
-                    Psychology Mistakes
-                </div>
+            <div class="card-title">
+                Psychology Mistakes
             </div>
 
         </div>
 
-        <div id="mistakeBreakdown"></div>
+
+        <div
+            id="mistakeBreakdown"
+        ></div>
 
     </div>
 
 </section>
 
 
+
 <!-- =====================================================
      CALENDAR
 ===================================================== -->
 
-<section id="calendar" class="page hidden">
+<section
+    id="calendar"
+    class="page hidden"
+>
 
     <div class="card">
 
@@ -1294,7 +2181,11 @@ tr:hover td {
                 ←
             </button>
 
-            <strong id="calendarMonth"></strong>
+
+            <strong
+                id="calendarMonth"
+            ></strong>
+
 
             <button
                 class="btn"
@@ -1305,24 +2196,33 @@ tr:hover td {
 
         </div>
 
-        <div class="calendar-grid" id="calendarGrid"></div>
+
+        <div
+            class="calendar-grid"
+            id="calendarGrid"
+        ></div>
 
     </div>
 
 </section>
 
 
+
 <!-- =====================================================
      GOALS
 ===================================================== -->
 
-<section id="goals" class="page hidden">
+<section
+    id="goals"
+    class="page hidden"
+>
 
     <div class="card">
 
         <div class="card-header">
 
             <div>
+
                 <div class="card-title">
                     Trading Goals
                 </div>
@@ -1330,7 +2230,9 @@ tr:hover td {
                 <div class="card-subtitle">
                     Focus on process, not only money.
                 </div>
+
             </div>
+
 
             <button
                 class="btn btn-primary"
@@ -1341,24 +2243,32 @@ tr:hover td {
 
         </div>
 
-        <div id="goalsList"></div>
+
+        <div
+            id="goalsList"
+        ></div>
 
     </div>
 
 </section>
 
 
+
 <!-- =====================================================
      REPORTS
 ===================================================== -->
 
-<section id="reports" class="page hidden">
+<section
+    id="reports"
+    class="page hidden"
+>
 
     <div class="card">
 
         <div class="card-header">
 
             <div>
+
                 <div class="card-title">
                     Trading Report
                 </div>
@@ -1366,7 +2276,9 @@ tr:hover td {
                 <div class="card-subtitle">
                     Overall performance summary
                 </div>
+
             </div>
+
 
             <button
                 class="btn"
@@ -1377,24 +2289,32 @@ tr:hover td {
 
         </div>
 
-        <div id="reportContent"></div>
+
+        <div
+            id="reportContent"
+        ></div>
 
     </div>
 
 </section>
 
 
+
 <!-- =====================================================
      SETTINGS
 ===================================================== -->
 
-<section id="settings" class="page hidden">
+<section
+    id="settings"
+    class="page hidden"
+>
 
     <div class="card">
 
         <div class="card-header">
 
             <div>
+
                 <div class="card-title">
                     Settings
                 </div>
@@ -1402,6 +2322,7 @@ tr:hover td {
                 <div class="card-subtitle">
                     Manage your journal
                 </div>
+
             </div>
 
         </div>
@@ -1409,9 +2330,12 @@ tr:hover td {
 
         <div class="form-grid">
 
+
             <div class="form-group">
 
-                <label>Trader Name</label>
+                <label>
+                    Trader Name
+                </label>
 
                 <input
                     id="settingsName"
@@ -1423,14 +2347,29 @@ tr:hover td {
 
             <div class="form-group">
 
-                <label>Currency</label>
+                <label>
+                    Currency
+                </label>
 
-                <select id="settingsCurrency">
+                <select
+                    id="settingsCurrency"
+                >
 
-                    <option value="₹">INR ₹</option>
-                    <option value="$">USD $</option>
-                    <option value="€">EUR €</option>
-                    <option value="£">GBP £</option>
+                    <option value="₹">
+                        INR ₹
+                    </option>
+
+                    <option value="$">
+                        USD $
+                    </option>
+
+                    <option value="€">
+                        EUR €
+                    </option>
+
+                    <option value="£">
+                        GBP £
+                    </option>
 
                 </select>
 
@@ -1439,7 +2378,9 @@ tr:hover td {
 
             <div class="form-group">
 
-                <label>Starting Capital</label>
+                <label>
+                    Starting Capital
+                </label>
 
                 <input
                     id="startingCapital"
@@ -1466,6 +2407,7 @@ tr:hover td {
     </div>
 
 
+
     <div class="card">
 
         <div class="card-header">
@@ -1485,7 +2427,13 @@ tr:hover td {
         </div>
 
 
-        <div style="display:flex;gap:10px;flex-wrap:wrap">
+        <div
+            style="
+                display:flex;
+                gap:10px;
+                flex-wrap:wrap
+            "
+        >
 
             <button
                 class="btn"
@@ -1494,15 +2442,20 @@ tr:hover td {
                 Export JSON
             </button>
 
+
             <label class="btn">
+
                 Import JSON
+
                 <input
                     type="file"
                     accept=".json"
                     onchange="importData(event)"
                     style="display:none"
                 >
+
             </label>
+
 
             <button
                 class="btn btn-danger"
@@ -1517,11 +2470,27 @@ tr:hover td {
 
 </section>
 
+
 </div>
+
+
+<!-- =====================================================
+     FOOTER
+===================================================== -->
+
+<footer class="footer">
+
+    © 2026
+    <strong>Piyush Sahoo</strong>
+    — Made with ❤️
+
+</footer>
+
 
 </main>
 
 </div>
+
 
 
 <!-- =====================================================
@@ -1534,6 +2503,7 @@ tr:hover td {
 >
 
 <div class="modal-content">
+
 
     <div class="modal-header">
 
@@ -1549,6 +2519,7 @@ tr:hover td {
 
         </div>
 
+
         <button
             class="btn"
             onclick="closeTradeModal()"
@@ -1559,27 +2530,53 @@ tr:hover td {
     </div>
 
 
+
 <form id="tradeForm">
+
 
 <!-- BASIC -->
 
-<div class="form-section" style="border-top:0;padding-top:0;margin-top:0">
+<div
+    class="form-section"
+    style="
+        border-top:0;
+        padding-top:0;
+        margin-top:0
+    "
+>
 
     <div class="form-section-title">
         Trade Information
     </div>
 
+
     <div class="form-grid">
 
+
         <div class="form-group">
-            <label>Symbol</label>
-            <input id="tradeSymbol" required placeholder="NIFTY">
+
+            <label>
+                Symbol
+            </label>
+
+            <input
+                id="tradeSymbol"
+                required
+                placeholder="NIFTY"
+            >
+
         </div>
 
-        <div class="form-group">
-            <label>Direction</label>
 
-            <select id="tradeSide">
+        <div class="form-group">
+
+            <label>
+                Direction
+            </label>
+
+            <select
+                id="tradeSide"
+            >
 
                 <option value="BUY">
                     BUY
@@ -1593,55 +2590,145 @@ tr:hover td {
 
         </div>
 
+
         <div class="form-group">
-            <label>Instrument</label>
 
-            <select id="instrument">
+            <label>
+                Instrument
+            </label>
 
-                <option>Equity</option>
-                <option>Futures</option>
-                <option>Options</option>
-                <option>Crypto</option>
-                <option>Forex</option>
-                <option>Commodity</option>
+            <select
+                id="instrument"
+            >
+
+                <option>
+                    Equity
+                </option>
+
+                <option>
+                    Futures
+                </option>
+
+                <option>
+                    Options
+                </option>
+
+                <option>
+                    Crypto
+                </option>
+
+                <option>
+                    Forex
+                </option>
+
+                <option>
+                    Commodity
+                </option>
 
             </select>
 
         </div>
 
-        <div class="form-group">
-            <label>Entry Price</label>
-            <input id="tradeEntry" type="number" step="0.01" required>
-        </div>
 
         <div class="form-group">
-            <label>Exit Price</label>
-            <input id="tradeExit" type="number" step="0.01" required>
+
+            <label>
+                Entry Price
+            </label>
+
+            <input
+                id="tradeEntry"
+                type="number"
+                step="0.01"
+                required
+            >
+
         </div>
 
-        <div class="form-group">
-            <label>Quantity</label>
-            <input id="tradeQuantity" type="number" step="1" required>
-        </div>
 
         <div class="form-group">
-            <label>Stop Loss</label>
-            <input id="tradeSL" type="number" step="0.01" required>
+
+            <label>
+                Exit Price
+            </label>
+
+            <input
+                id="tradeExit"
+                type="number"
+                step="0.01"
+                required
+            >
+
         </div>
 
-        <div class="form-group">
-            <label>Target</label>
-            <input id="tradeTarget" type="number" step="0.01" required>
-        </div>
 
         <div class="form-group">
-            <label>Fees</label>
-            <input id="tradeFees" type="number" step="0.01" value="0">
+
+            <label>
+                Quantity
+            </label>
+
+            <input
+                id="tradeQuantity"
+                type="number"
+                step="1"
+                required
+            >
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>
+                Stop Loss
+            </label>
+
+            <input
+                id="tradeSL"
+                type="number"
+                step="0.01"
+                required
+            >
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>
+                Target
+            </label>
+
+            <input
+                id="tradeTarget"
+                type="number"
+                step="0.01"
+                required
+            >
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>
+                Fees
+            </label>
+
+            <input
+                id="tradeFees"
+                type="number"
+                step="0.01"
+                value="0"
+            >
+
         </div>
 
     </div>
 
 </div>
+
 
 
 <!-- SETUP -->
@@ -1652,59 +2739,138 @@ tr:hover td {
         Setup & Execution
     </div>
 
+
     <div class="form-grid">
 
+
         <div class="form-group">
-            <label>Strategy</label>
+
+            <label>
+                Strategy
+            </label>
 
             <select id="strategy">
 
-                <option>Breakout</option>
-                <option>Breakdown</option>
-                <option>Trend Following</option>
-                <option>Pullback</option>
-                <option>Reversal</option>
-                <option>Support / Resistance</option>
-                <option>VWAP</option>
-                <option>Momentum</option>
-                <option>Other</option>
+                <option>
+                    Breakout
+                </option>
+
+                <option>
+                    Breakdown
+                </option>
+
+                <option>
+                    Trend Following
+                </option>
+
+                <option>
+                    Pullback
+                </option>
+
+                <option>
+                    Reversal
+                </option>
+
+                <option>
+                    Support / Resistance
+                </option>
+
+                <option>
+                    VWAP
+                </option>
+
+                <option>
+                    Momentum
+                </option>
+
+                <option>
+                    Other
+                </option>
 
             </select>
 
         </div>
 
+
         <div class="form-group">
-            <label>Timeframe</label>
+
+            <label>
+                Timeframe
+            </label>
 
             <select id="timeframe">
 
-                <option>1m</option>
-                <option>3m</option>
-                <option>5m</option>
-                <option>15m</option>
-                <option>30m</option>
-                <option>1H</option>
-                <option>4H</option>
-                <option>1D</option>
+                <option>
+                    1m
+                </option>
+
+                <option>
+                    3m
+                </option>
+
+                <option>
+                    5m
+                </option>
+
+                <option>
+                    15m
+                </option>
+
+                <option>
+                    30m
+                </option>
+
+                <option>
+                    1H
+                </option>
+
+                <option>
+                    4H
+                </option>
+
+                <option>
+                    1D
+                </option>
 
             </select>
 
         </div>
+
 
         <div class="form-group">
-            <label>Market Condition</label>
 
-            <select id="marketCondition">
+            <label>
+                Market Condition
+            </label>
 
-                <option>Trending</option>
-                <option>Ranging</option>
-                <option>Volatile</option>
-                <option>Low Volatility</option>
-                <option>Uncertain</option>
+            <select
+                id="marketCondition"
+            >
+
+                <option>
+                    Trending
+                </option>
+
+                <option>
+                    Ranging
+                </option>
+
+                <option>
+                    Volatile
+                </option>
+
+                <option>
+                    Low Volatility
+                </option>
+
+                <option>
+                    Uncertain
+                </option>
 
             </select>
 
         </div>
+
 
         <div class="form-group full">
 
@@ -1724,6 +2890,7 @@ tr:hover td {
 </div>
 
 
+
 <!-- PSYCHOLOGY -->
 
 <div class="form-section">
@@ -1732,64 +2899,150 @@ tr:hover td {
         Psychology
     </div>
 
+
     <div class="form-grid">
 
-        <div class="form-group">
-            <label>Emotion Before</label>
-
-            <select id="emotionBefore">
-
-                <option>Calm</option>
-                <option>Confident</option>
-                <option>Fearful</option>
-                <option>FOMO</option>
-                <option>Greedy</option>
-                <option>Angry</option>
-                <option>Revenge</option>
-                <option>Uncertain</option>
-
-            </select>
-
-        </div>
-
-        <div class="form-group">
-            <label>Emotion During</label>
-
-            <select id="emotionDuring">
-
-                <option>Calm</option>
-                <option>Confident</option>
-                <option>Fearful</option>
-                <option>Greedy</option>
-                <option>Impatient</option>
-                <option>Panicked</option>
-                <option>Hopeful</option>
-
-            </select>
-
-        </div>
-
-        <div class="form-group">
-            <label>Emotion After</label>
-
-            <select id="emotionAfter">
-
-                <option>Satisfied</option>
-                <option>Calm</option>
-                <option>Frustrated</option>
-                <option>Regret</option>
-                <option>Angry</option>
-                <option>Excited</option>
-                <option>Neutral</option>
-
-            </select>
-
-        </div>
 
         <div class="form-group">
 
             <label>
-                Confidence Before: <span id="confidenceValue">5</span>/10
+                Emotion Before
+            </label>
+
+            <select
+                id="emotionBefore"
+            >
+
+                <option>
+                    Calm
+                </option>
+
+                <option>
+                    Confident
+                </option>
+
+                <option>
+                    Fearful
+                </option>
+
+                <option>
+                    FOMO
+                </option>
+
+                <option>
+                    Greedy
+                </option>
+
+                <option>
+                    Angry
+                </option>
+
+                <option>
+                    Revenge
+                </option>
+
+                <option>
+                    Uncertain
+                </option>
+
+            </select>
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>
+                Emotion During
+            </label>
+
+            <select
+                id="emotionDuring"
+            >
+
+                <option>
+                    Calm
+                </option>
+
+                <option>
+                    Confident
+                </option>
+
+                <option>
+                    Fearful
+                </option>
+
+                <option>
+                    Greedy
+                </option>
+
+                <option>
+                    Impatient
+                </option>
+
+                <option>
+                    Panicked
+                </option>
+
+                <option>
+                    Hopeful
+                </option>
+
+            </select>
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>
+                Emotion After
+            </label>
+
+            <select
+                id="emotionAfter"
+            >
+
+                <option>
+                    Satisfied
+                </option>
+
+                <option>
+                    Calm
+                </option>
+
+                <option>
+                    Frustrated
+                </option>
+
+                <option>
+                    Regret
+                </option>
+
+                <option>
+                    Angry
+                </option>
+
+                <option>
+                    Excited
+                </option>
+
+                <option>
+                    Neutral
+                </option>
+
+            </select>
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>
+                Confidence Before:
+                <span id="confidenceValue">
+                    5
+                </span>/10
             </label>
 
             <input
@@ -1798,15 +3051,21 @@ tr:hover td {
                 min="1"
                 max="10"
                 value="5"
-                oninput="confidenceValue.textContent=this.value"
+                oninput="
+                    confidenceValue.textContent=this.value
+                "
             >
 
         </div>
 
+
         <div class="form-group">
 
             <label>
-                Discipline: <span id="disciplineValue">5</span>/10
+                Discipline:
+                <span id="disciplineValue">
+                    5
+                </span>/10
             </label>
 
             <input
@@ -1815,16 +3074,23 @@ tr:hover td {
                 min="1"
                 max="10"
                 value="5"
-                oninput="disciplineValue.textContent=this.value"
+                oninput="
+                    disciplineValue.textContent=this.value
+                "
             >
 
         </div>
 
+
         <div class="form-group">
 
-            <label>Followed Trading Plan?</label>
+            <label>
+                Followed Trading Plan?
+            </label>
 
-            <select id="followedPlan">
+            <select
+                id="followedPlan"
+            >
 
                 <option value="Yes">
                     Yes
@@ -1838,11 +3104,16 @@ tr:hover td {
 
         </div>
 
+
         <div class="form-group">
 
-            <label>Psychology Mistake</label>
+            <label>
+                Psychology Mistake
+            </label>
 
-            <select id="mistake">
+            <select
+                id="mistake"
+            >
 
                 <option value="None">
                     None
@@ -1893,6 +3164,7 @@ tr:hover td {
 </div>
 
 
+
 <!-- REVIEW -->
 
 <div class="form-section">
@@ -1901,7 +3173,9 @@ tr:hover td {
         Post-Trade Review
     </div>
 
+
     <div class="form-grid">
+
 
         <div class="form-group full">
 
@@ -1909,9 +3183,12 @@ tr:hover td {
                 What went well?
             </label>
 
-            <textarea id="wentWell"></textarea>
+            <textarea
+                id="wentWell"
+            ></textarea>
 
         </div>
+
 
         <div class="form-group full">
 
@@ -1919,9 +3196,12 @@ tr:hover td {
                 What went wrong?
             </label>
 
-            <textarea id="wentWrong"></textarea>
+            <textarea
+                id="wentWrong"
+            ></textarea>
 
         </div>
+
 
         <div class="form-group full">
 
@@ -1929,7 +3209,9 @@ tr:hover td {
                 Lesson Learned
             </label>
 
-            <textarea id="lesson"></textarea>
+            <textarea
+                id="lesson"
+            ></textarea>
 
         </div>
 
@@ -1938,7 +3220,15 @@ tr:hover td {
 </div>
 
 
-<div style="margin-top:25px;display:flex;justify-content:flex-end;gap:10px">
+
+<div
+    style="
+        margin-top:25px;
+        display:flex;
+        justify-content:flex-end;
+        gap:10px
+    "
+>
 
     <button
         type="button"
@@ -1947,6 +3237,7 @@ tr:hover td {
     >
         Cancel
     </button>
+
 
     <button
         type="submit"
@@ -1957,6 +3248,7 @@ tr:hover td {
 
 </div>
 
+
 </form>
 
 </div>
@@ -1964,28 +3256,137 @@ tr:hover td {
 </div>
 
 
+
 <script>
+
+/* =========================================================
+   THEME SYSTEM
+========================================================= */
+
+const savedTheme =
+    localStorage.getItem("tradeOS-theme");
+
+
+if (savedTheme === "dark") {
+
+    document.documentElement
+        .setAttribute(
+            "data-theme",
+            "dark"
+        );
+
+}
+
+
+/* =========================================================
+   THEME TOGGLE
+========================================================= */
+
+const themeToggle =
+    document.getElementById(
+        "themeToggle"
+    );
+
+
+function updateThemeIcon() {
+
+    const dark =
+        document.documentElement
+        .getAttribute(
+            "data-theme"
+        ) === "dark";
+
+
+    themeToggle.textContent =
+        dark
+            ? "☀️"
+            : "🌙";
+
+
+    themeToggle.title =
+        dark
+            ? "Switch to light mode"
+            : "Switch to dark mode";
+
+}
+
+
+updateThemeIcon();
+
+
+themeToggle.addEventListener(
+    "click",
+    function() {
+
+        const dark =
+            document.documentElement
+            .getAttribute(
+                "data-theme"
+            ) === "dark";
+
+
+        if (dark) {
+
+            document.documentElement
+                .removeAttribute(
+                    "data-theme"
+                );
+
+            localStorage.setItem(
+                "tradeOS-theme",
+                "light"
+            );
+
+        } else {
+
+            document.documentElement
+                .setAttribute(
+                    "data-theme",
+                    "dark"
+                );
+
+            localStorage.setItem(
+                "tradeOS-theme",
+                "dark"
+            );
+
+        }
+
+
+        updateThemeIcon();
+
+        refreshCharts();
+
+    }
+);
+
+
 /* =========================================================
    DATABASE
 ========================================================= */
 
-let database = JSON.parse(
-    localStorage.getItem("tradeOS")
-) || {
+let database =
+    JSON.parse(
+        localStorage.getItem(
+            "tradeOS"
+        )
+    ) || {
 
-    trades: [],
+        trades: [],
 
-    goals: [],
+        goals: [],
 
-    settings: {
+        settings: {
 
-        name: "",
-        currency: "₹",
-        capital: 100000
+            name: "",
 
-    }
+            currency: "₹",
 
-};
+            capital: 100000
+
+        }
+
+    };
 
 
 /* =========================================================
@@ -1993,12 +3394,17 @@ let database = JSON.parse(
 ========================================================= */
 
 let equityChart;
+
 let performanceChart;
+
 let strategyChart;
+
 let timeChart;
+
 let emotionChart;
 
-let calendarDate = new Date();
+let calendarDate =
+    new Date();
 
 
 /* =========================================================
@@ -2009,7 +3415,9 @@ function saveDatabase() {
 
     localStorage.setItem(
         "tradeOS",
-        JSON.stringify(database)
+        JSON.stringify(
+            database
+        )
     );
 
 }
@@ -2018,10 +3426,14 @@ function saveDatabase() {
 function currency(value) {
 
     const symbol =
-        database.settings.currency || "₹";
+        database.settings.currency
+        || "₹";
+
 
     return symbol +
-        Number(value || 0).toLocaleString(
+        Number(
+            value || 0
+        ).toLocaleString(
             "en-IN",
             {
                 maximumFractionDigits: 2
@@ -2046,21 +3458,36 @@ function pnlClass(value) {
 
 function calculateTrade(data) {
 
-    const entry = Number(data.entry);
-    const exit = Number(data.exit);
-    const sl = Number(data.sl);
-    const target = Number(data.target);
-    const quantity = Number(data.quantity);
+    const entry =
+        Number(data.entry);
+
+    const exit =
+        Number(data.exit);
+
+    const sl =
+        Number(data.sl);
+
+    const target =
+        Number(data.target);
+
+    const quantity =
+        Number(data.quantity);
+
 
     let riskPerUnit;
+
     let rewardPerUnit;
+
     let pnl;
+
 
     if (data.side === "BUY") {
 
-        riskPerUnit = entry - sl;
+        riskPerUnit =
+            entry - sl;
 
-        rewardPerUnit = target - entry;
+        rewardPerUnit =
+            target - entry;
 
         pnl =
             (exit - entry) *
@@ -2068,9 +3495,11 @@ function calculateTrade(data) {
 
     } else {
 
-        riskPerUnit = sl - entry;
+        riskPerUnit =
+            sl - entry;
 
-        rewardPerUnit = entry - target;
+        rewardPerUnit =
+            entry - target;
 
         pnl =
             (entry - exit) *
@@ -2078,34 +3507,54 @@ function calculateTrade(data) {
 
     }
 
+
     const risk =
-        Math.abs(riskPerUnit * quantity);
+        Math.abs(
+            riskPerUnit *
+            quantity
+        );
+
 
     const reward =
-        Math.abs(rewardPerUnit * quantity);
+        Math.abs(
+            rewardPerUnit *
+            quantity
+        );
+
 
     const rrr =
         risk > 0
             ? reward / risk
             : 0;
 
+
     const netPnl =
-        pnl - Number(data.fees || 0);
+        pnl -
+        Number(
+            data.fees || 0
+        );
+
 
     const rMultiple =
         risk > 0
             ? netPnl / risk
             : 0;
 
+
     return {
 
         ...data,
 
         risk,
+
         reward,
+
         rrr,
+
         pnl,
+
         netPnl,
+
         rMultiple,
 
         result:
@@ -2124,57 +3573,98 @@ function calculateTrade(data) {
    NAVIGATION
 ========================================================= */
 
-document.querySelectorAll(".nav-btn")
-.forEach(button => {
+document
+    .querySelectorAll(
+        ".nav-btn"
+    )
+    .forEach(
+        button => {
 
-    button.addEventListener(
-        "click",
-        () => navigate(button.dataset.page)
+            button.addEventListener(
+                "click",
+                () =>
+                    navigate(
+                        button.dataset.page
+                    )
+            );
+
+        }
     );
-
-});
 
 
 function navigate(page) {
 
     document
-        .querySelectorAll(".page")
-        .forEach(section =>
-            section.classList.add("hidden")
+        .querySelectorAll(
+            ".page"
+        )
+        .forEach(
+            section =>
+                section.classList.add(
+                    "hidden"
+                )
         );
 
+
     const selected =
-        document.getElementById(page);
+        document.getElementById(
+            page
+        );
+
 
     if (selected)
-        selected.classList.remove("hidden");
+        selected.classList.remove(
+            "hidden"
+        );
 
 
     document
-        .querySelectorAll(".nav-btn")
-        .forEach(button =>
-            button.classList.toggle(
-                "active",
-                button.dataset.page === page
-            )
+        .querySelectorAll(
+            ".nav-btn"
+        )
+        .forEach(
+            button =>
+                button.classList.toggle(
+                    "active",
+                    button.dataset.page
+                    === page
+                )
         );
 
 
     const titles = {
 
-        dashboard: "Dashboard",
-        journal: "Trade Journal",
-        analytics: "Analytics",
-        psychology: "Psychology",
-        calendar: "Trading Calendar",
-        goals: "Goals",
-        reports: "Reports",
-        settings: "Settings"
+        dashboard:
+            "Dashboard",
+
+        journal:
+            "Trade Journal",
+
+        analytics:
+            "Analytics",
+
+        psychology:
+            "Psychology",
+
+        calendar:
+            "Trading Calendar",
+
+        goals:
+            "Goals",
+
+        reports:
+            "Reports",
+
+        settings:
+            "Settings"
 
     };
 
-    document.getElementById("pageTitle")
-        .textContent = titles[page];
+
+    document.getElementById(
+        "pageTitle"
+    ).textContent =
+        titles[page];
 
 
     if (page === "dashboard")
@@ -2211,8 +3701,12 @@ function navigate(page) {
 function openTradeModal() {
 
     document
-        .getElementById("tradeModal")
-        .classList.remove("hidden");
+        .getElementById(
+            "tradeModal"
+        )
+        .classList.remove(
+            "hidden"
+        );
 
 }
 
@@ -2220,12 +3714,29 @@ function openTradeModal() {
 function closeTradeModal() {
 
     document
-        .getElementById("tradeModal")
-        .classList.add("hidden");
+        .getElementById(
+            "tradeModal"
+        )
+        .classList.add(
+            "hidden"
+        );
+
 
     document
-        .getElementById("tradeForm")
+        .getElementById(
+            "tradeForm"
+        )
         .reset();
+
+
+    document.getElementById(
+        "confidenceValue"
+    ).textContent = "5";
+
+
+    document.getElementById(
+        "disciplineValue"
+    ).textContent = "5";
 
 }
 
@@ -2235,7 +3746,9 @@ function closeTradeModal() {
 ========================================================= */
 
 document
-    .getElementById("tradeForm")
+    .getElementById(
+        "tradeForm"
+    )
     .addEventListener(
         "submit",
         function(event) {
@@ -2245,89 +3758,117 @@ document
 
             const raw = {
 
-                id: Date.now(),
+                id:
+                    Date.now(),
 
                 date:
-                    new Date().toISOString(),
+                    new Date()
+                    .toISOString(),
 
                 symbol:
                     document
-                    .getElementById("tradeSymbol")
+                    .getElementById(
+                        "tradeSymbol"
+                    )
                     .value
                     .trim()
                     .toUpperCase(),
 
                 side:
                     document
-                    .getElementById("tradeSide")
+                    .getElementById(
+                        "tradeSide"
+                    )
                     .value,
 
                 instrument:
                     document
-                    .getElementById("instrument")
+                    .getElementById(
+                        "instrument"
+                    )
                     .value,
 
                 entry:
                     Number(
                         document
-                        .getElementById("tradeEntry")
+                        .getElementById(
+                            "tradeEntry"
+                        )
                         .value
                     ),
 
                 exit:
                     Number(
                         document
-                        .getElementById("tradeExit")
+                        .getElementById(
+                            "tradeExit"
+                        )
                         .value
                     ),
 
                 quantity:
                     Number(
                         document
-                        .getElementById("tradeQuantity")
+                        .getElementById(
+                            "tradeQuantity"
+                        )
                         .value
                     ),
 
                 sl:
                     Number(
                         document
-                        .getElementById("tradeSL")
+                        .getElementById(
+                            "tradeSL"
+                        )
                         .value
                     ),
 
                 target:
                     Number(
                         document
-                        .getElementById("tradeTarget")
+                        .getElementById(
+                            "tradeTarget"
+                        )
                         .value
                     ),
 
                 fees:
                     Number(
                         document
-                        .getElementById("tradeFees")
+                        .getElementById(
+                            "tradeFees"
+                        )
                         .value
                     ) || 0,
 
 
                 strategy:
                     document
-                    .getElementById("strategy")
+                    .getElementById(
+                        "strategy"
+                    )
                     .value,
 
                 timeframe:
                     document
-                    .getElementById("timeframe")
+                    .getElementById(
+                        "timeframe"
+                    )
                     .value,
 
                 marketCondition:
                     document
-                    .getElementById("marketCondition")
+                    .getElementById(
+                        "marketCondition"
+                    )
                     .value,
 
                 thesis:
                     document
-                    .getElementById("tradeThesis")
+                    .getElementById(
+                        "tradeThesis"
+                    )
                     .value,
 
 
@@ -2335,41 +3876,55 @@ document
 
                     emotionBefore:
                         document
-                        .getElementById("emotionBefore")
+                        .getElementById(
+                            "emotionBefore"
+                        )
                         .value,
 
                     emotionDuring:
                         document
-                        .getElementById("emotionDuring")
+                        .getElementById(
+                            "emotionDuring"
+                        )
                         .value,
 
                     emotionAfter:
                         document
-                        .getElementById("emotionAfter")
+                        .getElementById(
+                            "emotionAfter"
+                        )
                         .value,
 
                     confidence:
                         Number(
                             document
-                            .getElementById("confidence")
+                            .getElementById(
+                                "confidence"
+                            )
                             .value
                         ),
 
                     discipline:
                         Number(
                             document
-                            .getElementById("discipline")
+                            .getElementById(
+                                "discipline"
+                            )
                             .value
                         ),
 
                     followedPlan:
                         document
-                        .getElementById("followedPlan")
+                        .getElementById(
+                            "followedPlan"
+                        )
                         .value,
 
                     mistake:
                         document
-                        .getElementById("mistake")
+                        .getElementById(
+                            "mistake"
+                        )
                         .value
 
                 },
@@ -2379,17 +3934,23 @@ document
 
                     wentWell:
                         document
-                        .getElementById("wentWell")
+                        .getElementById(
+                            "wentWell"
+                        )
                         .value,
 
                     wentWrong:
                         document
-                        .getElementById("wentWrong")
+                        .getElementById(
+                            "wentWrong"
+                        )
                         .value,
 
                     lesson:
                         document
-                        .getElementById("lesson")
+                        .getElementById(
+                            "lesson"
+                        )
                         .value
 
                 }
@@ -2413,10 +3974,15 @@ document
 
 
             const trade =
-                calculateTrade(raw);
+                calculateTrade(
+                    raw
+                );
 
 
-            database.trades.unshift(trade);
+            database.trades.unshift(
+                trade
+            );
+
 
             saveDatabase();
 
@@ -2437,18 +4003,22 @@ function getStats() {
     const trades =
         database.trades;
 
+
     const total =
         trades.length;
+
 
     const wins =
         trades.filter(
             t => t.netPnl > 0
         );
 
+
     const losses =
         trades.filter(
             t => t.netPnl < 0
         );
+
 
     const grossProfit =
         wins.reduce(
@@ -2456,6 +4026,7 @@ function getStats() {
                 sum + t.netPnl,
             0
         );
+
 
     const grossLoss =
         Math.abs(
@@ -2466,6 +4037,7 @@ function getStats() {
             )
         );
 
+
     const net =
         trades.reduce(
             (sum,t) =>
@@ -2473,63 +4045,88 @@ function getStats() {
             0
         );
 
+
     const winRate =
         total
-            ? wins.length / total * 100
+            ? wins.length /
+              total *
+              100
             : 0;
+
 
     const profitFactor =
         grossLoss
-            ? grossProfit / grossLoss
+            ? grossProfit /
+              grossLoss
             : 0;
+
 
     const expectancy =
         total
-            ? net / total
+            ? net /
+              total
             : 0;
 
 
     let equity = 0;
+
     let peak = 0;
+
     let maxDD = 0;
+
 
     trades
         .slice()
         .reverse()
-        .forEach(t => {
+        .forEach(
+            t => {
 
-            equity += t.netPnl;
+                equity +=
+                    t.netPnl;
 
-            peak =
-                Math.max(
-                    peak,
-                    equity
-                );
 
-            const dd =
-                peak - equity;
+                peak =
+                    Math.max(
+                        peak,
+                        equity
+                    );
 
-            maxDD =
-                Math.max(
-                    maxDD,
-                    dd
-                );
 
-        });
+                const dd =
+                    peak -
+                    equity;
+
+
+                maxDD =
+                    Math.max(
+                        maxDD,
+                        dd
+                    );
+
+            }
+        );
 
 
     return {
 
         total,
-        wins: wins.length,
-        losses: losses.length,
+
+        wins:
+            wins.length,
+
+        losses:
+            losses.length,
 
         grossProfit,
+
         grossLoss,
 
         net,
+
         winRate,
+
         profitFactor,
+
         expectancy,
 
         maxDD
@@ -2541,35 +4138,56 @@ function getStats() {
 
 function renderDashboard() {
 
-    const s = getStats();
+    const s =
+        getStats();
 
 
-    document.getElementById("statTrades")
-        .textContent = s.total;
+    document.getElementById(
+        "statTrades"
+    ).textContent =
+        s.total;
 
-    document.getElementById("statPnl")
-        .textContent = currency(s.net);
 
-    document.getElementById("statPnl")
-        .className =
+    document.getElementById(
+        "statPnl"
+    ).textContent =
+        currency(s.net);
+
+
+    document.getElementById(
+        "statPnl"
+    ).className =
         "stat-value " +
         pnlClass(s.net);
 
-    document.getElementById("statWinRate")
-        .textContent =
-        s.winRate.toFixed(1) + "%";
 
-    document.getElementById("statPF")
-        .textContent =
+    document.getElementById(
+        "statWinRate"
+    ).textContent =
+        s.winRate.toFixed(1) +
+        "%";
+
+
+    document.getElementById(
+        "statPF"
+    ).textContent =
         s.profitFactor.toFixed(2);
 
-    document.getElementById("statExpectancy")
-        .textContent =
-        currency(s.expectancy);
 
-    document.getElementById("statDD")
-        .textContent =
-        currency(-s.maxDD);
+    document.getElementById(
+        "statExpectancy"
+    ).textContent =
+        currency(
+            s.expectancy
+        );
+
+
+    document.getElementById(
+        "statDD"
+    ).textContent =
+        currency(
+            -s.maxDD
+        );
 
 
     renderEquityChart();
@@ -2583,11 +4201,47 @@ function renderDashboard() {
 }
 
 
+/* =========================================================
+   CHART THEME
+========================================================= */
+
+function chartTextColor() {
+
+    return getComputedStyle(
+        document.documentElement
+    )
+    .getPropertyValue(
+        "--muted"
+    )
+    .trim();
+
+}
+
+
+function chartGridColor() {
+
+    return getComputedStyle(
+        document.documentElement
+    )
+    .getPropertyValue(
+        "--border"
+    )
+    .trim();
+
+}
+
+
+/* =========================================================
+   EQUITY CHART
+========================================================= */
+
 function renderEquityChart() {
 
     const ctx =
         document
-        .getElementById("equityChart");
+        .getElementById(
+            "equityChart"
+        );
 
 
     if (equityChart)
@@ -2595,6 +4249,7 @@ function renderEquityChart() {
 
 
     let equity = 0;
+
 
     const ordered =
         database.trades
@@ -2604,14 +4259,17 @@ function renderEquityChart() {
 
     const labels =
         ordered.map(
-            (_,i) => i + 1
+            (_,i) =>
+                i + 1
         );
+
 
     const values =
         ordered.map(
             t => {
 
-                equity += t.netPnl;
+                equity +=
+                    t.netPnl;
 
                 return equity;
 
@@ -2624,7 +4282,8 @@ function renderEquityChart() {
             ctx,
             {
 
-                type: "line",
+                type:
+                    "line",
 
                 data: {
 
@@ -2632,15 +4291,20 @@ function renderEquityChart() {
 
                     datasets: [{
 
-                        label: "Equity",
+                        label:
+                            "Equity",
 
-                        data: values,
+                        data:
+                            values,
 
-                        borderWidth: 2,
+                        borderWidth:
+                            2,
 
-                        tension: .3,
+                        tension:
+                            .3,
 
-                        fill: false
+                        fill:
+                            false
 
                     }]
 
@@ -2648,14 +4312,59 @@ function renderEquityChart() {
 
                 options: {
 
-                    responsive: true,
+                    responsive:
+                        true,
 
-                    maintainAspectRatio: false,
+                    maintainAspectRatio:
+                        false,
 
                     plugins: {
 
                         legend: {
-                            display: false
+
+                            display:
+                                false
+
+                        }
+
+                    },
+
+                    scales: {
+
+                        x: {
+
+                            ticks: {
+
+                                color:
+                                    chartTextColor()
+
+                            },
+
+                            grid: {
+
+                                color:
+                                    chartGridColor()
+
+                            }
+
+                        },
+
+                        y: {
+
+                            ticks: {
+
+                                color:
+                                    chartTextColor()
+
+                            },
+
+                            grid: {
+
+                                color:
+                                    chartGridColor()
+
+                            }
+
                         }
 
                     }
@@ -2668,11 +4377,17 @@ function renderEquityChart() {
 }
 
 
+/* =========================================================
+   PERFORMANCE CHART
+========================================================= */
+
 function renderPerformanceChart() {
 
     const ctx =
         document
-        .getElementById("performanceChart");
+        .getElementById(
+            "performanceChart"
+        );
 
 
     if (performanceChart)
@@ -2688,14 +4403,19 @@ function renderPerformanceChart() {
             ctx,
             {
 
-                type: "doughnut",
+                type:
+                    "doughnut",
 
                 data: {
 
                     labels: [
+
                         "Wins",
+
                         "Losses",
+
                         "Breakeven"
+
                     ],
 
                     datasets: [{
@@ -2710,7 +4430,8 @@ function renderPerformanceChart() {
                             .filter(
                                 t =>
                                     t.netPnl === 0
-                            ).length
+                            )
+                            .length
 
                         ]
 
@@ -2720,9 +4441,26 @@ function renderPerformanceChart() {
 
                 options: {
 
-                    responsive: true,
+                    responsive:
+                        true,
 
-                    maintainAspectRatio: false
+                    maintainAspectRatio:
+                        false,
+
+                    plugins: {
+
+                        legend: {
+
+                            labels: {
+
+                                color:
+                                    chartTextColor()
+
+                            }
+
+                        }
+
+                    }
 
                 }
 
@@ -2732,24 +4470,35 @@ function renderPerformanceChart() {
 }
 
 
+/* =========================================================
+   RECENT TRADES
+========================================================= */
+
 function renderRecentTrades() {
 
     const container =
         document
-        .getElementById("recentTrades");
+        .getElementById(
+            "recentTrades"
+        );
 
 
     const trades =
         database.trades
-        .slice(0,6);
+        .slice(
+            0,
+            6
+        );
 
 
     if (!trades.length) {
 
         container.innerHTML =
-            `<div class="empty">
+            `
+            <div class="empty">
                 No trades yet.
-            </div>`;
+            </div>
+            `;
 
         return;
 
@@ -2757,8 +4506,10 @@ function renderRecentTrades() {
 
 
     container.innerHTML =
-        trades.map(
-            t => `
+        trades
+        .map(
+            t =>
+            `
 
             <div
                 style="
@@ -2772,7 +4523,9 @@ function renderRecentTrades() {
                 <div>
 
                     <strong>
-                        ${escapeHTML(t.symbol)}
+                        ${escapeHTML(
+                            t.symbol
+                        )}
                     </strong>
 
                     <div
@@ -2788,19 +4541,35 @@ function renderRecentTrades() {
 
 
                 <div
-                    class="${pnlClass(t.netPnl)}"
+                    class="${pnlClass(
+                        t.netPnl
+                    )}"
                 >
-                    ${t.netPnl >= 0 ? "+" : ""}
-                    ${currency(t.netPnl)}
+
+                    ${
+                        t.netPnl >= 0
+                            ? "+"
+                            : ""
+                    }
+
+                    ${currency(
+                        t.netPnl
+                    )}
+
                 </div>
 
             </div>
 
-        `
-        ).join("");
+            `
+        )
+        .join("");
 
 }
 
+
+/* =========================================================
+   DISCIPLINE
+========================================================= */
 
 function renderDiscipline() {
 
@@ -2818,9 +4587,11 @@ function renderDiscipline() {
     if (!trades.length) {
 
         container.innerHTML =
-            `<div class="empty">
+            `
+            <div class="empty">
                 No psychology data yet.
-            </div>`;
+            </div>
+            `;
 
         return;
 
@@ -2830,7 +4601,8 @@ function renderDiscipline() {
     const followed =
         trades.filter(
             t =>
-                t.psychology.followedPlan
+                t.psychology
+                .followedPlan
                 === "Yes"
         ).length;
 
@@ -2841,7 +4613,8 @@ function renderDiscipline() {
         100;
 
 
-    container.innerHTML = `
+    container.innerHTML =
+        `
 
         <div class="psych-score">
 
@@ -2857,10 +4630,14 @@ function renderDiscipline() {
                         font-size:11px
                     "
                 >
-                    ${followed} / ${trades.length} trades
+                    ${followed}
+                    /
+                    ${trades.length}
+                    trades
                 </div>
 
             </div>
+
 
             <strong>
                 ${score.toFixed(0)}%
@@ -2868,16 +4645,19 @@ function renderDiscipline() {
 
         </div>
 
+
         <div class="progress">
 
             <div
                 class="progress-bar"
-                style="width:${score}%"
+                style="
+                    width:${score}%
+                "
             ></div>
 
         </div>
 
-    `;
+        `;
 
 }
 
@@ -2901,7 +4681,8 @@ function renderJournal() {
             .getElementById(
                 "journalSearch"
             )
-            ?.value || ""
+            ?.value
+            || ""
         )
         .toLowerCase();
 
@@ -2911,7 +4692,9 @@ function renderJournal() {
         .getElementById(
             "journalResult"
         )
-        ?.value || "all";
+        ?.value
+        ||
+        "all";
 
 
     const direction =
@@ -2919,32 +4702,48 @@ function renderJournal() {
         .getElementById(
             "journalDirection"
         )
-        ?.value || "all";
+        ?.value
+        ||
+        "all";
 
 
     let trades =
-        database.trades.filter(
+        database.trades
+        .filter(
             t => {
 
                 const matchesSearch =
+
                     t.symbol
                     .toLowerCase()
-                    .includes(search)
+                    .includes(
+                        search
+                    )
+
                     ||
+
                     t.strategy
                     .toLowerCase()
-                    .includes(search);
+                    .includes(
+                        search
+                    );
 
 
                 const matchesResult =
-                    result === "all"
+
+                    result ===
+                    "all"
+
                     ||
+
                     (
                         result === "win"
                         &&
                         t.netPnl > 0
                     )
+
                     ||
+
                     (
                         result === "loss"
                         &&
@@ -2953,15 +4752,24 @@ function renderJournal() {
 
 
                 const matchesDirection =
-                    direction === "all"
+
+                    direction ===
+                    "all"
+
                     ||
-                    t.side === direction;
+
+                    t.side ===
+                    direction;
 
 
                 return (
-                    matchesSearch &&
-                    matchesResult &&
+
+                    matchesSearch
+                    &&
+                    matchesResult
+                    &&
                     matchesDirection
+
                 );
 
             }
@@ -2970,7 +4778,8 @@ function renderJournal() {
 
     if (!trades.length) {
 
-        tbody.innerHTML = `
+        tbody.innerHTML =
+            `
 
             <tr>
 
@@ -2983,7 +4792,7 @@ function renderJournal() {
 
             </tr>
 
-        `;
+            `;
 
         return;
 
@@ -2991,29 +4800,41 @@ function renderJournal() {
 
 
     tbody.innerHTML =
-        trades.map(
-            t => `
+        trades
+        .map(
+            t =>
+            `
 
             <tr>
 
                 <td>
-                    ${formatDate(t.date)}
+                    ${formatDate(
+                        t.date
+                    )}
                 </td>
 
+
                 <td>
+
                     <strong>
-                        ${escapeHTML(t.symbol)}
+                        ${escapeHTML(
+                            t.symbol
+                        )}
                     </strong>
+
                 </td>
+
 
                 <td>
 
                     <span
                         class="
                             badge
-                            ${t.side === "BUY"
-                                ? "badge-buy"
-                                : "badge-sell"}
+                            ${
+                                t.side === "BUY"
+                                    ? "badge-buy"
+                                    : "badge-sell"
+                            }
                         "
                     >
                         ${t.side}
@@ -3021,45 +4842,62 @@ function renderJournal() {
 
                 </td>
 
+
                 <td>
                     ${t.entry}
                 </td>
+
 
                 <td>
                     ${t.exit}
                 </td>
 
+
                 <td>
                     ${t.sl}
                 </td>
+
 
                 <td>
                     ${t.target}
                 </td>
 
+
                 <td>
                     1:${t.rrr.toFixed(2)}
                 </td>
 
+
                 <td
-                    class="${pnlClass(t.netPnl)}"
+                    class="${pnlClass(
+                        t.netPnl
+                    )}"
                 >
-                    ${currency(t.netPnl)}
+                    ${currency(
+                        t.netPnl
+                    )}
                 </td>
+
 
                 <td>
                     ${t.rMultiple.toFixed(2)}R
                 </td>
 
+
                 <td>
-                    ${escapeHTML(t.strategy)}
+                    ${escapeHTML(
+                        t.strategy
+                    )}
                 </td>
+
 
                 <td>
 
                     <button
                         class="btn"
-                        onclick="viewTrade(${t.id})"
+                        onclick="
+                            viewTrade(${t.id})
+                        "
                     >
                         View
                     </button>
@@ -3068,8 +4906,9 @@ function renderJournal() {
 
             </tr>
 
-        `
-        ).join("");
+            `
+        )
+        .join("");
 
 }
 
@@ -3082,7 +4921,10 @@ function viewTrade(id) {
 
     const trade =
         database.trades
-        .find(t => t.id === id);
+        .find(
+            t =>
+                t.id === id
+        );
 
 
     if (!trade)
@@ -3091,21 +4933,31 @@ function viewTrade(id) {
 
     alert(
 
-        `TRADE REVIEW
+`TRADE REVIEW
 
 Symbol: ${trade.symbol}
+
 Side: ${trade.side}
 
 Entry: ${trade.entry}
+
 Exit: ${trade.exit}
+
 SL: ${trade.sl}
+
 Target: ${trade.target}
 
 R:R: 1:${trade.rrr.toFixed(2)}
-P&L: ${currency(trade.netPnl)}
-R Multiple: ${trade.rMultiple.toFixed(2)}R
 
-Strategy: ${trade.strategy}
+P&L: ${currency(
+    trade.netPnl
+)}
+
+R Multiple:
+${trade.rMultiple.toFixed(2)}R
+
+Strategy:
+${trade.strategy}
 
 Emotion Before:
 ${trade.psychology.emotionBefore}
@@ -3142,87 +4994,142 @@ function renderAnalytics() {
 
     const wins =
         trades.filter(
-            t => t.netPnl > 0
+            t =>
+                t.netPnl > 0
         );
+
 
     const losses =
         trades.filter(
-            t => t.netPnl < 0
+            t =>
+                t.netPnl < 0
         );
 
 
     const avgWin =
         wins.length
-            ? wins.reduce(
+            ?
+
+            wins.reduce(
                 (s,t) =>
                     s + t.netPnl,
                 0
-            ) / wins.length
-            : 0;
+            )
+            /
+            wins.length
+
+            :
+
+            0;
 
 
     const avgLoss =
         losses.length
-            ? losses.reduce(
+            ?
+
+            losses.reduce(
                 (s,t) =>
                     s + t.netPnl,
                 0
-            ) / losses.length
-            : 0;
+            )
+            /
+            losses.length
+
+            :
+
+            0;
 
 
     const avgR =
         trades.length
-            ? trades.reduce(
+            ?
+
+            trades.reduce(
                 (s,t) =>
                     s + t.rMultiple,
                 0
-            ) / trades.length
-            : 0;
+            )
+            /
+            trades.length
+
+            :
+
+            0;
 
 
     const best =
         trades.length
-            ? Math.max(
+            ?
+
+            Math.max(
                 ...trades.map(
-                    t => t.netPnl
+                    t =>
+                        t.netPnl
                 )
             )
-            : 0;
+
+            :
+
+            0;
 
 
     const worst =
         trades.length
-            ? Math.min(
+            ?
+
+            Math.min(
                 ...trades.map(
-                    t => t.netPnl
+                    t =>
+                        t.netPnl
                 )
             )
-            : 0;
+
+            :
+
+            0;
 
 
-    document.getElementById("avgWin")
-        .textContent =
-        currency(avgWin);
+    document.getElementById(
+        "avgWin"
+    ).textContent =
+        currency(
+            avgWin
+        );
 
-    document.getElementById("avgLoss")
-        .textContent =
-        currency(avgLoss);
 
-    document.getElementById("avgR")
-        .textContent =
-        avgR.toFixed(2) + "R";
+    document.getElementById(
+        "avgLoss"
+    ).textContent =
+        currency(
+            avgLoss
+        );
 
-    document.getElementById("bestTrade")
-        .textContent =
-        currency(best);
 
-    document.getElementById("worstTrade")
-        .textContent =
-        currency(worst);
+    document.getElementById(
+        "avgR"
+    ).textContent =
+        avgR.toFixed(2)
+        + "R";
+
+
+    document.getElementById(
+        "bestTrade"
+    ).textContent =
+        currency(
+            best
+        );
+
+
+    document.getElementById(
+        "worstTrade"
+    ).textContent =
+        currency(
+            worst
+        );
 
 
     let streak = 0;
+
 
     for (
         let i = 0;
@@ -3233,16 +5140,19 @@ function renderAnalytics() {
         if (
             trades[i].netPnl > 0
         )
+
             streak++;
 
         else
+
             break;
 
     }
 
 
-    document.getElementById("currentStreak")
-        .textContent =
+    document.getElementById(
+        "currentStreak"
+    ).textContent =
         streak;
 
 
@@ -3253,44 +5163,62 @@ function renderAnalytics() {
 }
 
 
+/* =========================================================
+   STRATEGY ANALYTICS
+========================================================= */
+
 function renderStrategyAnalytics() {
 
     const grouped = {};
 
 
-    database.trades.forEach(
-        t => {
+    database.trades
+        .forEach(
+            t => {
 
-            const key =
-                t.strategy;
+                const key =
+                    t.strategy;
 
-            if (!grouped[key]) {
 
-                grouped[key] = {
+                if (!grouped[key]) {
 
-                    trades: 0,
-                    wins: 0,
-                    pnl: 0,
-                    r: 0
+                    grouped[key] = {
 
-                };
+                        trades:
+                            0,
+
+                        wins:
+                            0,
+
+                        pnl:
+                            0,
+
+                        r:
+                            0
+
+                    };
+
+                }
+
+
+                grouped[key].trades++;
+
+
+                if (
+                    t.netPnl > 0
+                )
+                    grouped[key].wins++;
+
+
+                grouped[key].pnl +=
+                    t.netPnl;
+
+
+                grouped[key].r +=
+                    t.rMultiple;
 
             }
-
-
-            grouped[key].trades++;
-
-            if (t.netPnl > 0)
-                grouped[key].wins++;
-
-            grouped[key].pnl +=
-                t.netPnl;
-
-            grouped[key].r +=
-                t.rMultiple;
-
-        }
-    );
+        );
 
 
     const tbody =
@@ -3301,7 +5229,9 @@ function renderStrategyAnalytics() {
 
 
     tbody.innerHTML =
-        Object.entries(grouped)
+        Object.entries(
+            grouped
+        )
         .map(
             ([name,d]) =>
             `
@@ -3309,9 +5239,13 @@ function renderStrategyAnalytics() {
             <tr>
 
                 <td>
+
                     <strong>
-                        ${escapeHTML(name)}
+                        ${escapeHTML(
+                            name
+                        )}
                     </strong>
+
                 </td>
 
                 <td>
@@ -3323,29 +5257,48 @@ function renderStrategyAnalytics() {
                 </td>
 
                 <td>
-                    ${(d.wins / d.trades * 100)
-                        .toFixed(1)}%
+                    ${
+                        (
+                            d.wins /
+                            d.trades *
+                            100
+                        )
+                        .toFixed(1)
+                    }%
                 </td>
 
                 <td
-                    class="${pnlClass(d.pnl)}"
+                    class="${pnlClass(
+                        d.pnl
+                    )}"
                 >
-                    ${currency(d.pnl)}
+                    ${currency(
+                        d.pnl
+                    )}
                 </td>
 
                 <td>
-                    ${(d.r / d.trades)
-                        .toFixed(2)}R
+                    ${
+                        (
+                            d.r /
+                            d.trades
+                        )
+                        .toFixed(2)
+                    }R
                 </td>
 
             </tr>
 
-        `
-        ).join("");
+            `
+        )
+        .join("");
 
 
     const labels =
-        Object.keys(grouped);
+        Object.keys(
+            grouped
+        );
+
 
     const values =
         labels.map(
@@ -3370,7 +5323,8 @@ function renderStrategyAnalytics() {
             ctx,
             {
 
-                type: "bar",
+                type:
+                    "bar",
 
                 data: {
 
@@ -3378,9 +5332,11 @@ function renderStrategyAnalytics() {
 
                     datasets: [{
 
-                        label: "P&L",
+                        label:
+                            "P&L",
 
-                        data: values
+                        data:
+                            values
 
                     }]
 
@@ -3388,9 +5344,66 @@ function renderStrategyAnalytics() {
 
                 options: {
 
-                    responsive: true,
+                    responsive:
+                        true,
 
-                    maintainAspectRatio: false
+                    maintainAspectRatio:
+                        false,
+
+                    plugins: {
+
+                        legend: {
+
+                            labels: {
+
+                                color:
+                                    chartTextColor()
+
+                            }
+
+                        }
+
+                    },
+
+                    scales: {
+
+                        x: {
+
+                            ticks: {
+
+                                color:
+                                    chartTextColor()
+
+                            },
+
+                            grid: {
+
+                                color:
+                                    chartGridColor()
+
+                            }
+
+                        },
+
+                        y: {
+
+                            ticks: {
+
+                                color:
+                                    chartTextColor()
+
+                            },
+
+                            grid: {
+
+                                color:
+                                    chartGridColor()
+
+                            }
+
+                        }
+
+                    }
 
                 }
 
@@ -3400,29 +5413,45 @@ function renderStrategyAnalytics() {
 }
 
 
+/* =========================================================
+   TIME ANALYTICS
+========================================================= */
+
 function renderTimeAnalytics() {
 
     const hours = {};
 
-    database.trades.forEach(
-        t => {
 
-            const hour =
-                new Date(t.date)
-                .getHours();
+    database.trades
+        .forEach(
+            t => {
 
-            hours[hour] =
-                (hours[hour] || 0)
-                + t.netPnl;
+                const hour =
+                    new Date(
+                        t.date
+                    )
+                    .getHours();
 
-        }
-    );
+
+                hours[hour] =
+                    (
+                        hours[hour]
+                        || 0
+                    )
+                    +
+                    t.netPnl;
+
+            }
+        );
 
 
     const labels =
-        Object.keys(hours)
+        Object.keys(
+            hours
+        )
         .sort(
-            (a,b) => a-b
+            (a,b) =>
+                a-b
         );
 
 
@@ -3449,20 +5478,25 @@ function renderTimeAnalytics() {
             ctx,
             {
 
-                type: "bar",
+                type:
+                    "bar",
 
                 data: {
 
                     labels:
                         labels.map(
-                            h => h + ":00"
+                            h =>
+                                h +
+                                ":00"
                         ),
 
                     datasets: [{
 
-                        label: "P&L",
+                        label:
+                            "P&L",
 
-                        data: values
+                        data:
+                            values
 
                     }]
 
@@ -3470,9 +5504,66 @@ function renderTimeAnalytics() {
 
                 options: {
 
-                    responsive: true,
+                    responsive:
+                        true,
 
-                    maintainAspectRatio: false
+                    maintainAspectRatio:
+                        false,
+
+                    plugins: {
+
+                        legend: {
+
+                            labels: {
+
+                                color:
+                                    chartTextColor()
+
+                            }
+
+                        }
+
+                    },
+
+                    scales: {
+
+                        x: {
+
+                            ticks: {
+
+                                color:
+                                    chartTextColor()
+
+                            },
+
+                            grid: {
+
+                                color:
+                                    chartGridColor()
+
+                            }
+
+                        },
+
+                        y: {
+
+                            ticks: {
+
+                                color:
+                                    chartTextColor()
+
+                            },
+
+                            grid: {
+
+                                color:
+                                    chartGridColor()
+
+                            }
+
+                        }
+
+                    }
 
                 }
 
@@ -3497,9 +5588,11 @@ function renderPsychology() {
         document.getElementById(
             "psychologyInsights"
         ).innerHTML =
-            `<div class="empty">
+            `
+            <div class="empty">
                 No psychology data yet.
-            </div>`;
+            </div>
+            `;
 
         return;
 
@@ -3509,7 +5602,8 @@ function renderPsychology() {
     const followed =
         trades.filter(
             t =>
-                t.psychology.followedPlan
+                t.psychology
+                .followedPlan
                 === "Yes"
         ).length;
 
@@ -3517,10 +5611,14 @@ function renderPsychology() {
     const fomo =
         trades.filter(
             t =>
-                t.psychology.emotionBefore
+                t.psychology
+                .emotionBefore
                 === "FOMO"
+
                 ||
-                t.psychology.mistake
+
+                t.psychology
+                .mistake
                 === "FOMO"
         ).length;
 
@@ -3528,10 +5626,14 @@ function renderPsychology() {
     const revenge =
         trades.filter(
             t =>
-                t.psychology.emotionBefore
+                t.psychology
+                .emotionBefore
                 === "Revenge"
+
                 ||
-                t.psychology.mistake
+
+                t.psychology
+                .mistake
                 === "Revenge Trading"
         ).length;
 
@@ -3539,7 +5641,8 @@ function renderPsychology() {
     const ruleBreaks =
         trades.filter(
             t =>
-                t.psychology.followedPlan
+                t.psychology
+                .followedPlan
                 === "No"
         ).length;
 
@@ -3547,26 +5650,31 @@ function renderPsychology() {
     document.getElementById(
         "disciplineScore"
     ).textContent =
+
         (
             followed /
             trades.length *
             100
-        ).toFixed(0) + "%";
+        ).toFixed(0)
+        + "%";
 
 
     document.getElementById(
         "fomoCount"
-    ).textContent = fomo;
+    ).textContent =
+        fomo;
 
 
     document.getElementById(
         "revengeCount"
-    ).textContent = revenge;
+    ).textContent =
+        revenge;
 
 
     document.getElementById(
         "ruleBreakCount"
-    ).textContent = ruleBreaks;
+    ).textContent =
+        ruleBreaks;
 
 
     renderEmotionChart();
@@ -3578,25 +5686,32 @@ function renderPsychology() {
 }
 
 
+/* =========================================================
+   EMOTION CHART
+========================================================= */
+
 function renderEmotionChart() {
 
     const emotions = {};
 
 
-    database.trades.forEach(
-        t => {
+    database.trades
+        .forEach(
+            t => {
 
-            const emotion =
-                t.psychology.emotionBefore;
+                const emotion =
+                    t.psychology
+                    .emotionBefore;
 
-            emotions[emotion] =
-                (
-                    emotions[emotion]
-                    || 0
-                ) + 1;
 
-        }
-    );
+                emotions[emotion] =
+                    (
+                        emotions[emotion]
+                        || 0
+                    ) + 1;
+
+            }
+        );
 
 
     const ctx =
@@ -3615,12 +5730,15 @@ function renderEmotionChart() {
             ctx,
             {
 
-                type: "doughnut",
+                type:
+                    "doughnut",
 
                 data: {
 
                     labels:
-                        Object.keys(emotions),
+                        Object.keys(
+                            emotions
+                        ),
 
                     datasets: [{
 
@@ -3635,9 +5753,26 @@ function renderEmotionChart() {
 
                 options: {
 
-                    responsive: true,
+                    responsive:
+                        true,
 
-                    maintainAspectRatio: false
+                    maintainAspectRatio:
+                        false,
+
+                    plugins: {
+
+                        legend: {
+
+                            labels: {
+
+                                color:
+                                    chartTextColor()
+
+                            }
+
+                        }
+
+                    }
 
                 }
 
@@ -3646,6 +5781,10 @@ function renderEmotionChart() {
 
 }
 
+
+/* =========================================================
+   PSYCHOLOGY INSIGHTS
+========================================================= */
 
 function renderPsychologyInsights() {
 
@@ -3663,7 +5802,8 @@ function renderPsychologyInsights() {
     const normal =
         trades.filter(
             t =>
-                t.psychology.followedPlan
+                t.psychology
+                .followedPlan
                 === "Yes"
         );
 
@@ -3671,32 +5811,50 @@ function renderPsychologyInsights() {
     const violations =
         trades.filter(
             t =>
-                t.psychology.followedPlan
+                t.psychology
+                .followedPlan
                 === "No"
         );
 
 
     const normalPnl =
         normal.length
-            ? normal.reduce(
+
+            ?
+
+            normal.reduce(
                 (s,t) =>
                     s + t.netPnl,
                 0
-            ) / normal.length
-            : 0;
+            )
+            /
+            normal.length
+
+            :
+
+            0;
 
 
     const violationPnl =
         violations.length
-            ? violations.reduce(
+
+            ?
+
+            violations.reduce(
                 (s,t) =>
                     s + t.netPnl,
                 0
-            ) / violations.length
-            : 0;
+            )
+            /
+            violations.length
+
+            :
+
+            0;
 
 
-    container.innerHTML = `
+    container.innerHTML =
+        `
 
         <div class="psych-score">
 
@@ -3717,10 +5875,15 @@ function renderPsychologyInsights() {
 
             </div>
 
+
             <strong
-                class="${pnlClass(normalPnl)}"
+                class="${pnlClass(
+                    normalPnl
+                )}"
             >
-                ${currency(normalPnl)}
+                ${currency(
+                    normalPnl
+                )}
             </strong>
 
         </div>
@@ -3745,18 +5908,27 @@ function renderPsychologyInsights() {
 
             </div>
 
+
             <strong
-                class="${pnlClass(violationPnl)}"
+                class="${pnlClass(
+                    violationPnl
+                )}"
             >
-                ${currency(violationPnl)}
+                ${currency(
+                    violationPnl
+                )}
             </strong>
 
         </div>
 
-    `;
+        `;
 
 }
 
+
+/* =========================================================
+   MISTAKES
+========================================================= */
 
 function renderMistakes() {
 
@@ -3770,35 +5942,46 @@ function renderMistakes() {
     const mistakes = {};
 
 
-    database.trades.forEach(
-        t => {
+    database.trades
+        .forEach(
+            t => {
 
-            const mistake =
-                t.psychology.mistake;
+                const mistake =
+                    t.psychology
+                    .mistake;
 
-            if (
-                mistake &&
-                mistake !== "None"
-            ) {
 
-                mistakes[mistake] =
-                    (
-                        mistakes[mistake]
-                        || 0
-                    ) + 1;
+                if (
+                    mistake
+                    &&
+                    mistake !==
+                        "None"
+                ) {
+
+                    mistakes[mistake] =
+                        (
+                            mistakes[mistake]
+                            || 0
+                        ) + 1;
+
+                }
 
             }
-
-        }
-    );
+        );
 
 
-    if (!Object.keys(mistakes).length) {
+    if (
+        !Object.keys(
+            mistakes
+        ).length
+    ) {
 
         container.innerHTML =
-            `<div class="empty">
+            `
+            <div class="empty">
                 No recorded mistakes.
-            </div>`;
+            </div>
+            `;
 
         return;
 
@@ -3806,7 +5989,9 @@ function renderMistakes() {
 
 
     container.innerHTML =
-        Object.entries(mistakes)
+        Object.entries(
+            mistakes
+        )
         .map(
             ([name,count]) =>
             `
@@ -3814,7 +5999,9 @@ function renderMistakes() {
             <div class="psych-score">
 
                 <strong>
-                    ${escapeHTML(name)}
+                    ${escapeHTML(
+                        name
+                    )}
                 </strong>
 
                 <strong>
@@ -3823,8 +6010,9 @@ function renderMistakes() {
 
             </div>
 
-        `
-        ).join("");
+            `
+        )
+        .join("");
 
 }
 
@@ -3833,12 +6021,16 @@ function renderMistakes() {
    CALENDAR
 ========================================================= */
 
-function changeMonth(amount) {
+function changeMonth(
+    amount
+) {
 
     calendarDate.setMonth(
         calendarDate.getMonth()
-        + amount
+        +
+        amount
     );
+
 
     renderCalendar();
 
@@ -3848,23 +6040,31 @@ function changeMonth(amount) {
 function renderCalendar() {
 
     const year =
-        calendarDate.getFullYear();
+        calendarDate
+        .getFullYear();
+
 
     const month =
-        calendarDate.getMonth();
+        calendarDate
+        .getMonth();
 
 
     document.getElementById(
         "calendarMonth"
     ).textContent =
+
         new Date(
             year,
             month
-        ).toLocaleDateString(
+        )
+        .toLocaleDateString(
             "en-IN",
             {
-                month: "long",
-                year: "numeric"
+                month:
+                    "long",
+
+                year:
+                    "numeric"
             }
         );
 
@@ -3874,7 +6074,8 @@ function renderCalendar() {
             year,
             month,
             1
-        ).getDay();
+        )
+        .getDay();
 
 
     const days =
@@ -3882,35 +6083,41 @@ function renderCalendar() {
             year,
             month + 1,
             0
-        ).getDate();
+        )
+        .getDate();
 
 
     const grid =
-        document
-        .getElementById(
+        document.getElementById(
             "calendarGrid"
         );
 
 
-    const names =
-        [
-            "Sun",
-            "Mon",
-            "Tue",
-            "Wed",
-            "Thu",
-            "Fri",
-            "Sat"
-        ];
+    const names = [
+
+        "Sun",
+        "Mon",
+        "Tue",
+        "Wed",
+        "Thu",
+        "Fri",
+        "Sat"
+
+    ];
 
 
     let html =
+
+
         names.map(
             name =>
-                `<div class="calendar-day-name">
+                `
+                <div class="calendar-day-name">
                     ${name}
-                </div>`
-        ).join("");
+                </div>
+                `
+        )
+        .join("");
 
 
     for (
@@ -3920,7 +6127,9 @@ function renderCalendar() {
     ) {
 
         html +=
-            `<div class="calendar-day"></div>`;
+            `
+            <div class="calendar-day"></div>
+            `;
 
     }
 
@@ -3932,11 +6141,23 @@ function renderCalendar() {
     ) {
 
         const dateString =
-            `${year}-${String(month+1).padStart(2,"0")}-${String(day).padStart(2,"0")}`;
+
+            `${year}-${String(
+                month + 1
+            ).padStart(
+                2,
+                "0"
+            )}-${String(
+                day
+            ).padStart(
+                2,
+                "0"
+            )}`;
 
 
         const dayTrades =
-            database.trades.filter(
+            database.trades
+            .filter(
                 t =>
                     t.date.startsWith(
                         dateString
@@ -3952,7 +6173,9 @@ function renderCalendar() {
             );
 
 
-        html += `
+        html +=
+
+            `
 
             <div class="calendar-day">
 
@@ -3960,29 +6183,41 @@ function renderCalendar() {
                     ${day}
                 </div>
 
+
                 ${
                     dayTrades.length
-                    ? `
-                        <div
-                            class="
-                                calendar-pnl
-                                ${pnlClass(pnl)}
-                            "
-                        >
-                            ${currency(pnl)}
-                        </div>
+
+                    ?
+
                     `
-                    : ""
+                    <div
+                        class="
+                            calendar-pnl
+                            ${pnlClass(
+                                pnl
+                            )}
+                        "
+                    >
+                        ${currency(
+                            pnl
+                        )}
+                    </div>
+                    `
+
+                    :
+
+                    ""
                 }
 
             </div>
 
-        `;
+            `;
 
     }
 
 
-    grid.innerHTML = html;
+    grid.innerHTML =
+        html;
 
 }
 
@@ -3998,6 +6233,7 @@ function addGoal() {
             "Goal name:"
         );
 
+
     if (!name)
         return;
 
@@ -4012,13 +6248,15 @@ function addGoal() {
 
     database.goals.push({
 
-        id: Date.now(),
+        id:
+            Date.now(),
 
         name,
 
         target,
 
-        progress: 0
+        progress:
+            0
 
     });
 
@@ -4039,12 +6277,16 @@ function renderGoals() {
         );
 
 
-    if (!database.goals.length) {
+    if (
+        !database.goals.length
+    ) {
 
         container.innerHTML =
-            `<div class="empty">
+            `
+            <div class="empty">
                 No goals yet.
-            </div>`;
+            </div>
+            `;
 
         return;
 
@@ -4052,7 +6294,8 @@ function renderGoals() {
 
 
     container.innerHTML =
-        database.goals.map(
+        database.goals
+        .map(
             goal =>
             `
 
@@ -4063,25 +6306,37 @@ function renderGoals() {
                     <div>
 
                         <div class="goal-name">
-                            ${escapeHTML(goal.name)}
+                            ${escapeHTML(
+                                goal.name
+                            )}
                         </div>
 
                         <div class="goal-meta">
+
                             ${goal.progress}
+
                             /
+
                             ${goal.target}
+
                         </div>
 
                     </div>
 
+
                     <button
                         class="btn"
-                        onclick="updateGoal(${goal.id})"
+                        onclick="
+                            updateGoal(
+                                ${goal.id}
+                            )
+                        "
                     >
                         Update
                     </button>
 
                 </div>
+
 
                 <div class="progress">
 
@@ -4102,8 +6357,9 @@ function renderGoals() {
 
             </div>
 
-        `
-        ).join("");
+            `
+        )
+        .join("");
 
 }
 
@@ -4113,7 +6369,8 @@ function updateGoal(id) {
     const goal =
         database.goals
         .find(
-            g => g.id === id
+            g =>
+                g.id === id
         );
 
 
@@ -4130,10 +6387,15 @@ function updateGoal(id) {
         );
 
 
-    if (!Number.isNaN(progress)) {
+    if (
+        !Number.isNaN(
+            progress
+        )
+    ) {
 
         goal.progress =
             progress;
+
 
         saveDatabase();
 
@@ -4160,19 +6422,30 @@ function renderReport() {
 
     const avgR =
         trades.length
-            ? trades.reduce(
+
+            ?
+
+            trades.reduce(
                 (sum,t) =>
                     sum + t.rMultiple,
                 0
-            ) / trades.length
-            : 0;
+            )
+            /
+            trades.length
+
+            :
+
+            0;
 
 
     document.getElementById(
         "reportContent"
-    ).innerHTML = `
+    ).innerHTML =
+
+        `
 
         <div class="grid-3">
+
 
             <div class="stat">
 
@@ -4193,10 +6466,17 @@ function renderReport() {
                     NET P&L
                 </div>
 
-                <div class="stat-value
-                    ${pnlClass(s.net)}"
+                <div
+                    class="
+                        stat-value
+                        ${pnlClass(
+                            s.net
+                        )}
+                    "
                 >
-                    ${currency(s.net)}
+                    ${currency(
+                        s.net
+                    )}
                 </div>
 
             </div>
@@ -4226,38 +6506,69 @@ function renderReport() {
         >
 
             <p>
-                <strong>Win Rate:</strong>
+                <strong>
+                    Win Rate:
+                </strong>
+
                 ${s.winRate.toFixed(1)}%
             </p>
 
+
             <p>
-                <strong>Profit Factor:</strong>
+                <strong>
+                    Profit Factor:
+                </strong>
+
                 ${s.profitFactor.toFixed(2)}
             </p>
 
-            <p>
-                <strong>Expectancy:</strong>
-                ${currency(s.expectancy)}
-            </p>
 
             <p>
-                <strong>Gross Profit:</strong>
-                ${currency(s.grossProfit)}
+                <strong>
+                    Expectancy:
+                </strong>
+
+                ${currency(
+                    s.expectancy
+                )}
             </p>
 
-            <p>
-                <strong>Gross Loss:</strong>
-                ${currency(-s.grossLoss)}
-            </p>
 
             <p>
-                <strong>Maximum Drawdown:</strong>
-                ${currency(-s.maxDD)}
+                <strong>
+                    Gross Profit:
+                </strong>
+
+                ${currency(
+                    s.grossProfit
+                )}
+            </p>
+
+
+            <p>
+                <strong>
+                    Gross Loss:
+                </strong>
+
+                ${currency(
+                    -s.grossLoss
+                )}
+            </p>
+
+
+            <p>
+                <strong>
+                    Maximum Drawdown:
+                </strong>
+
+                ${currency(
+                    -s.maxDD
+                )}
             </p>
 
         </div>
 
-    `;
+        `;
 
 }
 
@@ -4268,7 +6579,9 @@ function exportReport() {
         getStats();
 
 
-    const text = `
+    const text =
+
+`
 
 TRADING JOURNAL REPORT
 
@@ -4282,16 +6595,22 @@ Win Rate:
 ${s.winRate.toFixed(2)}%
 
 Net P&L:
-${currency(s.net)}
+${currency(
+    s.net
+)}
 
 Profit Factor:
 ${s.profitFactor.toFixed(2)}
 
 Expectancy:
-${currency(s.expectancy)}
+${currency(
+    s.expectancy
+)}
 
 Maximum Drawdown:
-${currency(-s.maxDD)}
+${currency(
+    -s.maxDD
+)}
 
 `;
 
@@ -4313,7 +6632,8 @@ function loadSettings() {
     document.getElementById(
         "settingsName"
     ).value =
-        database.settings.name || "";
+        database.settings.name
+        || "";
 
 
     document.getElementById(
@@ -4333,25 +6653,31 @@ function loadSettings() {
 function saveSettings() {
 
     database.settings.name =
+
         document
         .getElementById(
             "settingsName"
-        ).value;
+        )
+        .value;
 
 
     database.settings.currency =
+
         document
         .getElementById(
             "settingsCurrency"
-        ).value;
+        )
+        .value;
 
 
     database.settings.capital =
+
         Number(
             document
             .getElementById(
                 "startingCapital"
-            ).value
+            )
+            .value
         );
 
 
@@ -4387,7 +6713,8 @@ function exportData() {
 function importData(event) {
 
     const file =
-        event.target.files[0];
+        event.target
+        .files[0];
 
 
     if (!file)
@@ -4410,7 +6737,8 @@ function importData(event) {
 
 
                 if (
-                    !imported.trades ||
+                    !imported.trades
+                    ||
                     !imported.settings
                 ) {
 
@@ -4424,9 +6752,11 @@ function importData(event) {
                 database =
                     imported;
 
+
                 saveDatabase();
 
                 refresh();
+
 
                 alert(
                     "Data imported successfully."
@@ -4445,7 +6775,9 @@ function importData(event) {
         };
 
 
-    reader.readAsText(file);
+    reader.readAsText(
+        file
+    );
 
 }
 
@@ -4476,29 +6808,64 @@ function deleteAllData() {
    UTILITIES
 ========================================================= */
 
-function formatDate(date) {
+function formatDate(
+    date
+) {
 
-    return new Date(date)
-        .toLocaleDateString(
-            "en-IN",
-            {
-                day: "2-digit",
-                month: "short",
-                year: "numeric"
-            }
-        );
+    return new Date(
+        date
+    )
+    .toLocaleDateString(
+        "en-IN",
+        {
+
+            day:
+                "2-digit",
+
+            month:
+                "short",
+
+            year:
+                "numeric"
+
+        }
+    );
 
 }
 
 
-function escapeHTML(value) {
+function escapeHTML(
+    value
+) {
 
-    return String(value)
-        .replaceAll("&", "&amp;")
-        .replaceAll("<", "&lt;")
-        .replaceAll(">", "&gt;")
-        .replaceAll('"', "&quot;")
-        .replaceAll("'", "&#039;");
+    return String(
+        value
+    )
+
+    .replaceAll(
+        "&",
+        "&amp;"
+    )
+
+    .replaceAll(
+        "<",
+        "&lt;"
+    )
+
+    .replaceAll(
+        ">",
+        "&gt;"
+    )
+
+    .replaceAll(
+        '"',
+        "&quot;"
+    )
+
+    .replaceAll(
+        "'",
+        "&#039;"
+    );
 
 }
 
@@ -4530,16 +6897,73 @@ function downloadFile(
         );
 
 
-    a.href = url;
+    a.href =
+        url;
+
 
     a.download =
         filename;
 
+
     a.click();
+
 
     URL.revokeObjectURL(
         url
     );
+
+}
+
+
+/* =========================================================
+   REFRESH CHARTS
+========================================================= */
+
+function refreshCharts() {
+
+    if (
+        !document
+        .getElementById(
+            "dashboard"
+        )
+        .classList.contains(
+            "hidden"
+        )
+    ) {
+
+        renderDashboard();
+
+    }
+
+
+    if (
+        !document
+        .getElementById(
+            "analytics"
+        )
+        .classList.contains(
+            "hidden"
+        )
+    ) {
+
+        renderAnalytics();
+
+    }
+
+
+    if (
+        !document
+        .getElementById(
+            "psychology"
+        )
+        .classList.contains(
+            "hidden"
+        )
+    ) {
+
+        renderPsychology();
+
+    }
 
 }
 
@@ -4568,7 +6992,7 @@ function refresh() {
 
 
 /* =========================================================
-   START
+   START APPLICATION
 ========================================================= */
 
 refresh();
