@@ -1,0 +1,8380 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>TradeOS — Trading Journal</title>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<style>
+
+/* =========================================================
+   ROOT / THEME
+========================================================= */
+
+:root {
+
+    --bg: #f4f5f7;
+    --surface: #ffffff;
+    --surface-2: #f8f9fb;
+    --surface-3: #eef1f4;
+
+    --border: #e3e6ea;
+
+    --text: #111827;
+    --text-secondary: #4b5563;
+    --muted: #6b7280;
+
+    --sidebar: #111827;
+    --sidebar-hover: #1f2937;
+    --sidebar-text: #9ca3af;
+    --sidebar-active: #ffffff;
+
+    --primary: #111827;
+    --primary-text: #ffffff;
+
+    --green: #15803d;
+    --green-bg: #eaf7ef;
+
+    --red: #dc2626;
+    --red-bg: #fdecec;
+
+    --blue: #2563eb;
+    --blue-bg: #edf3ff;
+
+    --yellow: #b7791f;
+    --yellow-bg: #fff8e6;
+
+    --input-bg: #ffffff;
+
+    --shadow:
+        0 2px 12px rgba(0,0,0,.045);
+
+    --radius: 12px;
+}
+
+
+[data-theme="dark"] {
+
+    --bg: #0b0f14;
+    --surface: #11161d;
+    --surface-2: #171d25;
+    --surface-3: #1d242d;
+
+    --border: #29313c;
+
+    --text: #f3f4f6;
+    --text-secondary: #c5cad1;
+    --muted: #8b95a3;
+
+    --sidebar: #080b0f;
+    --sidebar-hover: #171d25;
+    --sidebar-text: #8993a1;
+    --sidebar-active: #ffffff;
+
+    --primary: #f3f4f6;
+    --primary-text: #111827;
+
+    --green: #35b86b;
+    --green-bg: rgba(53,184,107,.13);
+
+    --red: #f06464;
+    --red-bg: rgba(240,100,100,.13);
+
+    --blue: #5b8def;
+    --blue-bg: rgba(91,141,239,.13);
+
+    --yellow: #e0ad45;
+    --yellow-bg: rgba(224,173,69,.13);
+
+    --input-bg: #151b22;
+
+    --shadow:
+        0 3px 18px rgba(0,0,0,.25);
+}
+
+
+/* =========================================================
+   RESET
+========================================================= */
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+
+html {
+    scroll-behavior: smooth;
+}
+
+
+body {
+
+    font-family:
+        Inter,
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        sans-serif;
+
+    background: var(--bg);
+    color: var(--text);
+
+    min-height: 100vh;
+
+    transition:
+        background .25s ease,
+        color .25s ease;
+}
+
+
+button,
+input,
+select,
+textarea {
+    font: inherit;
+}
+
+
+button {
+    cursor: pointer;
+}
+
+
+.hidden {
+    display: none !important;
+}
+
+
+/* =========================================================
+   APP
+========================================================= */
+
+.app {
+    display: flex;
+    min-height: 100vh;
+}
+
+
+/* =========================================================
+   SIDEBAR
+========================================================= */
+
+.sidebar {
+
+    width: 245px;
+
+    background: var(--sidebar);
+    color: white;
+
+    position: fixed;
+
+    left: 0;
+    top: 0;
+    bottom: 0;
+
+    padding: 24px 14px;
+
+    z-index: 100;
+}
+
+
+.logo {
+
+    font-size: 20px;
+    font-weight: 800;
+
+    padding:
+        0 12px 30px;
+}
+
+
+.logo span {
+    color: #9ca3af;
+}
+
+
+.nav-section {
+    margin-bottom: 25px;
+}
+
+
+.nav-label {
+
+    font-size: 10px;
+
+    text-transform: uppercase;
+
+    letter-spacing: 1px;
+
+    color: #6b7280;
+
+    padding: 0 12px;
+
+    margin-bottom: 7px;
+}
+
+
+.nav-btn {
+
+    width: 100%;
+
+    border: 0;
+
+    background: transparent;
+
+    color: var(--sidebar-text);
+
+    text-align: left;
+
+    padding: 11px 12px;
+
+    border-radius: 8px;
+
+    margin-bottom: 3px;
+
+    transition:
+        background .2s,
+        color .2s;
+}
+
+
+.nav-btn:hover,
+.nav-btn.active {
+
+    background: var(--sidebar-hover);
+
+    color: var(--sidebar-active);
+}
+
+
+/* =========================================================
+   MAIN
+========================================================= */
+
+.main {
+
+    margin-left: 245px;
+
+    width:
+        calc(100% - 245px);
+
+    min-height: 100vh;
+
+    display: flex;
+
+    flex-direction: column;
+}
+
+
+/* =========================================================
+   TOPBAR
+========================================================= */
+
+.topbar {
+
+    height: 70px;
+
+    background: var(--surface);
+
+    border-bottom:
+        1px solid var(--border);
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    padding:
+        0 30px;
+
+    position: sticky;
+
+    top: 0;
+
+    z-index: 50;
+}
+
+
+.page-title {
+
+    font-size: 21px;
+    font-weight: 700;
+}
+
+
+.top-actions {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 10px;
+}
+
+
+/* =========================================================
+   THEME TOGGLE
+========================================================= */
+
+.theme-toggle {
+
+    width: 42px;
+    height: 42px;
+
+    border:
+        1px solid var(--border);
+
+    background:
+        var(--surface);
+
+    color:
+        var(--text);
+
+    border-radius: 9px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    font-size: 18px;
+
+    transition:
+        background .2s,
+        transform .2s;
+}
+
+
+.theme-toggle:hover {
+
+    background:
+        var(--surface-2);
+
+    transform:
+        translateY(-1px);
+}
+
+
+/* =========================================================
+   CONTENT
+========================================================= */
+
+.content {
+
+    padding: 30px;
+
+    max-width: 1500px;
+
+    width: 100%;
+
+    flex: 1;
+}
+
+
+/* =========================================================
+   BUTTONS
+========================================================= */
+
+.btn {
+
+    border:
+        1px solid var(--border);
+
+    background:
+        var(--surface);
+
+    color:
+        var(--text);
+
+    border-radius: 8px;
+
+    padding:
+        9px 14px;
+
+    font-size: 13px;
+
+    font-weight: 600;
+}
+
+
+.btn:hover {
+
+    background:
+        var(--surface-2);
+
+    border-color:
+        var(--muted);
+}
+
+
+.btn-primary {
+
+    background:
+        var(--primary);
+
+    color:
+        var(--primary-text);
+
+    border-color:
+        var(--primary);
+}
+
+
+.btn-primary:hover {
+
+    opacity: .9;
+
+    background:
+        var(--primary);
+}
+
+
+.btn-danger {
+
+    color:
+        var(--red);
+
+    background:
+        var(--red-bg);
+
+    border-color:
+        transparent;
+}
+
+
+.btn-success {
+
+    color:
+        var(--green);
+
+    background:
+        var(--green-bg);
+
+    border-color:
+        transparent;
+}
+
+/* =========================================================
+   TRADE TYPE / DELETE ACTION
+========================================================= */
+
+.trade-type-options {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+}
+
+.trade-type-option {
+    position: relative;
+}
+
+.trade-type-option input {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.trade-type-option label {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 46px;
+    margin: 0;
+    padding: 10px 14px;
+    border: 1px solid var(--border);
+    border-radius: 9px;
+    background: var(--input-bg);
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: .2s ease;
+}
+
+.trade-type-option label:hover {
+    border-color: var(--muted);
+    background: var(--surface-2);
+}
+
+.trade-type-option input:checked + label {
+    border-color: var(--primary);
+    background: var(--primary);
+    color: var(--primary-text);
+}
+
+.delete-trade-icon {
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--red);
+    background: var(--red-bg);
+    color: var(--red);
+    border-radius: 8px;
+    font-size: 17px;
+    line-height: 1;
+}
+
+.delete-trade-icon:hover {
+    background: var(--red);
+    color: #fff;
+    border-color: var(--red);
+}
+
+.confirm-modal-content {
+    max-width: 440px;
+    text-align: center;
+}
+
+.confirm-icon {
+    width: 54px;
+    height: 54px;
+    margin: 0 auto 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: var(--red-bg);
+    color: var(--red);
+    font-size: 24px;
+}
+
+.confirm-title {
+    font-size: 19px;
+    font-weight: 750;
+}
+
+.confirm-text {
+    margin-top: 8px;
+    color: var(--muted);
+    font-size: 13px;
+    line-height: 1.6;
+}
+
+.confirm-actions {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 22px;
+}
+
+@media(max-width:550px) {
+    .trade-type-options {
+        grid-template-columns: 1fr;
+    }
+}
+
+
+/* =========================================================
+   CARDS
+========================================================= */
+
+.card {
+
+    background:
+        var(--surface);
+
+    border:
+        1px solid var(--border);
+
+    border-radius:
+        var(--radius);
+
+    padding: 22px;
+
+    box-shadow:
+        var(--shadow);
+
+    margin-bottom: 20px;
+}
+
+
+.card-header {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    margin-bottom: 20px;
+}
+
+
+.card-title {
+
+    font-size: 16px;
+    font-weight: 700;
+}
+
+
+.card-subtitle {
+
+    color:
+        var(--muted);
+
+    font-size: 12px;
+
+    margin-top: 3px;
+}
+
+
+/* =========================================================
+   STATS
+========================================================= */
+
+.stats {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(6, 1fr);
+
+    gap: 14px;
+
+    margin-bottom: 20px;
+}
+
+
+.stat {
+
+    background:
+        var(--surface);
+
+    border:
+        1px solid var(--border);
+
+    border-radius:
+        var(--radius);
+
+    padding: 18px;
+
+    box-shadow:
+        var(--shadow);
+}
+
+
+.stat-label {
+
+    color:
+        var(--muted);
+
+    font-size: 11px;
+
+    margin-bottom: 8px;
+}
+
+
+.stat-value {
+
+    font-size: 22px;
+
+    font-weight: 750;
+}
+
+
+/* =========================================================
+   GRID
+========================================================= */
+
+.grid-2 {
+
+    display: grid;
+
+    grid-template-columns:
+        1fr 1fr;
+
+    gap: 20px;
+}
+
+
+.grid-3 {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, 1fr);
+
+    gap: 15px;
+}
+
+
+/* =========================================================
+   FORM
+========================================================= */
+
+.form-grid {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, 1fr);
+
+    gap: 16px;
+}
+
+
+.form-group {
+
+    display: flex;
+
+    flex-direction: column;
+}
+
+
+.form-group.full {
+    grid-column: 1 / -1;
+}
+
+
+label {
+
+    font-size: 12px;
+
+    font-weight: 600;
+
+    margin-bottom: 6px;
+}
+
+
+input,
+select,
+textarea {
+
+    width: 100%;
+
+    border:
+        1px solid var(--border);
+
+    background:
+        var(--input-bg);
+
+    color:
+        var(--text);
+
+    border-radius: 8px;
+
+    padding:
+        10px 11px;
+
+    outline: none;
+}
+
+
+input:focus,
+select:focus,
+textarea:focus {
+
+    border-color:
+        var(--muted);
+}
+
+
+textarea {
+
+    resize: vertical;
+
+    min-height: 90px;
+}
+
+
+.form-section {
+
+    border-top:
+        1px solid var(--border);
+
+    padding-top: 20px;
+
+    margin-top: 22px;
+}
+
+
+.form-section-title {
+
+    font-size: 14px;
+
+    font-weight: 700;
+
+    margin-bottom: 15px;
+}
+
+
+/* =========================================================
+   TABLE
+========================================================= */
+
+.table-wrapper {
+    overflow-x: auto;
+}
+
+
+table {
+
+    width: 100%;
+
+    border-collapse:
+        collapse;
+
+    min-width: 1050px;
+}
+
+
+th {
+
+    text-align: left;
+
+    color:
+        var(--muted);
+
+    font-size: 11px;
+
+    font-weight: 600;
+
+    padding: 11px;
+
+    border-bottom:
+        1px solid var(--border);
+}
+
+
+td {
+
+    padding:
+        13px 11px;
+
+    font-size: 12px;
+
+    border-bottom:
+        1px solid var(--border);
+}
+
+
+tr:hover td {
+
+    background:
+        var(--surface-2);
+}
+
+
+/* =========================================================
+   BADGES
+========================================================= */
+
+.badge {
+
+    display: inline-flex;
+
+    padding:
+        4px 7px;
+
+    border-radius: 5px;
+
+    font-size: 10px;
+
+    font-weight: 700;
+}
+
+
+.badge-buy {
+
+    background:
+        var(--green-bg);
+
+    color:
+        var(--green);
+}
+
+
+.badge-sell {
+
+    background:
+        var(--red-bg);
+
+    color:
+        var(--red);
+}
+
+
+/* =========================================================
+   P&L
+========================================================= */
+
+.profit {
+    color: var(--green) !important;
+}
+
+
+.loss {
+    color: var(--red) !important;
+}
+
+
+/* =========================================================
+   PSYCHOLOGY
+========================================================= */
+
+.psych-score {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    padding: 15px;
+
+    border:
+        1px solid var(--border);
+
+    border-radius: 10px;
+
+    margin-bottom: 10px;
+}
+
+
+.psych-score strong {
+    font-size: 20px;
+}
+
+
+.progress {
+
+    height: 7px;
+
+    background:
+        var(--surface-3);
+
+    border-radius: 20px;
+
+    overflow: hidden;
+
+    margin-top: 8px;
+}
+
+
+.progress-bar {
+
+    height: 100%;
+
+    background:
+        var(--primary);
+}
+
+
+/* =========================================================
+   CALENDAR
+========================================================= */
+
+.calendar-header {
+
+    display: flex;
+
+    justify-content:
+        space-between;
+
+    align-items:
+        center;
+
+    margin-bottom: 15px;
+}
+
+
+.calendar-grid {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(7, 1fr);
+
+    border-top:
+        1px solid var(--border);
+
+    border-left:
+        1px solid var(--border);
+}
+
+
+.calendar-day-name,
+.calendar-day {
+
+    min-height: 110px;
+
+    border-right:
+        1px solid var(--border);
+
+    border-bottom:
+        1px solid var(--border);
+
+    padding: 9px;
+}
+
+
+.calendar-day-name {
+
+    min-height: auto;
+
+    color:
+        var(--muted);
+
+    font-size: 11px;
+
+    font-weight: 600;
+}
+
+
+.calendar-day {
+
+    transition:
+        background .2s,
+        border .2s;
+}
+
+
+.calendar-day.profitable {
+
+    background:
+        var(--green-bg);
+
+    border-color:
+        rgba(21,128,61,.22);
+}
+
+
+.calendar-day.loss-day {
+
+    background:
+        var(--red-bg);
+
+    border-color:
+        rgba(220,38,38,.22);
+}
+
+
+.calendar-number {
+
+    font-size: 12px;
+
+    font-weight: 700;
+}
+
+
+.calendar-pnl {
+
+    font-size: 16px;
+
+    font-weight: 700;
+
+    margin-top: 24px;
+}
+
+
+/* =========================================================
+   GOALS
+========================================================= */
+
+.goal {
+
+    border:
+        1px solid var(--border);
+
+    border-radius: 10px;
+
+    padding: 16px;
+
+    margin-bottom: 10px;
+}
+
+
+.goal-header {
+
+    display: flex;
+
+    justify-content:
+        space-between;
+
+    gap: 15px;
+}
+
+
+.goal-name {
+
+    font-weight: 700;
+
+    font-size: 13px;
+}
+
+
+.goal-meta {
+
+    color:
+        var(--muted);
+
+    font-size: 11px;
+
+    margin-top: 4px;
+}
+
+
+/* =========================================================
+   MODAL
+========================================================= */
+
+.modal {
+
+    position: fixed;
+
+    inset: 0;
+
+    background:
+        rgba(0,0,0,.55);
+
+    display: flex;
+
+    align-items:
+        center;
+
+    justify-content:
+        center;
+
+    padding: 20px;
+
+    z-index: 500;
+}
+
+
+.modal-content {
+
+    width: 100%;
+
+    max-width: 900px;
+
+    max-height: 90vh;
+
+    overflow-y: auto;
+
+    background:
+        var(--surface);
+
+    color:
+        var(--text);
+
+    border-radius: 14px;
+
+    padding: 25px;
+
+    border:
+        1px solid var(--border);
+}
+
+
+.modal-header {
+
+    display: flex;
+
+    justify-content:
+        space-between;
+
+    margin-bottom: 20px;
+}
+
+
+/* =========================================================
+   TRADE DETAIL
+========================================================= */
+
+.trade-detail-grid {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, 1fr);
+
+    gap: 12px;
+
+    margin-bottom: 20px;
+}
+
+
+.trade-detail-item {
+
+    background:
+        var(--surface-2);
+
+    border:
+        1px solid var(--border);
+
+    border-radius: 9px;
+
+    padding: 13px;
+}
+
+
+.trade-detail-label {
+
+    font-size: 10px;
+
+    color:
+        var(--muted);
+
+    text-transform:
+        uppercase;
+
+    letter-spacing:
+        .4px;
+
+    margin-bottom: 5px;
+}
+
+
+.trade-detail-value {
+
+    font-size: 14px;
+
+    font-weight: 700;
+
+    word-break:
+        break-word;
+}
+
+
+.trade-detail-section {
+
+    margin-top: 20px;
+
+    padding-top: 20px;
+
+    border-top:
+        1px solid var(--border);
+}
+
+
+.trade-detail-section-title {
+
+    font-size: 14px;
+
+    font-weight: 700;
+
+    margin-bottom: 12px;
+}
+
+
+.trade-text-box {
+
+    background:
+        var(--surface-2);
+
+    border:
+        1px solid var(--border);
+
+    border-radius: 9px;
+
+    padding: 14px;
+
+    font-size: 13px;
+
+    line-height: 1.6;
+
+    white-space: pre-wrap;
+}
+
+
+/* =========================================================
+   REPORT VALUES
+========================================================= */
+
+.report-row {
+
+    display: flex;
+
+    align-items:
+        baseline;
+
+    justify-content:
+        space-between;
+
+    gap: 20px;
+
+    padding:
+        13px 0;
+
+    border-bottom:
+        1px solid var(--border);
+}
+
+
+.report-label {
+
+    font-size: 13px;
+
+    color:
+        var(--text-secondary);
+}
+
+
+.report-number {
+
+    font-size: 20px;
+
+    font-weight: 750;
+}
+
+
+/* =========================================================
+   FOOTER
+========================================================= */
+
+.footer {
+
+    border-top:
+        1px solid var(--border);
+
+    background:
+        var(--surface);
+
+    color:
+        var(--muted);
+
+    text-align:
+        center;
+
+    padding:
+        22px 20px;
+
+    font-size: 12px;
+}
+
+
+.footer strong {
+    color:
+        var(--text);
+
+    font-weight:
+        600;
+}
+
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media(max-width:1200px) {
+
+    .stats {
+
+        grid-template-columns:
+            repeat(3, 1fr);
+    }
+
+    .form-grid {
+
+        grid-template-columns:
+            repeat(2, 1fr);
+    }
+
+    .trade-detail-grid {
+
+        grid-template-columns:
+            repeat(2, 1fr);
+    }
+}
+
+
+@media(max-width:800px) {
+
+    .sidebar {
+
+        width: 70px;
+    }
+
+    .logo {
+
+        font-size: 0;
+
+        text-align:
+            center;
+    }
+
+    .nav-label {
+        display: none;
+    }
+
+    .nav-btn {
+
+        font-size: 0;
+
+        text-align:
+            center;
+    }
+
+    .main {
+
+        margin-left: 70px;
+
+        width:
+            calc(100% - 70px);
+    }
+
+    .content {
+        padding: 18px;
+    }
+
+    .grid-2,
+    .grid-3 {
+        grid-template-columns: 1fr;
+    }
+
+    .stats {
+        grid-template-columns:
+            repeat(2, 1fr);
+    }
+}
+
+
+@media(max-width:550px) {
+
+    .form-grid,
+    .trade-detail-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .topbar {
+        padding: 0 15px;
+    }
+
+    .content {
+        padding: 12px;
+    }
+
+    .page-title {
+        font-size: 17px;
+    }
+
+    .top-actions {
+        gap: 6px;
+    }
+
+    .theme-toggle {
+        width: 38px;
+        height: 38px;
+    }
+
+    .top-actions .btn-primary {
+        padding:
+            8px 10px;
+
+        font-size: 12px;
+    }
+
+    .calendar-day {
+        min-height: 85px;
+    }
+
+    .calendar-pnl {
+        font-size: 13px;
+    }
+}
+
+</style>
+</head>
+
+
+<body>
+
+<div class="app">
+
+
+<!-- =====================================================
+     SIDEBAR
+===================================================== -->
+
+<aside class="sidebar">
+
+    <div class="logo">
+        Trade<span>OS</span>
+    </div>
+
+
+    <div class="nav-section">
+
+        <div class="nav-label">
+            Workspace
+        </div>
+
+
+        <button
+            class="nav-btn active"
+            data-page="dashboard"
+        >
+            Dashboard
+        </button>
+
+
+        <button
+            class="nav-btn"
+            data-page="journal"
+        >
+            Journal
+        </button>
+
+
+        <button
+            class="nav-btn"
+            data-page="analytics"
+        >
+            Analytics
+        </button>
+
+
+        <button
+            class="nav-btn"
+            data-page="psychology"
+        >
+            Psychology
+        </button>
+
+
+        <button
+            class="nav-btn"
+            data-page="calendar"
+        >
+            Calendar
+        </button>
+
+    </div>
+
+
+    <div class="nav-section">
+
+        <div class="nav-label">
+            Planning
+        </div>
+
+
+        <button
+            class="nav-btn"
+            data-page="goals"
+        >
+            Goals
+        </button>
+
+
+        <button
+            class="nav-btn"
+            data-page="reports"
+        >
+            Reports
+        </button>
+
+    </div>
+
+
+    <div class="nav-section">
+
+        <div class="nav-label">
+            System
+        </div>
+
+
+        <button
+            class="nav-btn"
+            data-page="settings"
+        >
+            Settings
+        </button>
+
+    </div>
+
+</aside>
+
+
+
+<!-- =====================================================
+     MAIN
+===================================================== -->
+
+<main class="main">
+
+
+<header class="topbar">
+
+    <div
+        class="page-title"
+        id="pageTitle"
+    >
+        Dashboard
+    </div>
+
+
+    <div class="top-actions">
+
+
+        <button
+            id="themeToggle"
+            class="theme-toggle"
+            title="Toggle dark/light mode"
+        >
+            🌙
+        </button>
+
+
+        <button
+            class="btn btn-primary"
+            onclick="openTradeModal()"
+        >
+            + New Trade
+        </button>
+
+    </div>
+
+</header>
+
+
+
+<div class="content">
+
+
+<!-- =====================================================
+     DASHBOARD
+===================================================== -->
+
+<section
+    id="dashboard"
+    class="page"
+>
+
+    <div class="stats">
+
+        <div class="stat">
+
+            <div class="stat-label">
+                TOTAL TRADES
+            </div>
+
+            <div
+                class="stat-value"
+                id="statTrades"
+            >
+                0
+            </div>
+
+        </div>
+
+
+        <div class="stat">
+
+            <div class="stat-label">
+                NET P&L
+            </div>
+
+            <div
+                class="stat-value"
+                id="statPnl"
+            >
+                ₹0
+            </div>
+
+        </div>
+
+
+        <div class="stat">
+
+            <div class="stat-label">
+                WIN RATE
+            </div>
+
+            <div
+                class="stat-value"
+                id="statWinRate"
+            >
+                0%
+            </div>
+
+        </div>
+
+
+        <div class="stat">
+
+            <div class="stat-label">
+                PROFIT FACTOR
+            </div>
+
+            <div
+                class="stat-value"
+                id="statPF"
+            >
+                0
+            </div>
+
+        </div>
+
+
+        <div class="stat">
+
+            <div class="stat-label">
+                EXPECTANCY
+            </div>
+
+            <div
+                class="stat-value"
+                id="statExpectancy"
+            >
+                ₹0
+            </div>
+
+        </div>
+
+
+        <div class="stat">
+
+            <div class="stat-label">
+                MAX DRAWDOWN
+            </div>
+
+            <div
+                class="stat-value"
+                id="statDD"
+            >
+                ₹0
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+    <div class="grid-2">
+
+
+        <div class="card">
+
+            <div class="card-header">
+
+                <div>
+
+                    <div class="card-title">
+                        Equity Curve
+                    </div>
+
+                    <div class="card-subtitle">
+                        Cumulative trading performance
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div
+                style="
+                    height:300px;
+                    position:relative
+                "
+            >
+
+                <canvas
+                    id="equityChart"
+                ></canvas>
+
+            </div>
+
+        </div>
+
+
+
+        <div class="card">
+
+            <div class="card-header">
+
+                <div>
+
+                    <div class="card-title">
+                        Performance
+                    </div>
+
+                    <div class="card-subtitle">
+                        Wins and losses
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div
+                style="
+                    height:300px;
+                    position:relative
+                "
+            >
+
+                <canvas
+                    id="performanceChart"
+                ></canvas>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+    <div class="grid-2">
+
+
+        <div class="card">
+
+            <div class="card-header">
+
+                <div class="card-title">
+                    Recent Trades
+                </div>
+
+
+                <button
+                    class="btn"
+                    onclick="navigate('journal')"
+                >
+                    View all
+                </button>
+
+            </div>
+
+
+            <div
+                id="recentTrades"
+            ></div>
+
+        </div>
+
+
+
+        <div class="card">
+
+            <div class="card-header">
+
+                <div>
+
+                    <div class="card-title">
+                        Trading Discipline
+                    </div>
+
+                    <div class="card-subtitle">
+                        Process over outcome
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div
+                id="disciplineDashboard"
+            ></div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =====================================================
+     JOURNAL
+===================================================== -->
+
+<section
+    id="journal"
+    class="page hidden"
+>
+
+    <div class="card">
+
+        <div class="card-header">
+
+            <div>
+
+                <div class="card-title">
+                    Trade Journal
+                </div>
+
+                <div class="card-subtitle">
+                    Complete trading history
+                </div>
+
+            </div>
+
+
+            <button
+                class="btn btn-primary"
+                onclick="openTradeModal()"
+            >
+                + Add Trade
+            </button>
+
+        </div>
+
+
+        <div
+            class="form-grid"
+            style="margin-bottom:20px"
+        >
+
+            <div class="form-group">
+
+                <label>
+                    Search
+                </label>
+
+                <input
+                    id="journalSearch"
+                    placeholder="Search symbol, strategy..."
+                    oninput="renderJournal()"
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>
+                    Result
+                </label>
+
+                <select
+                    id="journalResult"
+                    onchange="renderJournal()"
+                >
+
+                    <option value="all">
+                        All
+                    </option>
+
+                    <option value="win">
+                        Wins
+                    </option>
+
+                    <option value="loss">
+                        Losses
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>
+                    Direction
+                </label>
+
+                <select
+                    id="journalDirection"
+                    onchange="renderJournal()"
+                >
+
+                    <option value="all">
+                        All
+                    </option>
+
+                    <option value="BUY">
+                        Buy
+                    </option>
+
+                    <option value="SELL">
+                        Sell
+                    </option>
+
+                </select>
+
+            </div>
+
+        </div>
+
+
+        <div class="table-wrapper">
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>Date</th>
+                        <th>Symbol</th>
+                        <th>Type</th>
+                        <th>Side</th>
+                        <th>Entry</th>
+                        <th>Exit</th>
+                        <th>SL</th>
+                        <th>Target</th>
+                        <th>R:R</th>
+                        <th>P&L</th>
+                        <th>Setup</th>
+                        <th></th>
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody
+                    id="journalTable"
+                ></tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =====================================================
+     ANALYTICS
+===================================================== -->
+
+<section
+    id="analytics"
+    class="page hidden"
+>
+
+    <div class="stats">
+
+        <div class="stat">
+
+            <div class="stat-label">
+                AVG WIN
+            </div>
+
+            <div
+                class="stat-value"
+                id="avgWin"
+            >
+                ₹0
+            </div>
+
+        </div>
+
+
+        <div class="stat">
+
+            <div class="stat-label">
+                AVG LOSS
+            </div>
+
+            <div
+                class="stat-value"
+                id="avgLoss"
+            >
+                ₹0
+            </div>
+
+        </div>
+
+
+        <!-- CHANGED FROM AVG R TO NET CHARGES -->
+
+        <div class="stat">
+
+            <div class="stat-label">
+                NET CHARGES
+            </div>
+
+            <div
+                class="stat-value"
+                id="analyticsCharges"
+            >
+                ₹0
+            </div>
+
+        </div>
+
+
+        <div class="stat">
+
+            <div class="stat-label">
+                BEST TRADE
+            </div>
+
+            <div
+                class="stat-value"
+                id="bestTrade"
+            >
+                ₹0
+            </div>
+
+        </div>
+
+
+        <div class="stat">
+
+            <div class="stat-label">
+                WORST TRADE
+            </div>
+
+            <div
+                class="stat-value"
+                id="worstTrade"
+            >
+                ₹0
+            </div>
+
+        </div>
+
+
+        <div class="stat">
+
+            <div class="stat-label">
+                CURRENT STREAK
+            </div>
+
+            <div
+                class="stat-value"
+                id="currentStreak"
+            >
+                0
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+    <div class="grid-2">
+
+
+        <div class="card">
+
+            <div class="card-header">
+
+                <div class="card-title">
+                    Strategy Performance
+                </div>
+
+            </div>
+
+
+            <div
+                style="
+                    height:300px;
+                    position:relative
+                "
+            >
+
+                <canvas
+                    id="strategyChart"
+                ></canvas>
+
+            </div>
+
+        </div>
+
+
+
+        <div class="card">
+
+            <div class="card-header">
+
+                <div class="card-title">
+                    Trading Time
+                </div>
+
+            </div>
+
+
+            <div
+                style="
+                    height:300px;
+                    position:relative
+                "
+            >
+
+                <canvas
+                    id="timeChart"
+                ></canvas>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+    <div class="card">
+
+        <div class="card-header">
+
+            <div class="card-title">
+                Strategy Breakdown
+            </div>
+
+        </div>
+
+
+        <div class="table-wrapper">
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>Strategy</th>
+                        <th>Trades</th>
+                        <th>Wins</th>
+                        <th>Win Rate</th>
+                        <th>P&L</th>
+
+                        <!-- CHANGED -->
+
+                        <th>Net Charges</th>
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody
+                    id="strategyTable"
+                ></tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =====================================================
+     PSYCHOLOGY
+===================================================== -->
+
+<section
+    id="psychology"
+    class="page hidden"
+>
+
+    <div class="stats">
+
+        <div class="stat">
+
+            <div class="stat-label">
+                DISCIPLINE SCORE
+            </div>
+
+            <div
+                class="stat-value"
+                id="disciplineScore"
+            >
+                0%
+            </div>
+
+        </div>
+
+
+        <div class="stat">
+
+            <div class="stat-label">
+                FOMO
+            </div>
+
+            <div
+                class="stat-value"
+                id="fomoCount"
+            >
+                0
+            </div>
+
+        </div>
+
+
+        <div class="stat">
+
+            <div class="stat-label">
+                REVENGE
+            </div>
+
+            <div
+                class="stat-value"
+                id="revengeCount"
+            >
+                0
+            </div>
+
+        </div>
+
+
+        <div class="stat">
+
+            <div class="stat-label">
+                RULE BREAKS
+            </div>
+
+            <div
+                class="stat-value"
+                id="ruleBreakCount"
+            >
+                0
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+    <div class="grid-2">
+
+
+        <div class="card">
+
+            <div class="card-header">
+
+                <div>
+
+                    <div class="card-title">
+                        Emotional State
+                    </div>
+
+                    <div class="card-subtitle">
+                        What emotions appear most frequently?
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div
+                style="
+                    height:300px;
+                    position:relative
+                "
+            >
+
+                <canvas
+                    id="emotionChart"
+                ></canvas>
+
+            </div>
+
+        </div>
+
+
+
+        <div class="card">
+
+            <div class="card-header">
+
+                <div class="card-title">
+                    Psychology vs Performance
+                </div>
+
+            </div>
+
+
+            <div
+                id="psychologyInsights"
+            ></div>
+
+        </div>
+
+    </div>
+
+
+
+    <div class="card">
+
+        <div class="card-header">
+
+            <div class="card-title">
+                Psychology Mistakes
+            </div>
+
+        </div>
+
+
+        <div
+            id="mistakeBreakdown"
+        ></div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =====================================================
+     CALENDAR
+===================================================== -->
+
+<section
+    id="calendar"
+    class="page hidden"
+>
+
+    <div class="card">
+
+        <div class="calendar-header">
+
+            <button
+                class="btn"
+                onclick="changeMonth(-1)"
+            >
+                ←
+            </button>
+
+
+            <strong
+                id="calendarMonth"
+            ></strong>
+
+
+            <button
+                class="btn"
+                onclick="changeMonth(1)"
+            >
+                →
+            </button>
+
+        </div>
+
+
+        <div
+            class="calendar-grid"
+            id="calendarGrid"
+        ></div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =====================================================
+     GOALS
+===================================================== -->
+
+<section
+    id="goals"
+    class="page hidden"
+>
+
+    <div class="card">
+
+        <div class="card-header">
+
+            <div>
+
+                <div class="card-title">
+                    Trading Goals
+                </div>
+
+                <div class="card-subtitle">
+                    Focus on process, not only money.
+                </div>
+
+            </div>
+
+
+            <button
+                class="btn btn-primary"
+                onclick="addGoal()"
+            >
+                + Add Goal
+            </button>
+
+        </div>
+
+
+        <div
+            id="goalsList"
+        ></div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =====================================================
+     REPORTS
+===================================================== -->
+
+<section
+    id="reports"
+    class="page hidden"
+>
+
+    <div class="card">
+
+        <div class="card-header">
+
+            <div>
+
+                <div class="card-title">
+                    Trading Report
+                </div>
+
+                <div class="card-subtitle">
+                    Overall performance summary
+                </div>
+
+            </div>
+
+
+            <button
+                class="btn"
+                onclick="exportReport()"
+            >
+                Export Report
+            </button>
+
+        </div>
+
+
+        <div
+            id="reportContent"
+        ></div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =====================================================
+     SETTINGS
+===================================================== -->
+
+<section
+    id="settings"
+    class="page hidden"
+>
+
+    <div class="card">
+
+        <div class="card-header">
+
+            <div>
+
+                <div class="card-title">
+                    Settings
+                </div>
+
+                <div class="card-subtitle">
+                    Manage your journal profile
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="form-grid">
+
+
+            <div class="form-group">
+
+                <label>
+                    Trader Name
+                </label>
+
+                <input
+                    id="settingsName"
+                    placeholder="Your name"
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>
+                    Currency
+                </label>
+
+                <select
+                    id="settingsCurrency"
+                >
+
+                    <option value="₹">
+                        INR ₹
+                    </option>
+
+                    <option value="$">
+                        USD $
+                    </option>
+
+                    <option value="€">
+                        EUR €
+                    </option>
+
+                    <option value="£">
+                        GBP £
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>
+                    Starting Capital
+                </label>
+
+                <input
+                    id="startingCapital"
+                    type="number"
+                    placeholder="100000"
+                >
+
+            </div>
+
+        </div>
+
+
+        <div
+            style="
+                margin-top:20px;
+                display:flex;
+                gap:10px
+            "
+        >
+
+            <!-- DYNAMIC SAVE / EDIT BUTTON -->
+
+            <button
+                id="settingsAction"
+                class="btn btn-primary"
+                onclick="handleSettingsAction()"
+            >
+                Save Settings
+            </button>
+
+        </div>
+
+    </div>
+
+
+
+    <div class="card">
+
+        <div class="card-header">
+
+            <div>
+
+                <div class="card-title">
+                    Data Management
+                </div>
+
+                <div class="card-subtitle">
+                    Backup or restore your journal.
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div
+            style="
+                display:flex;
+                gap:10px;
+                flex-wrap:wrap
+            "
+        >
+
+            <button
+                class="btn"
+                onclick="exportData()"
+            >
+                Export JSON
+            </button>
+
+
+            <label class="btn">
+
+                Import JSON
+
+                <input
+                    type="file"
+                    accept=".json"
+                    onchange="importData(event)"
+                    style="display:none"
+                >
+
+            </label>
+
+
+            <button
+                class="btn btn-danger"
+                onclick="deleteAllData()"
+            >
+                Delete All Data
+            </button>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+</div>
+
+
+
+<!-- =====================================================
+     FOOTER
+===================================================== -->
+
+<footer class="footer">
+
+    © 2026
+    <strong>Piyush Sahoo</strong>
+    — Made with ❤️
+
+</footer>
+
+
+</main>
+
+</div>
+
+
+
+<!-- =====================================================
+     NEW TRADE MODAL
+===================================================== -->
+
+<div
+    id="tradeModal"
+    class="modal hidden"
+>
+
+<div class="modal-content">
+
+
+    <div class="modal-header">
+
+        <div>
+
+            <div class="card-title">
+                Add Trade
+            </div>
+
+            <div class="card-subtitle">
+                Record the complete trade.
+            </div>
+
+        </div>
+
+
+        <button
+            class="btn"
+            onclick="closeTradeModal()"
+        >
+            ✕
+        </button>
+
+    </div>
+
+
+
+<form id="tradeForm">
+
+
+<!-- =====================================================
+     TRADE INFORMATION
+===================================================== -->
+
+<div
+    class="form-section"
+    style="
+        border-top:0;
+        padding-top:0;
+        margin-top:0
+    "
+>
+
+    <div class="form-section-title">
+        Trade Information
+    </div>
+
+
+    <div class="form-grid">
+
+
+        <div class="form-group">
+
+            <label>
+                Symbol
+            </label>
+
+            <input
+                id="tradeSymbol"
+                required
+                placeholder="NIFTY"
+            >
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>
+                Direction
+            </label>
+
+            <select
+                id="tradeSide"
+            >
+
+                <option value="BUY">
+                    BUY
+                </option>
+
+                <option value="SELL">
+                    SELL
+                </option>
+
+            </select>
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>
+                Instrument
+            </label>
+
+            <select
+                id="instrument"
+            >
+
+                <option>
+                    Equity
+                </option>
+
+                <option>
+                    Futures
+                </option>
+
+                <option>
+                    Options
+                </option>
+
+                <option>
+                    Crypto
+                </option>
+
+                <option>
+                    Forex
+                </option>
+
+                <option>
+                    Commodity
+                </option>
+
+            </select>
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>
+                Entry Price
+            </label>
+
+            <input
+                id="tradeEntry"
+                type="number"
+                step="0.01"
+                required
+            >
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>
+                Exit Price
+            </label>
+
+            <input
+                id="tradeExit"
+                type="number"
+                step="0.01"
+                required
+            >
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>
+                Quantity
+            </label>
+
+            <input
+                id="tradeQuantity"
+                type="number"
+                step="1"
+                required
+            >
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>
+                Stop Loss
+            </label>
+
+            <input
+                id="tradeSL"
+                type="number"
+                step="0.01"
+                required
+            >
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>
+                Target
+            </label>
+
+            <input
+                id="tradeTarget"
+                type="number"
+                step="0.01"
+                required
+            >
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>
+                Fees / Charges
+            </label>
+
+            <input
+                id="tradeFees"
+                type="number"
+                step="0.01"
+                value="0"
+            >
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- =====================================================
+     TRADE TYPE
+===================================================== -->
+
+<div class="form-section">
+
+    <div class="form-section-title">
+        Trade Type
+    </div>
+
+    <div class="trade-type-options">
+
+        <div class="trade-type-option">
+
+            <input
+                type="radio"
+                id="tradeTypeIntraday"
+                name="tradeType"
+                value="Intraday"
+                required
+            >
+
+            <label for="tradeTypeIntraday">
+                Intraday
+            </label>
+
+        </div>
+
+
+        <div class="trade-type-option">
+
+            <input
+                type="radio"
+                id="tradeTypeSwing"
+                name="tradeType"
+                value="Swing"
+            >
+
+            <label for="tradeTypeSwing">
+                Swing
+            </label>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<!-- =====================================================
+     SETUP
+===================================================== -->
+
+<div class="form-section">
+
+    <div class="form-section-title">
+        Setup & Execution
+    </div>
+
+
+    <div class="form-grid">
+
+
+        <div class="form-group">
+
+            <label>
+                Strategy
+            </label>
+
+            <select
+                id="strategy"
+                onchange="handleStrategyChange()"
+            >
+
+                <option>
+                    Breakout
+                </option>
+
+                <option>
+                    Breakdown
+                </option>
+
+                <option>
+                    Trend Following
+                </option>
+
+                <option>
+                    Pullback
+                </option>
+
+                <option>
+                    Reversal
+                </option>
+
+                <option>
+                    Support / Resistance
+                </option>
+
+                <option>
+                    VWAP
+                </option>
+
+                <option>
+                    Momentum
+                </option>
+
+                <option>
+                    Other
+                </option>
+
+                <option value="__custom__">
+                    + Add My Own Strategy
+                </option>
+
+            </select>
+
+        </div>
+
+
+        <!-- CUSTOM STRATEGY -->
+
+        <div
+            class="form-group hidden"
+            id="customStrategyGroup"
+        >
+
+            <label>
+                Your Strategy Name
+            </label>
+
+            <input
+                id="customStrategy"
+                placeholder="e.g. Opening Range Breakout"
+            >
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>
+                Timeframe
+            </label>
+
+            <select id="timeframe">
+
+                <option>
+                    1m
+                </option>
+
+                <option>
+                    3m
+                </option>
+
+                <option>
+                    5m
+                </option>
+
+                <option>
+                    15m
+                </option>
+
+                <option>
+                    30m
+                </option>
+
+                <option>
+                    1H
+                </option>
+
+                <option>
+                    4H
+                </option>
+
+                <option>
+                    1D
+                </option>
+
+            </select>
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>
+                Market Condition
+            </label>
+
+            <select
+                id="marketCondition"
+            >
+
+                <option>
+                    Trending
+                </option>
+
+                <option>
+                    Ranging
+                </option>
+
+                <option>
+                    Volatile
+                </option>
+
+                <option>
+                    Low Volatility
+                </option>
+
+                <option>
+                    Uncertain
+                </option>
+
+            </select>
+
+        </div>
+
+
+        <div class="form-group full">
+
+            <label>
+                Trade Thesis
+            </label>
+
+            <textarea
+                id="tradeThesis"
+                placeholder="Why did you take this trade?"
+            ></textarea>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<!-- =====================================================
+     PSYCHOLOGY
+===================================================== -->
+
+<div class="form-section">
+
+    <div class="form-section-title">
+        Psychology
+    </div>
+
+
+    <div class="form-grid">
+
+
+        <div class="form-group">
+
+            <label>
+                Emotion Before
+            </label>
+
+            <select id="emotionBefore">
+
+                <option>
+                    Calm
+                </option>
+
+                <option>
+                    Confident
+                </option>
+
+                <option>
+                    Fearful
+                </option>
+
+                <option>
+                    FOMO
+                </option>
+
+                <option>
+                    Greedy
+                </option>
+
+                <option>
+                    Angry
+                </option>
+
+                <option>
+                    Revenge
+                </option>
+
+                <option>
+                    Uncertain
+                </option>
+
+            </select>
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>
+                Emotion During
+            </label>
+
+            <select id="emotionDuring">
+
+                <option>
+                    Calm
+                </option>
+
+                <option>
+                    Confident
+                </option>
+
+                <option>
+                    Fearful
+                </option>
+
+                <option>
+                    Greedy
+                </option>
+
+                <option>
+                    Impatient
+                </option>
+
+                <option>
+                    Panicked
+                </option>
+
+                <option>
+                    Hopeful
+                </option>
+
+            </select>
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>
+                Emotion After
+            </label>
+
+            <select id="emotionAfter">
+
+                <option>
+                    Satisfied
+                </option>
+
+                <option>
+                    Calm
+                </option>
+
+                <option>
+                    Frustrated
+                </option>
+
+                <option>
+                    Regret
+                </option>
+
+                <option>
+                    Angry
+                </option>
+
+                <option>
+                    Excited
+                </option>
+
+                <option>
+                    Neutral
+                </option>
+
+            </select>
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>
+                Confidence Before:
+                <span id="confidenceValue">
+                    5
+                </span>/10
+            </label>
+
+            <input
+                id="confidence"
+                type="range"
+                min="1"
+                max="10"
+                value="5"
+                oninput="
+                    confidenceValue.textContent=this.value
+                "
+            >
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>
+                Discipline:
+                <span id="disciplineValue">
+                    5
+                </span>/10
+            </label>
+
+            <input
+                id="discipline"
+                type="range"
+                min="1"
+                max="10"
+                value="5"
+                oninput="
+                    disciplineValue.textContent=this.value
+                "
+            >
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>
+                Followed Trading Plan?
+            </label>
+
+            <select id="followedPlan">
+
+                <option value="Yes">
+                    Yes
+                </option>
+
+                <option value="No">
+                    No
+                </option>
+
+            </select>
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>
+                Psychology Mistake
+            </label>
+
+            <select id="mistake">
+
+                <option value="None">
+                    None
+                </option>
+
+                <option>
+                    FOMO
+                </option>
+
+                <option>
+                    Revenge Trading
+                </option>
+
+                <option>
+                    Overtrading
+                </option>
+
+                <option>
+                    Early Entry
+                </option>
+
+                <option>
+                    Late Entry
+                </option>
+
+                <option>
+                    Moved Stop Loss
+                </option>
+
+                <option>
+                    Exited Early
+                </option>
+
+                <option>
+                    Increased Risk
+                </option>
+
+                <option>
+                    Ignored Setup
+                </option>
+
+            </select>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<!-- =====================================================
+     REVIEW
+===================================================== -->
+
+<div class="form-section">
+
+    <div class="form-section-title">
+        Post-Trade Review
+    </div>
+
+
+    <div class="form-grid">
+
+
+        <div class="form-group full">
+
+            <label>
+                What went well?
+            </label>
+
+            <textarea id="wentWell"></textarea>
+
+        </div>
+
+
+        <div class="form-group full">
+
+            <label>
+                What went wrong?
+            </label>
+
+            <textarea id="wentWrong"></textarea>
+
+        </div>
+
+
+        <div class="form-group full">
+
+            <label>
+                Lesson Learned
+            </label>
+
+            <textarea id="lesson"></textarea>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<div
+    style="
+        margin-top:25px;
+        display:flex;
+        justify-content:flex-end;
+        gap:10px
+    "
+>
+
+    <button
+        type="button"
+        class="btn"
+        onclick="closeTradeModal()"
+    >
+        Cancel
+    </button>
+
+
+    <button
+        type="submit"
+        class="btn btn-primary"
+    >
+        Save Trade
+    </button>
+
+</div>
+
+
+</form>
+
+</div>
+
+</div>
+
+
+
+<!-- =====================================================
+     TRADE DETAILS MODAL
+===================================================== -->
+
+<div
+    id="tradeDetailsModal"
+    class="modal hidden"
+>
+
+<div class="modal-content">
+
+
+    <div class="modal-header">
+
+        <div>
+
+            <div
+                class="card-title"
+                id="detailTitle"
+            >
+                Trade Details
+            </div>
+
+            <div
+                class="card-subtitle"
+                id="detailDate"
+            ></div>
+
+        </div>
+
+
+        <div style="display:flex;align-items:center;gap:8px">
+
+            <button
+                id="deleteTradeButton"
+                class="delete-trade-icon"
+                type="button"
+                aria-label="Delete trade"
+                title="Delete trade"
+            >
+                🗑
+            </button>
+
+            <button
+                class="btn"
+                onclick="closeTradeDetails()"
+                type="button"
+            >
+                ✕
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <div
+        id="tradeDetailsContent"
+    ></div>
+
+
+    <div
+        style="
+            display:flex;
+            justify-content:flex-end;
+            margin-top:20px
+        "
+    >
+
+        <button
+            class="btn"
+            onclick="closeTradeDetails()"
+        >
+            Close
+        </button>
+
+    </div>
+
+</div>
+
+</div>
+
+
+
+<!-- =====================================================
+     DELETE TRADE CONFIRMATION MODAL
+===================================================== -->
+
+<div
+    id="deleteConfirmModal"
+    class="modal hidden"
+>
+
+    <div class="modal-content confirm-modal-content">
+
+        <div class="confirm-icon">
+            🗑
+        </div>
+
+        <div class="confirm-title">
+            Delete this trade?
+        </div>
+
+        <div class="confirm-text">
+            This is the final confirmation. The entire trade record,
+            including setup, psychology and review details, will be deleted.
+            This action cannot be undone.
+        </div>
+
+        <div class="confirm-actions">
+
+            <button
+                type="button"
+                class="btn"
+                onclick="cancelDeleteTrade()"
+            >
+                Cancel
+            </button>
+
+            <button
+                type="button"
+                class="btn btn-danger"
+                onclick="confirmDeleteTrade()"
+            >
+                Yes, Delete Trade
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<script>
+
+/* =========================================================
+   THEME
+========================================================= */
+
+const savedTheme =
+    localStorage.getItem(
+        "tradeOS-theme"
+    );
+
+
+if (savedTheme === "dark") {
+
+    document.documentElement
+        .setAttribute(
+            "data-theme",
+            "dark"
+        );
+
+}
+
+
+const themeToggle =
+    document.getElementById(
+        "themeToggle"
+    );
+
+
+function updateThemeIcon() {
+
+    const dark =
+        document.documentElement
+        .getAttribute(
+            "data-theme"
+        ) === "dark";
+
+
+    themeToggle.textContent =
+        dark
+            ? "☀️"
+            : "🌙";
+
+}
+
+
+updateThemeIcon();
+
+
+themeToggle.addEventListener(
+    "click",
+    function() {
+
+        const dark =
+            document.documentElement
+            .getAttribute(
+                "data-theme"
+            ) === "dark";
+
+
+        if (dark) {
+
+            document.documentElement
+                .removeAttribute(
+                    "data-theme"
+                );
+
+            localStorage.setItem(
+                "tradeOS-theme",
+                "light"
+            );
+
+        } else {
+
+            document.documentElement
+                .setAttribute(
+                    "data-theme",
+                    "dark"
+                );
+
+            localStorage.setItem(
+                "tradeOS-theme",
+                "dark"
+            );
+
+        }
+
+
+        updateThemeIcon();
+
+        refreshCharts();
+
+    }
+);
+
+
+/* =========================================================
+   DATABASE
+========================================================= */
+
+let database =
+    JSON.parse(
+        localStorage.getItem(
+            "tradeOS"
+        )
+    ) || {
+
+        trades: [],
+
+        goals: [],
+
+        settings: {
+
+            name: "",
+
+            currency: "₹",
+
+            capital: 100000,
+
+            configured: false
+
+        }
+
+    };
+
+
+/* =========================================================
+   BACKWARD COMPATIBILITY
+========================================================= */
+
+if (!database.settings) {
+
+    database.settings = {
+
+        name: "",
+
+        currency: "₹",
+
+        capital: 100000,
+
+        configured: false
+
+    };
+
+}
+
+
+if (
+    database.settings.configured
+    === undefined
+) {
+
+    database.settings.configured =
+        Boolean(
+            database.settings.name
+            ||
+            database.settings.capital
+        );
+
+}
+
+
+/* =========================================================
+   GLOBALS
+========================================================= */
+
+let equityChart;
+let performanceChart;
+let strategyChart;
+let timeChart;
+let emotionChart;
+
+let calendarDate =
+    new Date();
+
+
+/* =========================================================
+   HELPERS
+========================================================= */
+
+function saveDatabase() {
+
+    localStorage.setItem(
+        "tradeOS",
+        JSON.stringify(
+            database
+        )
+    );
+
+}
+
+
+function currency(value) {
+
+    const symbol =
+        database.settings.currency
+        || "₹";
+
+
+    return symbol +
+        Number(
+            value || 0
+        ).toLocaleString(
+            "en-IN",
+            {
+                maximumFractionDigits: 2
+            }
+        );
+
+}
+
+
+function pnlClass(value) {
+
+    if (value > 0)
+        return "profit";
+
+    if (value < 0)
+        return "loss";
+
+    return "";
+
+}
+
+
+function escapeHTML(value) {
+
+    return String(
+        value ?? ""
+    )
+
+    .replaceAll(
+        "&",
+        "&amp;"
+    )
+
+    .replaceAll(
+        "<",
+        "&lt;"
+    )
+
+    .replaceAll(
+        ">",
+        "&gt;"
+    )
+
+    .replaceAll(
+        '"',
+        "&quot;"
+    )
+
+    .replaceAll(
+        "'",
+        "&#039;"
+    );
+
+}
+
+
+function formatDate(date) {
+
+    return new Date(
+        date
+    )
+    .toLocaleDateString(
+        "en-IN",
+        {
+
+            day:
+                "2-digit",
+
+            month:
+                "short",
+
+            year:
+                "numeric"
+
+        }
+    );
+
+}
+
+
+/* =========================================================
+   TRADE CALCULATION
+========================================================= */
+
+function calculateTrade(data) {
+
+    const entry =
+        Number(data.entry);
+
+    const exit =
+        Number(data.exit);
+
+    const sl =
+        Number(data.sl);
+
+    const target =
+        Number(data.target);
+
+    const quantity =
+        Number(data.quantity);
+
+
+    let riskPerUnit;
+
+    let rewardPerUnit;
+
+    let pnl;
+
+
+    if (data.side === "BUY") {
+
+        riskPerUnit =
+            entry - sl;
+
+        rewardPerUnit =
+            target - entry;
+
+        pnl =
+            (exit - entry) *
+            quantity;
+
+    } else {
+
+        riskPerUnit =
+            sl - entry;
+
+        rewardPerUnit =
+            entry - target;
+
+        pnl =
+            (entry - exit) *
+            quantity;
+
+    }
+
+
+    const risk =
+        Math.abs(
+            riskPerUnit *
+            quantity
+        );
+
+
+    const reward =
+        Math.abs(
+            rewardPerUnit *
+            quantity
+        );
+
+
+    const rrr =
+        risk > 0
+            ? reward / risk
+            : 0;
+
+
+    const fees =
+        Number(
+            data.fees || 0
+        );
+
+
+    const netPnl =
+        pnl - fees;
+
+
+    const rMultiple =
+        risk > 0
+            ? netPnl / risk
+            : 0;
+
+
+    return {
+
+        ...data,
+
+        risk,
+
+        reward,
+
+        rrr,
+
+        pnl,
+
+        netPnl,
+
+        rMultiple,
+
+        result:
+            netPnl > 0
+                ? "WIN"
+                : netPnl < 0
+                    ? "LOSS"
+                    : "BREAKEVEN"
+
+    };
+
+}
+
+
+/* =========================================================
+   NAVIGATION
+========================================================= */
+
+document
+    .querySelectorAll(
+        ".nav-btn"
+    )
+    .forEach(
+        button => {
+
+            button.addEventListener(
+                "click",
+                () =>
+                    navigate(
+                        button.dataset.page
+                    )
+            );
+
+        }
+    );
+
+
+function navigate(page) {
+
+    document
+        .querySelectorAll(
+            ".page"
+        )
+        .forEach(
+            section =>
+                section.classList.add(
+                    "hidden"
+                )
+        );
+
+
+    document
+        .getElementById(
+            page
+        )
+        .classList.remove(
+            "hidden"
+        );
+
+
+    document
+        .querySelectorAll(
+            ".nav-btn"
+        )
+        .forEach(
+            button =>
+                button.classList.toggle(
+                    "active",
+                    button.dataset.page
+                    === page
+                )
+        );
+
+
+    const titles = {
+
+        dashboard:
+            "Dashboard",
+
+        journal:
+            "Trade Journal",
+
+        analytics:
+            "Analytics",
+
+        psychology:
+            "Psychology",
+
+        calendar:
+            "Trading Calendar",
+
+        goals:
+            "Goals",
+
+        reports:
+            "Reports",
+
+        settings:
+            "Settings"
+
+    };
+
+
+    document.getElementById(
+        "pageTitle"
+    ).textContent =
+        titles[page];
+
+
+    if (page === "dashboard")
+        renderDashboard();
+
+    if (page === "journal")
+        renderJournal();
+
+    if (page === "analytics")
+        renderAnalytics();
+
+    if (page === "psychology")
+        renderPsychology();
+
+    if (page === "calendar")
+        renderCalendar();
+
+    if (page === "goals")
+        renderGoals();
+
+    if (page === "reports")
+        renderReport();
+
+    if (page === "settings")
+        loadSettings();
+
+}
+
+
+/* =========================================================
+   CUSTOM STRATEGY
+========================================================= */
+
+function handleStrategyChange() {
+
+    const strategy =
+        document.getElementById(
+            "strategy"
+        ).value;
+
+
+    const group =
+        document.getElementById(
+            "customStrategyGroup"
+        );
+
+
+    const input =
+        document.getElementById(
+            "customStrategy"
+        );
+
+
+    if (
+        strategy ===
+        "__custom__"
+    ) {
+
+        group.classList.remove(
+            "hidden"
+        );
+
+        input.required = true;
+
+        setTimeout(
+            () =>
+                input.focus(),
+            50
+        );
+
+    } else {
+
+        group.classList.add(
+            "hidden"
+        );
+
+        input.required = false;
+
+        input.value = "";
+
+    }
+
+}
+
+
+/* =========================================================
+   MODAL
+========================================================= */
+
+function openTradeModal() {
+
+    document
+        .getElementById(
+            "tradeModal"
+        )
+        .classList.remove(
+            "hidden"
+        );
+
+}
+
+
+document
+    .getElementById("tradeModal")
+    ?.addEventListener("click", function(event) {
+        if (event.target === this) {
+            closeTradeModal();
+        }
+    });
+
+
+function closeTradeModal() {
+
+    const modal =
+        document.getElementById(
+            "tradeModal"
+        );
+
+    if (modal) {
+        modal.classList.add("hidden");
+    }
+
+    const form =
+        document.getElementById(
+            "tradeForm"
+        );
+
+    if (form) {
+        form.reset();
+    }
+
+    const customGroup =
+        document.getElementById(
+            "customStrategyGroup"
+        );
+
+    if (customGroup) {
+        customGroup.classList.add("hidden");
+    }
+
+    const customInput =
+        document.getElementById(
+            "customStrategy"
+        );
+
+    if (customInput) {
+        customInput.required = false;
+        customInput.value = "";
+    }
+
+    const confidenceValue =
+        document.getElementById(
+            "confidenceValue"
+        );
+
+    if (confidenceValue) {
+        confidenceValue.textContent = "5";
+    }
+
+    const disciplineValue =
+        document.getElementById(
+            "disciplineValue"
+        );
+
+    if (disciplineValue) {
+        disciplineValue.textContent = "5";
+    }
+
+}
+
+
+/* =========================================================
+   SAVE TRADE
+========================================================= */
+
+document
+    .getElementById(
+        "tradeForm"
+    )
+    .addEventListener(
+        "submit",
+        function(event) {
+
+            event.preventDefault();
+
+
+            const selectedStrategy =
+                document
+                .getElementById(
+                    "strategy"
+                )
+                .value;
+
+
+            let finalStrategy =
+                selectedStrategy;
+
+
+            if (
+                selectedStrategy ===
+                "__custom__"
+            ) {
+
+                finalStrategy =
+                    document
+                    .getElementById(
+                        "customStrategy"
+                    )
+                    .value
+                    .trim();
+
+
+                if (!finalStrategy) {
+
+                    alert(
+                        "Please enter your strategy name."
+                    );
+
+                    return;
+
+                }
+
+            }
+
+
+            const raw = {
+
+                id:
+                    Date.now(),
+
+                date:
+                    new Date()
+                    .toISOString(),
+
+                symbol:
+                    document
+                    .getElementById(
+                        "tradeSymbol"
+                    )
+                    .value
+                    .trim()
+                    .toUpperCase(),
+
+                tradeType:
+                    document
+                    .querySelector(
+                        'input[name="tradeType"]:checked'
+                    )
+                    ?.value
+                    || "",
+
+                side:
+                    document
+                    .getElementById(
+                        "tradeSide"
+                    )
+                    .value,
+
+                instrument:
+                    document
+                    .getElementById(
+                        "instrument"
+                    )
+                    .value,
+
+                entry:
+                    Number(
+                        document
+                        .getElementById(
+                            "tradeEntry"
+                        )
+                        .value
+                    ),
+
+                exit:
+                    Number(
+                        document
+                        .getElementById(
+                            "tradeExit"
+                        )
+                        .value
+                    ),
+
+                quantity:
+                    Number(
+                        document
+                        .getElementById(
+                            "tradeQuantity"
+                        )
+                        .value
+                    ),
+
+                sl:
+                    Number(
+                        document
+                        .getElementById(
+                            "tradeSL"
+                        )
+                        .value
+                    ),
+
+                target:
+                    Number(
+                        document
+                        .getElementById(
+                            "tradeTarget"
+                        )
+                        .value
+                    ),
+
+                fees:
+                    Number(
+                        document
+                        .getElementById(
+                            "tradeFees"
+                        )
+                        .value
+                    ) || 0,
+
+                strategy:
+                    finalStrategy,
+
+                timeframe:
+                    document
+                    .getElementById(
+                        "timeframe"
+                    )
+                    .value,
+
+                marketCondition:
+                    document
+                    .getElementById(
+                        "marketCondition"
+                    )
+                    .value,
+
+                thesis:
+                    document
+                    .getElementById(
+                        "tradeThesis"
+                    )
+                    .value,
+
+                psychology: {
+
+                    emotionBefore:
+                        document
+                        .getElementById(
+                            "emotionBefore"
+                        )
+                        .value,
+
+                    emotionDuring:
+                        document
+                        .getElementById(
+                            "emotionDuring"
+                        )
+                        .value,
+
+                    emotionAfter:
+                        document
+                        .getElementById(
+                            "emotionAfter"
+                        )
+                        .value,
+
+                    confidence:
+                        Number(
+                            document
+                            .getElementById(
+                                "confidence"
+                            )
+                            .value
+                        ),
+
+                    discipline:
+                        Number(
+                            document
+                            .getElementById(
+                                "discipline"
+                            )
+                            .value
+                        ),
+
+                    followedPlan:
+                        document
+                        .getElementById(
+                            "followedPlan"
+                        )
+                        .value,
+
+                    mistake:
+                        document
+                        .getElementById(
+                            "mistake"
+                        )
+                        .value
+
+                },
+
+
+                review: {
+
+                    wentWell:
+                        document
+                        .getElementById(
+                            "wentWell"
+                        )
+                        .value,
+
+                    wentWrong:
+                        document
+                        .getElementById(
+                            "wentWrong"
+                        )
+                        .value,
+
+                    lesson:
+                        document
+                        .getElementById(
+                            "lesson"
+                        )
+                        .value
+
+                }
+
+            };
+
+
+            if (!raw.tradeType) {
+
+                alert(
+                    "Please choose a trade type: Intraday or Swing."
+                );
+
+                return;
+
+            }
+
+
+            if (
+                raw.entry <= 0 ||
+                raw.exit <= 0 ||
+                raw.quantity <= 0
+            ) {
+
+                alert(
+                    "Please enter valid trade values."
+                );
+
+                return;
+
+            }
+
+
+            const trade =
+                calculateTrade(
+                    raw
+                );
+
+
+            database.trades.unshift(
+                trade
+            );
+
+
+            saveDatabase();
+
+            closeTradeModal();
+
+            refresh();
+
+        }
+    );
+
+
+/* =========================================================
+   DASHBOARD
+========================================================= */
+
+function getStats() {
+
+    const trades =
+        database.trades;
+
+
+    const wins =
+        trades.filter(
+            t =>
+                t.netPnl > 0
+        );
+
+
+    const losses =
+        trades.filter(
+            t =>
+                t.netPnl < 0
+        );
+
+
+    const grossProfit =
+        wins.reduce(
+            (sum,t) =>
+                sum + t.netPnl,
+            0
+        );
+
+
+    const grossLoss =
+        Math.abs(
+            losses.reduce(
+                (sum,t) =>
+                    sum + t.netPnl,
+                0
+            )
+        );
+
+
+    const net =
+        trades.reduce(
+            (sum,t) =>
+                sum + t.netPnl,
+            0
+        );
+
+
+    const totalCharges =
+        trades.reduce(
+            (sum,t) =>
+                sum +
+                Number(
+                    t.fees || 0
+                ),
+            0
+        );
+
+
+    const winRate =
+        trades.length
+            ?
+            wins.length /
+            trades.length *
+            100
+            :
+            0;
+
+
+    const profitFactor =
+        grossLoss
+            ?
+            grossProfit /
+            grossLoss
+            :
+            0;
+
+
+    const expectancy =
+        trades.length
+            ?
+            net /
+            trades.length
+            :
+            0;
+
+
+    let equity = 0;
+
+    let peak = 0;
+
+    let maxDD = 0;
+
+
+    trades
+        .slice()
+        .reverse()
+        .forEach(
+            t => {
+
+                equity +=
+                    t.netPnl;
+
+
+                peak =
+                    Math.max(
+                        peak,
+                        equity
+                    );
+
+
+                maxDD =
+                    Math.max(
+                        maxDD,
+                        peak - equity
+                    );
+
+            }
+        );
+
+
+    return {
+
+        total:
+            trades.length,
+
+        wins:
+            wins.length,
+
+        losses:
+            losses.length,
+
+        grossProfit,
+
+        grossLoss,
+
+        net,
+
+        totalCharges,
+
+        winRate,
+
+        profitFactor,
+
+        expectancy,
+
+        maxDD
+
+    };
+
+}
+
+
+function renderDashboard() {
+
+    const s =
+        getStats();
+
+
+    document.getElementById(
+        "statTrades"
+    ).textContent =
+        s.total;
+
+
+    document.getElementById(
+        "statPnl"
+    ).textContent =
+        currency(
+            s.net
+        );
+
+
+    document.getElementById(
+        "statPnl"
+    ).className =
+        "stat-value " +
+        pnlClass(
+            s.net
+        );
+
+
+    document.getElementById(
+        "statWinRate"
+    ).textContent =
+        s.winRate.toFixed(1)
+        + "%";
+
+
+    document.getElementById(
+        "statPF"
+    ).textContent =
+        s.profitFactor.toFixed(2);
+
+
+    document.getElementById(
+        "statExpectancy"
+    ).textContent =
+        currency(
+            s.expectancy
+        );
+
+
+    document.getElementById(
+        "statDD"
+    ).textContent =
+        currency(
+            -s.maxDD
+        );
+
+
+    renderEquityChart();
+
+    renderPerformanceChart();
+
+    renderRecentTrades();
+
+    renderDiscipline();
+
+}
+
+
+/* =========================================================
+   CHART COLORS
+========================================================= */
+
+function chartTextColor() {
+
+    return getComputedStyle(
+        document.documentElement
+    )
+    .getPropertyValue(
+        "--muted"
+    )
+    .trim();
+
+}
+
+
+function chartGridColor() {
+
+    return getComputedStyle(
+        document.documentElement
+    )
+    .getPropertyValue(
+        "--border"
+    )
+    .trim();
+
+}
+
+
+/* =========================================================
+   EQUITY CHART
+========================================================= */
+
+function renderEquityChart() {
+
+    const ctx =
+        document
+        .getElementById(
+            "equityChart"
+        );
+
+
+    if (equityChart)
+        equityChart.destroy();
+
+
+    let equity = 0;
+
+
+    const ordered =
+        database.trades
+        .slice()
+        .reverse();
+
+
+    const labels =
+        ordered.map(
+            (_,i) =>
+                i + 1
+        );
+
+
+    const values =
+        ordered.map(
+            t => {
+
+                equity +=
+                    t.netPnl;
+
+                return equity;
+
+            }
+        );
+
+
+    equityChart =
+        new Chart(
+            ctx,
+            {
+
+                type:
+                    "line",
+
+                data: {
+
+                    labels,
+
+                    datasets: [{
+
+                        label:
+                            "Equity",
+
+                        data:
+                            values,
+
+                        borderWidth:
+                            2,
+
+                        tension:
+                            .3,
+
+                        fill:
+                            false
+
+                    }]
+
+                },
+
+                options: {
+
+                    responsive:
+                        true,
+
+                    maintainAspectRatio:
+                        false,
+
+                    plugins: {
+
+                        legend: {
+                            display:
+                                false
+                        }
+
+                    },
+
+                    scales: {
+
+                        x: {
+
+                            ticks: {
+                                color:
+                                    chartTextColor()
+                            },
+
+                            grid: {
+                                color:
+                                    chartGridColor()
+                            }
+
+                        },
+
+                        y: {
+
+                            ticks: {
+                                color:
+                                    chartTextColor()
+                            },
+
+                            grid: {
+                                color:
+                                    chartGridColor()
+                            }
+
+                        }
+
+                    }
+
+                }
+
+            }
+        );
+
+}
+
+
+/* =========================================================
+   PERFORMANCE CHART
+========================================================= */
+
+function renderPerformanceChart() {
+
+    const ctx =
+        document
+        .getElementById(
+            "performanceChart"
+        );
+
+
+    if (performanceChart)
+        performanceChart.destroy();
+
+
+    const s =
+        getStats();
+
+
+    const breakeven =
+        database.trades
+        .filter(
+            t =>
+                t.netPnl === 0
+        )
+        .length;
+
+
+    performanceChart =
+        new Chart(
+            ctx,
+            {
+
+                type:
+                    "doughnut",
+
+                data: {
+
+                    labels: [
+                        "Wins",
+                        "Losses",
+                        "Breakeven"
+                    ],
+
+                    datasets: [{
+
+                        data: [
+
+                            s.wins,
+
+                            s.losses,
+
+                            breakeven
+
+                        ]
+
+                    }]
+
+                },
+
+                options: {
+
+                    responsive:
+                        true,
+
+                    maintainAspectRatio:
+                        false,
+
+                    plugins: {
+
+                        legend: {
+
+                            labels: {
+
+                                color:
+                                    chartTextColor()
+
+                            }
+
+                        }
+
+                    }
+
+                }
+
+            }
+        );
+
+}
+
+
+/* =========================================================
+   RECENT TRADES
+========================================================= */
+
+function renderRecentTrades() {
+
+    const container =
+        document
+        .getElementById(
+            "recentTrades"
+        );
+
+
+    const trades =
+        database.trades
+        .slice(
+            0,
+            6
+        );
+
+
+    if (!trades.length) {
+
+        container.innerHTML =
+            `
+            <div class="empty">
+                No trades yet.
+            </div>
+            `;
+
+        return;
+
+    }
+
+
+    container.innerHTML =
+        trades
+        .map(
+            t =>
+
+            `
+
+            <div
+                style="
+                    display:flex;
+                    justify-content:space-between;
+                    align-items:center;
+                    padding:12px 0;
+                    border-bottom:1px solid var(--border)
+                "
+            >
+
+                <div>
+
+                    <strong>
+                        ${escapeHTML(
+                            t.symbol
+                        )}
+                    </strong>
+
+                    <div
+                        style="
+                            font-size:11px;
+                            color:var(--muted)
+                        "
+                    >
+                        ${escapeHTML(
+                            t.strategy
+                        )}
+                    </div>
+
+                </div>
+
+
+                <div
+                    class="${pnlClass(
+                        t.netPnl
+                    )}"
+                >
+
+                    ${
+                        t.netPnl >= 0
+                            ? "+"
+                            : ""
+                    }
+
+                    ${currency(
+                        t.netPnl
+                    )}
+
+                </div>
+
+            </div>
+
+            `
+        )
+        .join("");
+
+}
+
+
+/* =========================================================
+   DISCIPLINE
+========================================================= */
+
+function renderDiscipline() {
+
+    const container =
+        document
+        .getElementById(
+            "disciplineDashboard"
+        );
+
+
+    const trades =
+        database.trades;
+
+
+    if (!trades.length) {
+
+        container.innerHTML =
+            `
+            <div class="empty">
+                No psychology data yet.
+            </div>
+            `;
+
+        return;
+
+    }
+
+
+    const followed =
+        trades.filter(
+            t =>
+                t.psychology
+                &&
+                t.psychology
+                .followedPlan
+                === "Yes"
+        ).length;
+
+
+    const score =
+        followed /
+        trades.length *
+        100;
+
+
+    container.innerHTML =
+
+        `
+
+        <div class="psych-score">
+
+            <div>
+
+                <strong>
+                    Plan Adherence
+                </strong>
+
+                <div
+                    style="
+                        color:var(--muted);
+                        font-size:11px
+                    "
+                >
+                    ${followed}
+                    /
+                    ${trades.length}
+                    trades
+                </div>
+
+            </div>
+
+
+            <strong>
+                ${score.toFixed(0)}%
+            </strong>
+
+        </div>
+
+
+        <div class="progress">
+
+            <div
+                class="progress-bar"
+                style="
+                    width:${score}%
+                "
+            ></div>
+
+        </div>
+
+        `;
+
+}
+
+
+/* =========================================================
+   JOURNAL
+========================================================= */
+
+function renderJournal() {
+
+    const tbody =
+        document
+        .getElementById(
+            "journalTable"
+        );
+
+
+    const search =
+        (
+            document
+            .getElementById(
+                "journalSearch"
+            )
+            ?.value
+            ||
+            ""
+        )
+        .toLowerCase();
+
+
+    const result =
+        document
+        .getElementById(
+            "journalResult"
+        )
+        ?.value
+        ||
+        "all";
+
+
+    const direction =
+        document
+        .getElementById(
+            "journalDirection"
+        )
+        ?.value
+        ||
+        "all";
+
+
+    const trades =
+        database.trades
+        .filter(
+            t => {
+
+                const matchesSearch =
+
+                    t.symbol
+                    .toLowerCase()
+                    .includes(
+                        search
+                    )
+
+                    ||
+
+                    t.strategy
+                    .toLowerCase()
+                    .includes(
+                        search
+                    );
+
+
+                const matchesResult =
+
+                    result === "all"
+
+                    ||
+
+                    (
+                        result === "win"
+                        &&
+                        t.netPnl > 0
+                    )
+
+                    ||
+
+                    (
+                        result === "loss"
+                        &&
+                        t.netPnl < 0
+                    );
+
+
+                const matchesDirection =
+
+                    direction === "all"
+
+                    ||
+
+                    t.side ===
+                    direction;
+
+
+                return (
+
+                    matchesSearch
+                    &&
+                    matchesResult
+                    &&
+                    matchesDirection
+
+                );
+
+            }
+        );
+
+
+    if (!trades.length) {
+
+        tbody.innerHTML =
+
+            `
+
+            <tr>
+
+                <td
+                    colspan="12"
+                    class="empty"
+                >
+                    No matching trades.
+                </td>
+
+            </tr>
+
+            `;
+
+        return;
+
+    }
+
+
+    tbody.innerHTML =
+        trades
+        .map(
+            t =>
+
+            `
+
+            <tr
+                onclick="viewTrade(${t.id})"
+                style="cursor:pointer"
+            >
+
+                <td>
+                    ${formatDate(
+                        t.date
+                    )}
+                </td>
+
+
+                <td>
+
+                    <strong>
+                        ${escapeHTML(
+                            t.symbol
+                        )}
+                    </strong>
+
+                </td>
+
+
+                <td>
+
+                    <span
+                        class="badge"
+                        style="
+                            background:var(--blue-bg);
+                            color:var(--blue)
+                        "
+                    >
+                        ${escapeHTML(
+                            t.tradeType
+                            || "Not specified"
+                        )}
+                    </span>
+
+                </td>
+
+
+                <td>
+
+                    <span
+                        class="
+                            badge
+                            ${
+                                t.side === "BUY"
+                                    ? "badge-buy"
+                                    : "badge-sell"
+                            }
+                        "
+                    >
+                        ${t.side}
+                    </span>
+
+                </td>
+
+
+                <td>
+                    ${t.entry}
+                </td>
+
+
+                <td>
+                    ${t.exit}
+                </td>
+
+
+                <td>
+                    ${t.sl}
+                </td>
+
+
+                <td>
+                    ${t.target}
+                </td>
+
+
+                <td>
+                    1:${Number(
+                        t.rrr || 0
+                    ).toFixed(2)}
+                </td>
+
+
+                <td
+                    class="${pnlClass(
+                        t.netPnl
+                    )}"
+                >
+                    ${currency(
+                        t.netPnl
+                    )}
+                </td>
+
+
+                <td>
+                    ${escapeHTML(
+                        t.strategy
+                    )}
+                </td>
+
+
+                <td>
+
+                    <button
+                        type="button"
+                        class="btn btn-primary journal-view-btn"
+                        onclick="
+                            event.stopPropagation();
+                            viewTrade(${t.id})
+                        "
+                    >
+                        View Card
+                    </button>
+
+                </td>
+
+            </tr>
+
+            `
+        )
+        .join("");
+
+}
+
+
+/* =========================================================
+   FULL TRADE DETAIL CARD
+========================================================= */
+
+function viewTrade(id) {
+
+    const trade =
+        database.trades
+        .find(
+            t =>
+                t.id === id
+        );
+
+
+    if (!trade)
+        return;
+
+
+    document
+        .getElementById("deleteTradeButton")
+        .onclick = function() {
+            requestDeleteTrade(trade.id);
+        };
+
+
+    document.getElementById(
+        "detailTitle"
+    ).textContent =
+
+        `${trade.symbol}
+        — ${trade.side}`;
+
+
+    document.getElementById(
+        "detailDate"
+    ).textContent =
+        formatDate(
+            trade.date
+        );
+
+
+    const psychology =
+        trade.psychology || {};
+
+
+    const review =
+        trade.review || {};
+
+
+    const html =
+
+        `
+
+        <!-- RESULT -->
+
+        <div
+            class="card"
+            style="
+                margin-bottom:18px;
+                background:var(--surface-2)
+            "
+        >
+
+            <div
+                style="
+                    display:flex;
+                    justify-content:space-between;
+                    align-items:center;
+                    gap:15px
+                "
+            >
+
+                <div>
+
+                    <div
+                        style="
+                            font-size:11px;
+                            color:var(--muted);
+                            margin-bottom:5px
+                        "
+                    >
+                        TRADE RESULT
+                    </div>
+
+                    <div
+                        style="
+                            font-size:24px;
+                            font-weight:800
+                        "
+                        class="${pnlClass(
+                            trade.netPnl
+                        )}"
+                    >
+                        ${
+                            trade.netPnl >= 0
+                                ? "+"
+                                : ""
+                        }
+
+                        ${currency(
+                            trade.netPnl
+                        )}
+                    </div>
+
+                </div>
+
+
+                <span
+                    class="
+                        badge
+                        ${
+                            trade.netPnl >= 0
+                                ? "badge-buy"
+                                : "badge-sell"
+                        }
+                    "
+                    style="
+                        font-size:12px;
+                        padding:7px 11px
+                    "
+                >
+                    ${trade.result}
+                </span>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- TRADE INFORMATION -->
+
+        <div
+            class="trade-detail-section"
+            style="
+                border-top:0;
+                padding-top:0;
+                margin-top:0
+            "
+        >
+
+            <div class="trade-detail-section-title">
+                Trade Information
+            </div>
+
+
+            <div class="trade-detail-grid">
+
+                ${detailItem(
+                    "Symbol",
+                    trade.symbol
+                )}
+
+                ${detailItem(
+                    "Trade Type",
+                    trade.tradeType
+                    || "Not specified"
+                )}
+
+                ${detailItem(
+                    "Direction",
+                    trade.side
+                )}
+
+                ${detailItem(
+                    "Instrument",
+                    trade.instrument
+                )}
+
+                ${detailItem(
+                    "Entry Price",
+                    trade.entry
+                )}
+
+                ${detailItem(
+                    "Exit Price",
+                    trade.exit
+                )}
+
+                ${detailItem(
+                    "Quantity",
+                    trade.quantity
+                )}
+
+                ${detailItem(
+                    "Stop Loss",
+                    trade.sl
+                )}
+
+                ${detailItem(
+                    "Target",
+                    trade.target
+                )}
+
+                ${detailItem(
+                    "R:R",
+                    "1:" +
+                    Number(
+                        trade.rrr || 0
+                    ).toFixed(2)
+                )}
+
+                ${detailItem(
+                    "Gross P&L",
+                    currency(
+                        trade.pnl
+                    ),
+                    pnlClass(
+                        trade.pnl
+                    )
+                )}
+
+                ${detailItem(
+                    "Charges",
+                    currency(
+                        trade.fees
+                    )
+                )}
+
+                ${detailItem(
+                    "Net P&L",
+                    currency(
+                        trade.netPnl
+                    ),
+                    pnlClass(
+                        trade.netPnl
+                    )
+                )}
+
+            </div>
+
+        </div>
+
+
+
+        <!-- SETUP -->
+
+        <div class="trade-detail-section">
+
+            <div class="trade-detail-section-title">
+                Setup & Execution
+            </div>
+
+
+            <div class="trade-detail-grid">
+
+                ${detailItem(
+                    "Strategy",
+                    trade.strategy
+                )}
+
+                ${detailItem(
+                    "Timeframe",
+                    trade.timeframe
+                )}
+
+                ${detailItem(
+                    "Market Condition",
+                    trade.marketCondition
+                )}
+
+            </div>
+
+
+            <div
+                class="trade-text-box"
+            >
+                ${escapeHTML(
+                    trade.thesis
+                    ||
+                    "No trade thesis recorded."
+                )}
+            </div>
+
+        </div>
+
+
+
+        <!-- PSYCHOLOGY -->
+
+        <div class="trade-detail-section">
+
+            <div class="trade-detail-section-title">
+                Psychology
+            </div>
+
+
+            <div class="trade-detail-grid">
+
+                ${detailItem(
+                    "Emotion Before",
+                    psychology.emotionBefore
+                )}
+
+                ${detailItem(
+                    "Emotion During",
+                    psychology.emotionDuring
+                )}
+
+                ${detailItem(
+                    "Emotion After",
+                    psychology.emotionAfter
+                )}
+
+                ${detailItem(
+                    "Confidence",
+                    (
+                        psychology.confidence
+                        || 0
+                    ) +
+                    "/10"
+                )}
+
+                ${detailItem(
+                    "Discipline",
+                    (
+                        psychology.discipline
+                        || 0
+                    ) +
+                    "/10"
+                )}
+
+                ${detailItem(
+                    "Followed Plan",
+                    psychology.followedPlan
+                )}
+
+                ${detailItem(
+                    "Psychology Mistake",
+                    psychology.mistake
+                )}
+
+            </div>
+
+        </div>
+
+
+
+        <!-- REVIEW -->
+
+        <div class="trade-detail-section">
+
+            <div class="trade-detail-section-title">
+                Post-Trade Review
+            </div>
+
+
+            <div
+                style="
+                    display:grid;
+                    gap:12px
+                "
+            >
+
+                <div>
+
+                    <div
+                        class="trade-detail-label"
+                        style="
+                            margin-bottom:6px
+                        "
+                    >
+                        What went well?
+                    </div>
+
+                    <div class="trade-text-box">
+                        ${escapeHTML(
+                            review.wentWell
+                            ||
+                            "Not recorded."
+                        )}
+                    </div>
+
+                </div>
+
+
+                <div>
+
+                    <div
+                        class="trade-detail-label"
+                        style="
+                            margin-bottom:6px
+                        "
+                    >
+                        What went wrong?
+                    </div>
+
+                    <div class="trade-text-box">
+                        ${escapeHTML(
+                            review.wentWrong
+                            ||
+                            "Not recorded."
+                        )}
+                    </div>
+
+                </div>
+
+
+                <div>
+
+                    <div
+                        class="trade-detail-label"
+                        style="
+                            margin-bottom:6px
+                        "
+                    >
+                        Lesson Learned
+                    </div>
+
+                    <div class="trade-text-box">
+                        ${escapeHTML(
+                            review.lesson
+                            ||
+                            "Not recorded."
+                        )}
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        `;
+
+
+    document.getElementById(
+        "tradeDetailsContent"
+    ).innerHTML =
+        html;
+
+
+    document
+        .getElementById(
+            "tradeDetailsModal"
+        )
+        .classList.remove(
+            "hidden"
+        );
+
+}
+
+
+let tradePendingDeletionId = null;
+
+
+function requestDeleteTrade(id) {
+
+    const trade =
+        database.trades.find(
+            t => t.id === id
+        );
+
+    if (!trade)
+        return;
+
+    tradePendingDeletionId = id;
+
+    document
+        .getElementById("deleteConfirmModal")
+        .classList.remove("hidden");
+
+}
+
+
+function cancelDeleteTrade() {
+
+    tradePendingDeletionId = null;
+
+    document
+        .getElementById("deleteConfirmModal")
+        .classList.add("hidden");
+
+}
+
+
+function confirmDeleteTrade() {
+
+    if (tradePendingDeletionId === null)
+        return;
+
+    const id =
+        tradePendingDeletionId;
+
+    const exists =
+        database.trades.some(
+            t => t.id === id
+        );
+
+    if (!exists) {
+
+        cancelDeleteTrade();
+        return;
+
+    }
+
+    database.trades =
+        database.trades.filter(
+            t => t.id !== id
+        );
+
+    saveDatabase();
+
+    tradePendingDeletionId = null;
+
+    document
+        .getElementById("deleteConfirmModal")
+        .classList.add("hidden");
+
+    closeTradeDetails();
+
+    refresh();
+
+}
+
+
+function detailItem(
+    label,
+    value,
+    className = ""
+) {
+
+    return `
+
+        <div class="trade-detail-item">
+
+            <div class="trade-detail-label">
+                ${escapeHTML(
+                    label
+                )}
+            </div>
+
+            <div
+                class="
+                    trade-detail-value
+                    ${className}
+                "
+            >
+                ${escapeHTML(
+                    value
+                )}
+            </div>
+
+        </div>
+
+    `;
+
+}
+
+
+function closeTradeDetails() {
+
+    document
+        .getElementById(
+            "tradeDetailsModal"
+        )
+        .classList.add(
+            "hidden"
+        );
+
+}
+
+
+/* =========================================================
+   ANALYTICS
+========================================================= */
+
+function renderAnalytics() {
+
+    const trades =
+        database.trades;
+
+
+    const wins =
+        trades.filter(
+            t =>
+                t.netPnl > 0
+        );
+
+
+    const losses =
+        trades.filter(
+            t =>
+                t.netPnl < 0
+        );
+
+
+    const avgWin =
+        wins.length
+
+            ?
+
+            wins.reduce(
+                (s,t) =>
+                    s + t.netPnl,
+                0
+            )
+            /
+            wins.length
+
+            :
+
+            0;
+
+
+    const avgLoss =
+        losses.length
+
+            ?
+
+            losses.reduce(
+                (s,t) =>
+                    s + t.netPnl,
+                0
+            )
+            /
+            losses.length
+
+            :
+
+            0;
+
+
+    const totalCharges =
+        trades.reduce(
+            (s,t) =>
+                s +
+                Number(
+                    t.fees || 0
+                ),
+            0
+        );
+
+
+    const best =
+        trades.length
+            ?
+            Math.max(
+                ...trades.map(
+                    t =>
+                        t.netPnl
+                )
+            )
+            :
+            0;
+
+
+    const worst =
+        losses.length
+            ?
+            Math.min(
+                ...losses.map(
+                    t =>
+                        Number(t.netPnl || 0)
+                )
+            )
+            :
+            0;
+
+
+    document.getElementById(
+        "avgWin"
+    ).textContent =
+        currency(
+            avgWin
+        );
+
+
+    document.getElementById(
+        "avgLoss"
+    ).textContent =
+        currency(
+            avgLoss
+        );
+
+
+    document.getElementById(
+        "analyticsCharges"
+    ).textContent =
+        currency(
+            totalCharges
+        );
+
+
+    document.getElementById(
+        "bestTrade"
+    ).textContent =
+        currency(
+            best
+        );
+
+
+    document.getElementById(
+        "worstTrade"
+    ).textContent =
+        currency(
+            worst
+        );
+
+
+    let streak = 0;
+
+
+    for (
+        let i = 0;
+        i < trades.length;
+        i++
+    ) {
+
+        if (
+            trades[i].netPnl > 0
+        )
+
+            streak++;
+
+        else
+
+            break;
+
+    }
+
+
+    document.getElementById(
+        "currentStreak"
+    ).textContent =
+        streak;
+
+
+    renderStrategyAnalytics();
+
+    renderTimeAnalytics();
+
+}
+
+
+/* =========================================================
+   STRATEGY ANALYTICS
+========================================================= */
+
+function renderStrategyAnalytics() {
+
+    const grouped = {};
+
+
+    database.trades
+        .forEach(
+            t => {
+
+                const key =
+                    t.strategy;
+
+
+                if (!grouped[key]) {
+
+                    grouped[key] = {
+
+                        trades:
+                            0,
+
+                        wins:
+                            0,
+
+                        pnl:
+                            0,
+
+                        charges:
+                            0
+
+                    };
+
+                }
+
+
+                grouped[key].trades++;
+
+
+                if (
+                    t.netPnl > 0
+                )
+                    grouped[key].wins++;
+
+
+                grouped[key].pnl +=
+                    t.netPnl;
+
+
+                grouped[key].charges +=
+                    Number(
+                        t.fees || 0
+                    );
+
+            }
+        );
+
+
+    const tbody =
+        document
+        .getElementById(
+            "strategyTable"
+        );
+
+
+    tbody.innerHTML =
+        Object.entries(
+            grouped
+        )
+        .map(
+            ([name,d]) =>
+
+            `
+
+            <tr>
+
+                <td>
+                    <strong>
+                        ${escapeHTML(
+                            name
+                        )}
+                    </strong>
+                </td>
+
+                <td>
+                    ${d.trades}
+                </td>
+
+                <td>
+                    ${d.wins}
+                </td>
+
+                <td>
+                    ${
+                        (
+                            d.wins /
+                            d.trades *
+                            100
+                        )
+                        .toFixed(1)
+                    }%
+                </td>
+
+                <td
+                    class="${pnlClass(
+                        d.pnl
+                    )}"
+                >
+                    ${currency(
+                        d.pnl
+                    )}
+                </td>
+
+                <td>
+                    ${currency(
+                        d.charges
+                    )}
+                </td>
+
+            </tr>
+
+            `
+        )
+        .join("");
+
+
+    const labels =
+        Object.keys(
+            grouped
+        );
+
+
+    const values =
+        labels.map(
+            k =>
+                grouped[k].pnl
+        );
+
+
+    const ctx =
+        document
+        .getElementById(
+            "strategyChart"
+        );
+
+
+    if (strategyChart)
+        strategyChart.destroy();
+
+
+    strategyChart =
+        new Chart(
+            ctx,
+            {
+
+                type:
+                    "bar",
+
+                data: {
+
+                    labels,
+
+                    datasets: [{
+
+                        label:
+                            "P&L",
+
+                        data:
+                            values
+
+                    }]
+
+                },
+
+                options: {
+
+                    responsive:
+                        true,
+
+                    maintainAspectRatio:
+                        false,
+
+                    plugins: {
+
+                        legend: {
+
+                            labels: {
+
+                                color:
+                                    chartTextColor()
+
+                            }
+
+                        }
+
+                    },
+
+                    scales: {
+
+                        x: {
+
+                            ticks: {
+                                color:
+                                    chartTextColor()
+                            },
+
+                            grid: {
+                                color:
+                                    chartGridColor()
+                            }
+
+                        },
+
+                        y: {
+
+                            ticks: {
+                                color:
+                                    chartTextColor()
+                            },
+
+                            grid: {
+                                color:
+                                    chartGridColor()
+                            }
+
+                        }
+
+                    }
+
+                }
+
+            }
+        );
+
+}
+
+
+/* =========================================================
+   TIME ANALYTICS
+========================================================= */
+
+function renderTimeAnalytics() {
+
+    const hours = {};
+
+
+    database.trades
+        .forEach(
+            t => {
+
+                const hour =
+                    new Date(
+                        t.date
+                    )
+                    .getHours();
+
+
+                hours[hour] =
+                    (
+                        hours[hour]
+                        || 0
+                    )
+                    +
+                    t.netPnl;
+
+            }
+        );
+
+
+    const labels =
+        Object.keys(
+            hours
+        )
+        .sort(
+            (a,b) =>
+                a-b
+        );
+
+
+    const values =
+        labels.map(
+            h =>
+                hours[h]
+        );
+
+
+    const ctx =
+        document
+        .getElementById(
+            "timeChart"
+        );
+
+
+    if (timeChart)
+        timeChart.destroy();
+
+
+    timeChart =
+        new Chart(
+            ctx,
+            {
+
+                type:
+                    "bar",
+
+                data: {
+
+                    labels:
+                        labels.map(
+                            h =>
+                                h +
+                                ":00"
+                        ),
+
+                    datasets: [{
+
+                        label:
+                            "P&L",
+
+                        data:
+                            values
+
+                    }]
+
+                },
+
+                options: {
+
+                    responsive:
+                        true,
+
+                    maintainAspectRatio:
+                        false,
+
+                    plugins: {
+
+                        legend: {
+
+                            labels: {
+
+                                color:
+                                    chartTextColor()
+
+                            }
+
+                        }
+
+                    },
+
+                    scales: {
+
+                        x: {
+
+                            ticks: {
+                                color:
+                                    chartTextColor()
+                            },
+
+                            grid: {
+                                color:
+                                    chartGridColor()
+                            }
+
+                        },
+
+                        y: {
+
+                            ticks: {
+                                color:
+                                    chartTextColor()
+                            },
+
+                            grid: {
+                                color:
+                                    chartGridColor()
+                            }
+
+                        }
+
+                    }
+
+                }
+
+            }
+        );
+
+}
+
+
+/* =========================================================
+   PSYCHOLOGY
+========================================================= */
+
+function renderPsychology() {
+
+    const trades =
+        database.trades;
+
+
+    if (!trades.length) {
+
+        document.getElementById(
+            "psychologyInsights"
+        ).innerHTML =
+
+            `
+            <div class="empty">
+                No psychology data yet.
+            </div>
+            `;
+
+        return;
+
+    }
+
+
+    const followed =
+        trades.filter(
+            t =>
+                t.psychology
+                ?.followedPlan
+                === "Yes"
+        ).length;
+
+
+    const fomo =
+        trades.filter(
+            t =>
+                t.psychology
+                ?.emotionBefore
+                === "FOMO"
+
+                ||
+
+                t.psychology
+                ?.mistake
+                === "FOMO"
+        ).length;
+
+
+    const revenge =
+        trades.filter(
+            t =>
+                t.psychology
+                ?.emotionBefore
+                === "Revenge"
+
+                ||
+
+                t.psychology
+                ?.mistake
+                ===
+                "Revenge Trading"
+        ).length;
+
+
+    const ruleBreaks =
+        trades.filter(
+            t =>
+                t.psychology
+                ?.followedPlan
+                === "No"
+        ).length;
+
+
+    document.getElementById(
+        "disciplineScore"
+    ).textContent =
+
+        (
+            followed /
+            trades.length *
+            100
+        ).toFixed(0)
+        + "%";
+
+
+    document.getElementById(
+        "fomoCount"
+    ).textContent =
+        fomo;
+
+
+    document.getElementById(
+        "revengeCount"
+    ).textContent =
+        revenge;
+
+
+    document.getElementById(
+        "ruleBreakCount"
+    ).textContent =
+        ruleBreaks;
+
+
+    renderEmotionChart();
+
+    renderPsychologyInsights();
+
+    renderMistakes();
+
+}
+
+
+/* =========================================================
+   EMOTION CHART
+========================================================= */
+
+function renderEmotionChart() {
+
+    const emotions = {};
+
+
+    database.trades
+        .forEach(
+            t => {
+
+                const emotion =
+                    t.psychology
+                    ?.emotionBefore;
+
+
+                if (!emotion)
+                    return;
+
+
+                emotions[emotion] =
+                    (
+                        emotions[emotion]
+                        || 0
+                    ) + 1;
+
+            }
+        );
+
+
+    const ctx =
+        document
+        .getElementById(
+            "emotionChart"
+        );
+
+
+    if (emotionChart)
+        emotionChart.destroy();
+
+
+    emotionChart =
+        new Chart(
+            ctx,
+            {
+
+                type:
+                    "doughnut",
+
+                data: {
+
+                    labels:
+                        Object.keys(
+                            emotions
+                        ),
+
+                    datasets: [{
+
+                        data:
+                            Object.values(
+                                emotions
+                            )
+
+                    }]
+
+                },
+
+                options: {
+
+                    responsive:
+                        true,
+
+                    maintainAspectRatio:
+                        false,
+
+                    plugins: {
+
+                        legend: {
+
+                            labels: {
+
+                                color:
+                                    chartTextColor()
+
+                            }
+
+                        }
+
+                    }
+
+                }
+
+            }
+        );
+
+}
+
+
+/* =========================================================
+   PSYCHOLOGY INSIGHTS
+========================================================= */
+
+function renderPsychologyInsights() {
+
+    const container =
+        document
+        .getElementById(
+            "psychologyInsights"
+        );
+
+
+    const trades =
+        database.trades;
+
+
+    const normal =
+        trades.filter(
+            t =>
+                t.psychology
+                ?.followedPlan
+                === "Yes"
+        );
+
+
+    const violations =
+        trades.filter(
+            t =>
+                t.psychology
+                ?.followedPlan
+                === "No"
+        );
+
+
+    const normalPnl =
+        normal.length
+            ?
+            normal.reduce(
+                (s,t) =>
+                    s + t.netPnl,
+                0
+            )
+            /
+            normal.length
+            :
+            0;
+
+
+    const violationPnl =
+        violations.length
+            ?
+            violations.reduce(
+                (s,t) =>
+                    s + t.netPnl,
+                0
+            )
+            /
+            violations.length
+            :
+            0;
+
+
+    container.innerHTML =
+
+        `
+
+        <div class="psych-score">
+
+            <div>
+
+                <strong>
+                    Plan-following trades
+                </strong>
+
+                <div
+                    style="
+                        color:var(--muted);
+                        font-size:11px
+                    "
+                >
+                    Average P&L
+                </div>
+
+            </div>
+
+
+            <strong
+                class="${pnlClass(
+                    normalPnl
+                )}"
+            >
+                ${currency(
+                    normalPnl
+                )}
+            </strong>
+
+        </div>
+
+
+        <div class="psych-score">
+
+            <div>
+
+                <strong>
+                    Rule-breaking trades
+                </strong>
+
+                <div
+                    style="
+                        color:var(--muted);
+                        font-size:11px
+                    "
+                >
+                    Average P&L
+                </div>
+
+            </div>
+
+
+            <strong
+                class="${pnlClass(
+                    violationPnl
+                )}"
+            >
+                ${currency(
+                    violationPnl
+                )}
+            </strong>
+
+        </div>
+
+        `;
+
+}
+
+
+/* =========================================================
+   MISTAKES
+========================================================= */
+
+function renderMistakes() {
+
+    const container =
+        document
+        .getElementById(
+            "mistakeBreakdown"
+        );
+
+
+    const mistakes = {};
+
+
+    database.trades
+        .forEach(
+            t => {
+
+                const mistake =
+                    t.psychology
+                    ?.mistake;
+
+
+                if (
+                    mistake
+                    &&
+                    mistake !== "None"
+                ) {
+
+                    mistakes[mistake] =
+                        (
+                            mistakes[mistake]
+                            || 0
+                        ) + 1;
+
+                }
+
+            }
+        );
+
+
+    if (
+        !Object.keys(
+            mistakes
+        ).length
+    ) {
+
+        container.innerHTML =
+
+            `
+            <div class="empty">
+                No recorded mistakes.
+            </div>
+            `;
+
+        return;
+
+    }
+
+
+    container.innerHTML =
+        Object.entries(
+            mistakes
+        )
+        .map(
+            ([name,count]) =>
+
+            `
+
+            <div class="psych-score">
+
+                <strong>
+                    ${escapeHTML(
+                        name
+                    )}
+                </strong>
+
+                <strong>
+                    ${count}
+                </strong>
+
+            </div>
+
+            `
+        )
+        .join("");
+
+}
+
+
+/* =========================================================
+   CALENDAR
+========================================================= */
+
+function changeMonth(
+    amount
+) {
+
+    calendarDate.setMonth(
+        calendarDate.getMonth()
+        +
+        amount
+    );
+
+
+    renderCalendar();
+
+}
+
+
+function renderCalendar() {
+
+    const year =
+        calendarDate
+        .getFullYear();
+
+
+    const month =
+        calendarDate
+        .getMonth();
+
+
+    document.getElementById(
+        "calendarMonth"
+    ).textContent =
+
+        new Date(
+            year,
+            month
+        )
+        .toLocaleDateString(
+            "en-IN",
+            {
+
+                month:
+                    "long",
+
+                year:
+                    "numeric"
+
+            }
+        );
+
+
+    const firstDay =
+        new Date(
+            year,
+            month,
+            1
+        )
+        .getDay();
+
+
+    const days =
+        new Date(
+            year,
+            month + 1,
+            0
+        )
+        .getDate();
+
+
+    const grid =
+        document.getElementById(
+            "calendarGrid"
+        );
+
+
+    const names = [
+
+        "Sun",
+        "Mon",
+        "Tue",
+        "Wed",
+        "Thu",
+        "Fri",
+        "Sat"
+
+    ];
+
+
+    let html =
+
+        names.map(
+            name =>
+
+                `
+                <div class="calendar-day-name">
+                    ${name}
+                </div>
+                `
+        )
+        .join("");
+
+
+    for (
+        let i = 0;
+        i < firstDay;
+        i++
+    ) {
+
+        html +=
+            `
+            <div class="calendar-day"></div>
+            `;
+
+    }
+
+
+    for (
+        let day = 1;
+        day <= days;
+        day++
+    ) {
+
+        const dateString =
+
+            `${year}-${String(
+                month + 1
+            ).padStart(
+                2,
+                "0"
+            )}-${String(
+                day
+            ).padStart(
+                2,
+                "0"
+            )}`;
+
+
+        const dayTrades =
+            database.trades
+            .filter(
+                t =>
+                    t.date
+                    .startsWith(
+                        dateString
+                    )
+            );
+
+
+        const totalProfit =
+            dayTrades.reduce(
+                (sum, t) => {
+                    const value = Number(t.netPnl || 0);
+                    return sum + (value > 0 ? value : 0);
+                },
+                0
+            );
+
+        const totalLoss =
+            dayTrades.reduce(
+                (sum, t) => {
+                    const value = Number(t.netPnl || 0);
+                    return sum + (value < 0 ? Math.abs(value) : 0);
+                },
+                0
+            );
+
+        // Green when profit is greater than loss; red when loss is greater than profit.
+        const pnl =
+            totalProfit - totalLoss;
+
+
+        let stateClass = "";
+
+        if (pnl > 0) {
+            stateClass = "profitable";
+        } else if (pnl < 0) {
+            stateClass = "loss-day";
+        }
+
+
+        let pnlHTML = "";
+
+
+        if (pnl > 0) {
+
+            pnlHTML =
+
+                `
+
+                <div
+                    class="
+                        calendar-pnl
+                        profit
+                    "
+                >
+                    +${currency(
+                        pnl
+                    )}
+                </div>
+
+                `;
+
+        }
+
+        else if (pnl < 0) {
+
+            pnlHTML =
+
+                `
+
+                <div
+                    class="
+                        calendar-pnl
+                        loss
+                    "
+                >
+                    ${currency(
+                        pnl
+                    )}
+                </div>
+
+                `;
+
+        }
+
+
+        html +=
+
+            `
+
+            <div
+                class="
+                    calendar-day
+                    ${stateClass}
+                "
+            >
+
+                <div class="calendar-number">
+                    ${day}
+                </div>
+
+
+                ${pnlHTML}
+
+            </div>
+
+            `;
+
+    }
+
+
+    grid.innerHTML =
+        html;
+
+}
+
+
+/* =========================================================
+   GOALS
+========================================================= */
+
+function addGoal() {
+
+    const name =
+        prompt(
+            "Goal name:"
+        );
+
+
+    if (!name)
+        return;
+
+
+    const target =
+        Number(
+            prompt(
+                "Target number:"
+            )
+        );
+
+
+    database.goals.push({
+
+        id:
+            Date.now(),
+
+        name,
+
+        target,
+
+        progress:
+            0
+
+    });
+
+
+    saveDatabase();
+
+    renderGoals();
+
+}
+
+
+function renderGoals() {
+
+    const container =
+        document
+        .getElementById(
+            "goalsList"
+        );
+
+
+    if (
+        !database.goals.length
+    ) {
+
+        container.innerHTML =
+
+            `
+            <div class="empty">
+                No goals yet.
+            </div>
+            `;
+
+        return;
+
+    }
+
+
+    container.innerHTML =
+        database.goals
+        .map(
+            goal =>
+
+            `
+
+            <div class="goal">
+
+                <div class="goal-header">
+
+                    <div>
+
+                        <div class="goal-name">
+                            ${escapeHTML(
+                                goal.name
+                            )}
+                        </div>
+
+                        <div class="goal-meta">
+
+                            ${goal.progress}
+                            /
+                            ${goal.target}
+
+                        </div>
+
+                    </div>
+
+
+                    <button
+                        class="btn"
+                        onclick="
+                            updateGoal(
+                                ${goal.id}
+                            )
+                        "
+                    >
+                        Update
+                    </button>
+
+                </div>
+
+
+                <div class="progress">
+
+                    <div
+                        class="progress-bar"
+                        style="
+                            width:
+                            ${Math.min(
+                                100,
+                                goal.progress /
+                                goal.target *
+                                100
+                            )}%
+                        "
+                    ></div>
+
+                </div>
+
+            </div>
+
+            `
+        )
+        .join("");
+
+}
+
+
+function updateGoal(id) {
+
+    const goal =
+        database.goals
+        .find(
+            g =>
+                g.id === id
+        );
+
+
+    if (!goal)
+        return;
+
+
+    const progress =
+        Number(
+            prompt(
+                "Current progress:",
+                goal.progress
+            )
+        );
+
+
+    if (
+        !Number.isNaN(
+            progress
+        )
+    ) {
+
+        goal.progress =
+            progress;
+
+
+        saveDatabase();
+
+        renderGoals();
+
+    }
+
+}
+
+
+/* =========================================================
+   REPORTS
+========================================================= */
+
+function renderReport() {
+
+    const s =
+        getStats();
+
+
+    document.getElementById(
+        "reportContent"
+    ).innerHTML =
+
+        `
+
+        <div
+            class="report-row"
+        >
+
+            <span class="report-label">
+                Total Trades
+            </span>
+
+            <span class="report-number">
+                ${s.total}
+            </span>
+
+        </div>
+
+
+        <div
+            class="report-row"
+        >
+
+            <span class="report-label">
+                Win Rate
+            </span>
+
+            <span
+                class="
+                    report-number
+                    ${
+                        s.winRate >= 50
+                            ? "profit"
+                            : "loss"
+                    }
+                "
+            >
+                ${s.winRate.toFixed(1)}%
+            </span>
+
+        </div>
+
+
+        <div
+            class="report-row"
+        >
+
+            <span class="report-label">
+                Net P&L
+            </span>
+
+            <span
+                class="
+                    report-number
+                    ${pnlClass(
+                        s.net
+                    )}
+                "
+            >
+                ${currency(
+                    s.net
+                )}
+            </span>
+
+        </div>
+
+
+        <div
+            class="report-row"
+        >
+
+            <span class="report-label">
+                Profit Factor
+            </span>
+
+            <span class="report-number">
+                ${s.profitFactor.toFixed(2)}
+            </span>
+
+        </div>
+
+
+        <div
+            class="report-row"
+        >
+
+            <span class="report-label">
+                Expectancy
+            </span>
+
+            <span class="report-number">
+                ${currency(
+                    s.expectancy
+                )}
+            </span>
+
+        </div>
+
+
+        <!-- CHANGED FROM AVERAGE R -->
+
+        <div
+            class="report-row"
+        >
+
+            <span class="report-label">
+                Net Charges
+            </span>
+
+            <span class="report-number">
+                ${currency(
+                    s.totalCharges
+                )}
+            </span>
+
+        </div>
+
+
+        <div
+            class="report-row"
+        >
+
+            <span class="report-label">
+                Gross Profit
+            </span>
+
+            <span class="report-number profit">
+                ${currency(
+                    s.grossProfit
+                )}
+            </span>
+
+        </div>
+
+
+        <div
+            class="report-row"
+        >
+
+            <span class="report-label">
+                Gross Loss
+            </span>
+
+            <span class="report-number loss">
+                ${currency(
+                    -s.grossLoss
+                )}
+            </span>
+
+        </div>
+
+
+        <div
+            class="report-row"
+        >
+
+            <span class="report-label">
+                Maximum Drawdown
+            </span>
+
+            <span class="report-number loss">
+                ${currency(
+                    -s.maxDD
+                )}
+            </span>
+
+        </div>
+
+        `;
+
+}
+
+
+function exportReport() {
+
+    const s =
+        getStats();
+
+
+    const text =
+
+`
+
+TRADING JOURNAL REPORT
+
+Generated:
+${new Date().toLocaleString()}
+
+Total Trades:
+${s.total}
+
+Win Rate:
+${s.winRate.toFixed(2)}%
+
+Net P&L:
+${currency(
+    s.net
+)}
+
+Profit Factor:
+${s.profitFactor.toFixed(2)}
+
+Expectancy:
+${currency(
+    s.expectancy
+)}
+
+Net Charges:
+${currency(
+    s.totalCharges
+)}
+
+Maximum Drawdown:
+${currency(
+    -s.maxDD
+)}
+
+`;
+
+
+    downloadFile(
+        "trading-report.txt",
+        text
+    );
+
+}
+
+
+/* =========================================================
+   SETTINGS — LOCK / EDIT SYSTEM
+========================================================= */
+
+let settingsEditing =
+    false;
+
+
+function loadSettings() {
+
+    const name =
+        document.getElementById(
+            "settingsName"
+        );
+
+
+    const currencyInput =
+        document.getElementById(
+            "settingsCurrency"
+        );
+
+
+    const capital =
+        document.getElementById(
+            "startingCapital"
+        );
+
+
+    name.value =
+        database.settings.name
+        || "";
+
+
+    currencyInput.value =
+        database.settings.currency
+        || "₹";
+
+
+    capital.value =
+        database.settings.capital
+        || "";
+
+
+    settingsEditing = false;
+
+
+    applySettingsLock();
+
+}
+
+
+function applySettingsLock() {
+
+    const inputs = [
+
+        document.getElementById(
+            "settingsName"
+        ),
+
+        document.getElementById(
+            "settingsCurrency"
+        ),
+
+        document.getElementById(
+            "startingCapital"
+        )
+
+    ];
+
+
+    const button =
+        document.getElementById(
+            "settingsAction"
+        );
+
+
+    const configured =
+        Boolean(
+            database.settings.configured
+        );
+
+
+    if (
+        configured
+        &&
+        !settingsEditing
+    ) {
+
+        inputs.forEach(
+            input => {
+
+                input.disabled =
+                    true;
+
+            }
+        );
+
+
+        button.textContent =
+            "Edit";
+
+
+        button.classList.remove(
+            "btn-primary"
+        );
+
+    } else {
+
+        inputs.forEach(
+            input => {
+
+                input.disabled =
+                    false;
+
+            }
+        );
+
+
+        button.textContent =
+            "Save Settings";
+
+
+        button.classList.add(
+            "btn-primary"
+        );
+
+    }
+
+}
+
+
+function handleSettingsAction() {
+
+    const configured =
+        Boolean(
+            database.settings.configured
+        );
+
+
+    if (
+        configured
+        &&
+        !settingsEditing
+    ) {
+
+        settingsEditing = true;
+
+        applySettingsLock();
+
+        document
+            .getElementById(
+                "settingsName"
+            )
+            .focus();
+
+        return;
+
+    }
+
+
+    const name =
+        document
+        .getElementById(
+            "settingsName"
+        )
+        .value
+        .trim();
+
+
+    const currencyValue =
+        document
+        .getElementById(
+            "settingsCurrency"
+        )
+        .value;
+
+
+    const capital =
+        Number(
+            document
+            .getElementById(
+                "startingCapital"
+            )
+            .value
+        );
+
+
+    if (!name) {
+
+        alert(
+            "Please enter your name."
+        );
+
+        return;
+
+    }
+
+
+    if (
+        !capital
+        ||
+        capital < 0
+    ) {
+
+        alert(
+            "Please enter a valid starting capital."
+        );
+
+        return;
+
+    }
+
+
+    database.settings.name =
+        name;
+
+
+    database.settings.currency =
+        currencyValue;
+
+
+    database.settings.capital =
+        capital;
+
+
+    database.settings.configured =
+        true;
+
+
+    settingsEditing = false;
+
+
+    saveDatabase();
+
+    applySettingsLock();
+
+    refresh();
+
+}
+
+
+/* =========================================================
+   DATA MANAGEMENT
+========================================================= */
+
+function exportData() {
+
+    downloadFile(
+
+        "tradeos-backup.json",
+
+        JSON.stringify(
+            database,
+            null,
+            2
+        )
+
+    );
+
+}
+
+
+function importData(event) {
+
+    const file =
+        event.target
+        .files[0];
+
+
+    if (!file)
+        return;
+
+
+    const reader =
+        new FileReader();
+
+
+    reader.onload =
+        function(e) {
+
+            try {
+
+                const imported =
+                    JSON.parse(
+                        e.target.result
+                    );
+
+
+                if (
+                    !imported.trades
+                    ||
+                    !imported.settings
+                ) {
+
+                    throw new Error(
+                        "Invalid backup"
+                    );
+
+                }
+
+
+                database =
+                    imported;
+
+
+                if (
+                    database.settings
+                    .configured
+                    === undefined
+                ) {
+
+                    database.settings
+                        .configured =
+                        true;
+
+                }
+
+
+                saveDatabase();
+
+                refresh();
+
+
+                alert(
+                    "Data imported successfully."
+                );
+
+            }
+
+            catch {
+
+                alert(
+                    "Invalid JSON backup."
+                );
+
+            }
+
+        };
+
+
+    reader.readAsText(
+        file
+    );
+
+}
+
+
+function deleteAllData() {
+
+    const confirmed =
+        confirm(
+            "Delete ALL trades, goals and settings?"
+        );
+
+
+    if (!confirmed)
+        return;
+
+
+    localStorage.removeItem(
+        "tradeOS"
+    );
+
+
+    location.reload();
+
+}
+
+
+/* =========================================================
+   DOWNLOAD
+========================================================= */
+
+function downloadFile(
+    filename,
+    content
+) {
+
+    const blob =
+        new Blob(
+            [content],
+            {
+                type:
+                    "text/plain;charset=utf-8"
+            }
+        );
+
+
+    const url =
+        URL.createObjectURL(
+            blob
+        );
+
+
+    const a =
+        document.createElement(
+            "a"
+        );
+
+
+    a.href =
+        url;
+
+
+    a.download =
+        filename;
+
+
+    a.click();
+
+
+    URL.revokeObjectURL(
+        url
+    );
+
+}
+
+
+/* =========================================================
+   REFRESH CHARTS
+========================================================= */
+
+function refreshCharts() {
+
+    renderDashboard();
+
+    renderAnalytics();
+
+    renderPsychology();
+
+}
+
+
+/* =========================================================
+   REFRESH
+========================================================= */
+
+function refresh() {
+
+    renderDashboard();
+
+    renderJournal();
+
+    renderAnalytics();
+
+    renderPsychology();
+
+    renderCalendar();
+
+    renderGoals();
+
+    renderReport();
+
+    loadSettings();
+
+}
+
+
+/* =========================================================
+   START
+========================================================= */
+
+refresh();
+
+</script>
+
+</body>
+</html>
